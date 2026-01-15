@@ -4,7 +4,7 @@ import Foundation
 
 @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBFirebaseAI)
-public class FirebaseAI: NSObject {
+public final class FirebaseAI: NSObject {
     let value: FirebaseAILogic.FirebaseAI
 
     init(value: FirebaseAILogic.FirebaseAI) {

@@ -2,7 +2,7 @@ import Foundation
 import FirebaseAILogic
 
 @objc(KFBBackend)
-public class Backend: NSObject {
+public final class Backend: NSObject {
     let value: FirebaseAILogic.Backend
 
     init(value: FirebaseAILogic.Backend) {
