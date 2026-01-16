@@ -4,6 +4,7 @@ import Foundation
 @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBFunctionResponsePart)
 public final class FunctionResponsePart: NSObject {
+    private static let encoder = JSONEncoder()
     let value: FirebaseAILogic.FunctionResponsePart
 
     init(value: FirebaseAILogic.FunctionResponsePart) {
@@ -26,7 +27,6 @@ public final class FunctionResponsePart: NSObject {
     /// Returns the function response as a JSON-serialized Data object.
     /// Use JSONSerialization to convert to NSDictionary if needed.
     @objc public var responseData: Data? {
-        let encoder = JSONEncoder()
-        return try? encoder.encode(value.response)
+        return try? Self.encoder.encode(value.response)
     }
 }
