@@ -25,35 +25,78 @@ public final class FirebaseAI: NSObject {
         return FirebaseAI(value: ai)
     }
 
-    /// Creates a GenerativeModel with the specified configuration.
+    // MARK: - Generative Model
+
     @objc public func generativeModel(
         modelName: String,
         generationConfig: GenerationConfig?,
-        safetySettings: [SafetySetting]?
+        safetySettings: [SafetySetting]?,
+        tools: [Tool]?,
+        toolConfig: ToolConfig?,
+        systemInstruction: ModelContent?,
+        requestOptions: RequestOptions?
     ) -> GenerativeModel {
         let model = value.generativeModel(
             modelName: modelName,
             generationConfig: generationConfig?.value,
-            safetySettings: safetySettings?.map { $0.value }
+            safetySettings: safetySettings?.map { $0.value },
+            tools: tools?.map { $0.value },
+            toolConfig: toolConfig?.value,
+            systemInstruction: systemInstruction?.value,
+            requestOptions: requestOptions?.value ?? FirebaseAILogic.RequestOptions()
         )
         return GenerativeModel(value: model)
     }
 
-    /// Creates a GenerativeModel with just the model name.
-    @objc public func generativeModel(modelName: String) -> GenerativeModel {
-        let model = value.generativeModel(modelName: modelName)
-        return GenerativeModel(value: model)
-    }
+    // MARK: - Imagen Model
 
-    /// Creates a GenerativeModel with model name and generation config.
-    @objc public func generativeModel(
+    @objc public func imagenModel(
         modelName: String,
-        generationConfig: GenerationConfig?
-    ) -> GenerativeModel {
-        let model = value.generativeModel(
+        generationConfig: ImagenGenerationConfig?,
+        safetySettings: ImagenSafetySettings?,
+        requestOptions: RequestOptions?
+    ) -> ImagenModel {
+        let model = value.imagenModel(
             modelName: modelName,
-            generationConfig: generationConfig?.value
+            generationConfig: generationConfig?.value,
+            safetySettings: safetySettings?.value,
+            requestOptions: requestOptions?.value ?? FirebaseAILogic.RequestOptions()
         )
-        return GenerativeModel(value: model)
+        return ImagenModel(value: model)
+    }
+
+    // MARK: - Template Models
+
+    @objc public func templateGenerativeModel() -> TemplateGenerativeModel {
+        let model = value.templateGenerativeModel()
+        return TemplateGenerativeModel(value: model)
+    }
+
+    @objc public func templateImagenModel() -> TemplateImagenModel {
+        let model = value.templateImagenModel()
+        return TemplateImagenModel(value: model)
+    }
+
+    // MARK: - Live Model
+
+    @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, *)
+    @available(watchOS, unavailable)
+    @objc public func liveModel(
+        modelName: String,
+        generationConfig: LiveGenerationConfig?,
+        tools: [Tool]?,
+        toolConfig: ToolConfig?,
+        systemInstruction: ModelContent?,
+        requestOptions: RequestOptions?
+    ) -> LiveGenerativeModel {
+        let model = value.liveModel(
+            modelName: modelName,
+            generationConfig: generationConfig?.value,
+            tools: tools?.map { $0.value },
+            toolConfig: toolConfig?.value,
+            systemInstruction: systemInstruction?.value,
+            requestOptions: requestOptions?.value ?? FirebaseAILogic.RequestOptions()
+        )
+        return LiveGenerativeModel(value: model)
     }
 }
