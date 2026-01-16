@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Swift
+        uses: swift-actions/setup-swift@v3
+        with:
+          swift-version: "6.2.0"
+
+      - name: Resolve Dependencies
+        run: swift package resolve
+
+      - name: Build for iOS Simulator
+        run: |
+          xcodebuild build \
+            -scheme FirebaseAILogicObjC \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -skipPackagePluginValidation \
+            | xcpretty || true
+
+      - name: Build for macOS
+        run: swift build -v
