@@ -19,7 +19,9 @@ public final class ContentStream: NSObject {
 
     private actor LockedIterator {
         private let box: Box
+        private var pendingContinuations: [CheckedContinuation<FirebaseAILogic.GenerateContentResponse?, Error>] = []
         private var isReading = false
+        private var finished = false
 
         final class Box: @unchecked Sendable {
             var iterator: AsyncThrowingStream<FirebaseAILogic.GenerateContentResponse, Error>.Iterator
@@ -38,10 +40,40 @@ public final class ContentStream: NSObject {
         }
 
         func next() async throws -> FirebaseAILogic.GenerateContentResponse? {
-            precondition(!isReading, "concurrent next() calls on stream iterator are not supported")
+            try await withCheckedThrowingContinuation { continuation in
+                pendingContinuations.append(continuation)
+                drainQueue()
+            }
+        }
+
+        private func drainQueue() {
+            guard !isReading, !pendingContinuations.isEmpty else { return }
             isReading = true
-            defer { isReading = false }
-            return try await box.next()
+            let continuation = pendingContinuations.removeFirst()
+
+            if finished {
+                continuation.resume(returning: nil)
+                isReading = false
+                drainQueue()
+                return
+            }
+
+            Task {
+                do {
+                    let value = try await self.box.next()
+                    if value == nil { self.finished = true }
+                    continuation.resume(returning: value)
+                } catch {
+                    self.finished = true
+                    continuation.resume(throwing: error)
+                    for pending in self.pendingContinuations {
+                        pending.resume(throwing: error)
+                    }
+                    self.pendingContinuations.removeAll()
+                }
+                self.isReading = false
+                self.drainQueue()
+            }
         }
     }
 }
