@@ -22,7 +22,10 @@ public final class GenerationConfig: NSObject {
         presencePenalty: NSNumber?,
         frequencyPenalty: NSNumber?,
         stopSequences: [String]?,
-        responseMIMEType: String?
+        responseMIMEType: String?,
+        responseSchema: Schema?,
+        responseModalities: [ResponseModality]?,
+        thinkingConfig: ThinkingConfig?
     ) {
         let config = FirebaseAILogic.GenerationConfig(
             temperature: temperature?.floatValue,
@@ -33,7 +36,10 @@ public final class GenerationConfig: NSObject {
             presencePenalty: presencePenalty?.floatValue,
             frequencyPenalty: frequencyPenalty?.floatValue,
             stopSequences: stopSequences,
-            responseMIMEType: responseMIMEType
+            responseMIMEType: responseMIMEType,
+            responseSchema: responseSchema?.value,
+            responseModalities: responseModalities?.map { $0.value },
+            thinkingConfig: thinkingConfig?.value
         )
         self.init(value: config)
     }

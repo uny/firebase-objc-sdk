@@ -32,6 +32,10 @@ public final class LiveSession: NSObject {
         await value.sendContent(content.map { $0.value }, turnComplete: turnComplete)
     }
 
+    @objc public func responses() -> LiveServerMessageStream {
+        LiveServerMessageStream(stream: value.responses)
+    }
+
     @objc public func close() async {
         await value.close()
     }

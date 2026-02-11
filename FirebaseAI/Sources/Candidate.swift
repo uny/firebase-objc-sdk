@@ -26,4 +26,12 @@ public final class Candidate: NSObject {
     @objc public var citationMetadata: CitationMetadata? {
         value.citationMetadata.map { CitationMetadata(value: $0) }
     }
+
+    @objc public var groundingMetadata: GroundingMetadata? {
+        value.groundingMetadata.map { GroundingMetadata(value: $0) }
+    }
+
+    @objc public var urlContextMetadata: URLContextMetadata? {
+        value.urlContextMetadata.map { URLContextMetadata(value: $0) }
+    }
 }
