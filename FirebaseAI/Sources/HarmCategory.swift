@@ -32,4 +32,13 @@ public final class HarmCategory: NSObject {
     @objc public static var civicIntegrity: HarmCategory {
         HarmCategory(value: .civicIntegrity)
     }
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? HarmCategory else { return false }
+        return value.rawValue == other.value.rawValue
+    }
+
+    public override var hash: Int {
+        value.rawValue.hashValue
+    }
 }

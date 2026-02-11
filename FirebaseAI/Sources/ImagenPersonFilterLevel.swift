@@ -22,4 +22,13 @@ public final class ImagenPersonFilterLevel: NSObject {
     @objc public static var allowAll: ImagenPersonFilterLevel {
         return ImagenPersonFilterLevel(value: .allowAll)
     }
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? ImagenPersonFilterLevel else { return false }
+        return String(describing: value) == String(describing: other.value)
+    }
+
+    public override var hash: Int {
+        String(describing: value).hashValue
+    }
 }

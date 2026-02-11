@@ -23,5 +23,10 @@ let package = Package(
             ],
             path: "FirebaseAI/Sources",
         ),
+        .testTarget(
+            name: "FirebaseAILogicObjCTests",
+            dependencies: ["FirebaseAILogicObjC"],
+            path: "FirebaseAI/Tests",
+        ),
     ]
 )

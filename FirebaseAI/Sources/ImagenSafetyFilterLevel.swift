@@ -26,4 +26,13 @@ public final class ImagenSafetyFilterLevel: NSObject {
     @objc public static var blockNone: ImagenSafetyFilterLevel {
         return ImagenSafetyFilterLevel(value: .blockNone)
     }
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? ImagenSafetyFilterLevel else { return false }
+        return String(describing: value) == String(describing: other.value)
+    }
+
+    public override var hash: Int {
+        String(describing: value).hashValue
+    }
 }
