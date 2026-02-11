@@ -5,7 +5,7 @@ import Foundation
 
 @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBURLRetrievalStatus)
-public final class URLRetrievalStatus: NSObject {
+public final class URLRetrievalStatus: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.URLMetadata.URLRetrievalStatus
 
     init(value: FirebaseAILogic.URLMetadata.URLRetrievalStatus) {
@@ -13,20 +13,18 @@ public final class URLRetrievalStatus: NSObject {
         super.init()
     }
 
-    @objc public static var success: URLRetrievalStatus {
-        URLRetrievalStatus(value: .success)
+    @objc public static let success = URLRetrievalStatus(value: .success)
+    @objc public static let error = URLRetrievalStatus(value: .error)
+    @objc public static let paywall = URLRetrievalStatus(value: .paywall)
+    @objc public static let unsafe = URLRetrievalStatus(value: .unsafe)
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? URLRetrievalStatus else { return false }
+        return value == other.value
     }
 
-    @objc public static var error: URLRetrievalStatus {
-        URLRetrievalStatus(value: .error)
-    }
-
-    @objc public static var paywall: URLRetrievalStatus {
-        URLRetrievalStatus(value: .paywall)
-    }
-
-    @objc public static var unsafe: URLRetrievalStatus {
-        URLRetrievalStatus(value: .unsafe)
+    public override var hash: Int {
+        value.hashValue
     }
 }
 
@@ -47,6 +45,16 @@ public final class URLMetadata: NSObject {
     }
 
     @objc public var retrievalStatus: URLRetrievalStatus {
-        URLRetrievalStatus(value: value.retrievalStatus)
+        if value.retrievalStatus == .success {
+            return URLRetrievalStatus.success
+        } else if value.retrievalStatus == .error {
+            return URLRetrievalStatus.error
+        } else if value.retrievalStatus == .paywall {
+            return URLRetrievalStatus.paywall
+        } else if value.retrievalStatus == .unsafe {
+            return URLRetrievalStatus.unsafe
+        } else {
+            return URLRetrievalStatus(value: value.retrievalStatus)
+        }
     }
 }

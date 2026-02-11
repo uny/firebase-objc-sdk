@@ -20,6 +20,7 @@ public final class LiveServerMessageStream: NSObject {
 
     private actor LockedIterator {
         private let box: Box
+        private var isReading = false
 
         final class Box: @unchecked Sendable {
             var iterator: AsyncThrowingStream<FirebaseAILogic.LiveServerMessage, Error>.Iterator
@@ -38,7 +39,10 @@ public final class LiveServerMessageStream: NSObject {
         }
 
         func next() async throws -> FirebaseAILogic.LiveServerMessage? {
-            try await box.next()
+            precondition(!isReading, "concurrent next() calls on stream iterator are not supported")
+            isReading = true
+            defer { isReading = false }
+            return try await box.next()
         }
     }
 }

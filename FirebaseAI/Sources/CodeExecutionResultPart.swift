@@ -5,7 +5,7 @@ import Foundation
 
 @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBCodeExecutionOutcome)
-public final class CodeExecutionOutcome: NSObject {
+public final class CodeExecutionOutcome: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.CodeExecutionResultPart.Outcome
 
     init(value: FirebaseAILogic.CodeExecutionResultPart.Outcome) {
@@ -13,16 +13,22 @@ public final class CodeExecutionOutcome: NSObject {
         super.init()
     }
 
-    @objc public static var ok: CodeExecutionOutcome {
-        CodeExecutionOutcome(value: .ok)
+    @objc public static let ok = CodeExecutionOutcome(value: .ok)
+    @objc public static let failed = CodeExecutionOutcome(value: .failed)
+    @objc public static let deadlineExceeded = CodeExecutionOutcome(value: .deadlineExceeded)
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? CodeExecutionOutcome else { return false }
+        return value == other.value
     }
 
-    @objc public static var failed: CodeExecutionOutcome {
-        CodeExecutionOutcome(value: .failed)
-    }
-
-    @objc public static var deadlineExceeded: CodeExecutionOutcome {
-        CodeExecutionOutcome(value: .deadlineExceeded)
+    public override var hash: Int {
+        switch value {
+        case .ok: return 0
+        case .failed: return 1
+        case .deadlineExceeded: return 2
+        default: return 3
+        }
     }
 }
 
@@ -39,7 +45,15 @@ public final class CodeExecutionResultPart: NSObject {
     }
 
     @objc public var outcome: CodeExecutionOutcome {
-        CodeExecutionOutcome(value: value.outcome)
+        if value.outcome == .ok {
+            return CodeExecutionOutcome.ok
+        } else if value.outcome == .failed {
+            return CodeExecutionOutcome.failed
+        } else if value.outcome == .deadlineExceeded {
+            return CodeExecutionOutcome.deadlineExceeded
+        } else {
+            return CodeExecutionOutcome(value: value.outcome)
+        }
     }
 
     @objc public var output: String? {
