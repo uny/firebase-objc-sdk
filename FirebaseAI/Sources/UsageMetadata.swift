@@ -30,4 +30,16 @@ public final class UsageMetadata: NSObject {
     @objc public var totalTokenCount: Int {
         value.totalTokenCount
     }
+
+    @objc public var promptTokensDetails: [ModalityTokenCount] {
+        value.promptTokensDetails.map { ModalityTokenCount(value: $0) }
+    }
+
+    @objc public var candidatesTokensDetails: [ModalityTokenCount] {
+        value.candidatesTokensDetails.map { ModalityTokenCount(value: $0) }
+    }
+
+    @objc public var toolUsePromptTokensDetails: [ModalityTokenCount] {
+        value.toolUsePromptTokensDetails.map { ModalityTokenCount(value: $0) }
+    }
 }

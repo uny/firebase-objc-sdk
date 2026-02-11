@@ -23,4 +23,18 @@ public final class TemplateGenerativeModel: NSObject {
         )
         return GenerateContentResponse(value: response)
     }
+
+    /// Returns a stream that generates content from a template.
+    @objc public func generateContentStream(
+        templateID: String,
+        inputs: [String: Any],
+        options: RequestOptions?
+    ) throws -> ContentStream {
+        let stream = try value.generateContentStream(
+            templateID: templateID,
+            inputs: inputs,
+            options: options?.value ?? FirebaseAILogic.RequestOptions()
+        )
+        return ContentStream(stream: stream)
+    }
 }
