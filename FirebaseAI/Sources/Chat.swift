@@ -32,4 +32,16 @@ public final class Chat: NSObject {
         let response = try await value.sendMessage(text)
         return GenerateContentResponse(value: response)
     }
+
+    /// Returns a stream that sends a message from an array of ModelContent objects.
+    @objc public func sendMessageStream(_ content: [ModelContent]) throws -> ContentStream {
+        let stream = try value.sendMessageStream(content.map { $0.value })
+        return ContentStream(stream: stream)
+    }
+
+    /// Returns a stream that sends a text message.
+    @objc public func sendMessageStreamText(_ text: String) throws -> ContentStream {
+        let stream = try value.sendMessageStream(text)
+        return ContentStream(stream: stream)
+    }
 }

@@ -35,6 +35,18 @@ public final class GenerativeModel: NSObject {
         return CountTokensResponse(value: response)
     }
 
+    /// Returns a stream that generates content from an array of ModelContent objects.
+    @objc public func generateContentStream(_ content: [ModelContent]) throws -> ContentStream {
+        let stream = try value.generateContentStream(content.map { $0.value })
+        return ContentStream(stream: stream)
+    }
+
+    /// Returns a stream that generates content from a single text prompt.
+    @objc public func generateContentStreamFromText(_ text: String) throws -> ContentStream {
+        let stream = try value.generateContentStream(text)
+        return ContentStream(stream: stream)
+    }
+
     /// Starts a new chat session with the given history.
     @objc public func startChat(history: [ModelContent]) -> Chat {
         let chat = value.startChat(history: history.map { $0.value })
