@@ -22,4 +22,13 @@ public final class ResponseModality: NSObject {
     @objc public static var audio: ResponseModality {
         return ResponseModality(value: .audio)
     }
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? ResponseModality else { return false }
+        return String(describing: value) == String(describing: other.value)
+    }
+
+    public override var hash: Int {
+        String(describing: value).hashValue
+    }
 }

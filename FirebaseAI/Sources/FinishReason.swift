@@ -48,4 +48,13 @@ public final class FinishReason: NSObject {
     @objc public static var malformedFunctionCall: FinishReason {
         FinishReason(value: .malformedFunctionCall)
     }
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? FinishReason else { return false }
+        return value.rawValue == other.value.rawValue
+    }
+
+    public override var hash: Int {
+        value.rawValue.hashValue
+    }
 }

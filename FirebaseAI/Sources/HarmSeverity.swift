@@ -28,4 +28,13 @@ public final class HarmSeverity: NSObject {
     @objc public static var high: HarmSeverity {
         HarmSeverity(value: .high)
     }
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? HarmSeverity else { return false }
+        return value.rawValue == other.value.rawValue
+    }
+
+    public override var hash: Int {
+        value.rawValue.hashValue
+    }
 }

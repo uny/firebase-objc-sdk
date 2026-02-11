@@ -28,4 +28,13 @@ public final class BlockReason: NSObject {
     @objc public static var prohibitedContent: BlockReason {
         BlockReason(value: .prohibitedContent)
     }
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? BlockReason else { return false }
+        return value.rawValue == other.value.rawValue
+    }
+
+    public override var hash: Int {
+        value.rawValue.hashValue
+    }
 }

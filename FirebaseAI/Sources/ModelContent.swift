@@ -34,7 +34,12 @@ public final class ModelContent: NSObject {
                 return functionCallPart.value
             } else if let functionResponsePart = part as? FunctionResponsePart {
                 return functionResponsePart.value
+            } else if let executableCodePart = part as? ExecutableCodePart {
+                return executableCodePart.value
+            } else if let codeExecutionResultPart = part as? CodeExecutionResultPart {
+                return codeExecutionResultPart.value
             }
+            assertionFailure("Unsupported part type: \(type(of: part))")
             return nil
         }
         self.init(value: FirebaseAILogic.ModelContent(role: role, parts: swiftParts))
@@ -53,7 +58,12 @@ public final class ModelContent: NSObject {
                 return functionCallPart.value
             } else if let functionResponsePart = part as? FunctionResponsePart {
                 return functionResponsePart.value
+            } else if let executableCodePart = part as? ExecutableCodePart {
+                return executableCodePart.value
+            } else if let codeExecutionResultPart = part as? CodeExecutionResultPart {
+                return codeExecutionResultPart.value
             }
+            assertionFailure("Unsupported part type: \(type(of: part))")
             return nil
         }
         self.init(value: FirebaseAILogic.ModelContent(parts: swiftParts))
@@ -76,7 +86,12 @@ public final class ModelContent: NSObject {
                 return FunctionCallPart(value: functionCallPart)
             } else if let functionResponsePart = part as? FirebaseAILogic.FunctionResponsePart {
                 return FunctionResponsePart(value: functionResponsePart)
+            } else if let executableCodePart = part as? FirebaseAILogic.ExecutableCodePart {
+                return ExecutableCodePart(value: executableCodePart)
+            } else if let codeExecutionResultPart = part as? FirebaseAILogic.CodeExecutionResultPart {
+                return CodeExecutionResultPart(value: codeExecutionResultPart)
             }
+            assertionFailure("Unsupported part type: \(type(of: part))")
             return nil
         }
     }

@@ -30,4 +30,13 @@ public final class HarmBlockThreshold: NSObject {
     @objc public static var off: HarmBlockThreshold {
         HarmBlockThreshold(value: .off)
     }
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? HarmBlockThreshold else { return false }
+        return String(describing: value) == String(describing: other.value)
+    }
+
+    public override var hash: Int {
+        String(describing: value).hashValue
+    }
 }

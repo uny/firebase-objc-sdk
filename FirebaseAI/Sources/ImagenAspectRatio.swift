@@ -30,4 +30,13 @@ public final class ImagenAspectRatio: NSObject {
     @objc public static var landscape4x3: ImagenAspectRatio {
         return ImagenAspectRatio(value: .landscape4x3)
     }
+
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? ImagenAspectRatio else { return false }
+        return String(describing: value) == String(describing: other.value)
+    }
+
+    public override var hash: Int {
+        String(describing: value).hashValue
+    }
 }
