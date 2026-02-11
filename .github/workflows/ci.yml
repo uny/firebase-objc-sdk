@@ -22,7 +22,7 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild build \
-            -scheme FirebaseAILogicObjC \
+            -scheme firebase-objc-sdk \
             -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
             -skipPackagePluginValidation \
             | xcpretty
