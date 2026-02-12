@@ -1,0 +1,15 @@
+included:
+  - FirebaseAI/Sources
+  - FirebaseAI/Tests
+
+disabled_rules:
+  - line_length
+  - trailing_whitespace
+  - type_body_length
+
+opt_in_rules:
+  - empty_count
+  - closure_spacing
+  - first_where
+  - modifier_order
+  - sorted_first_last

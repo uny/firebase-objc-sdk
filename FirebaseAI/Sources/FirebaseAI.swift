@@ -2,9 +2,10 @@ import FirebaseAILogic
 import FirebaseCore
 import Foundation
 
+/// Entry point for the Firebase AI SDK ObjC wrapper.
 @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBFirebaseAI)
-public final class FirebaseAI: NSObject {
+public final class FirebaseAI: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.FirebaseAI
 
     init(value: FirebaseAILogic.FirebaseAI) {
@@ -12,6 +13,12 @@ public final class FirebaseAI: NSObject {
         super.init()
     }
 
+    /// Returns a ``FirebaseAI`` instance for the given app and backend.
+    ///
+    /// - Parameters:
+    ///   - app: The Firebase app to use, or `nil` for the default app.
+    ///   - backend: The backend AI provider (Google AI or Vertex AI).
+    ///   - useLimitedUseAppCheckTokens: Whether to use limited-use App Check tokens for requests.
     @objc public static func firebaseAI(
         app: FirebaseCore.FirebaseApp?,
         backend: Backend,
@@ -27,6 +34,16 @@ public final class FirebaseAI: NSObject {
 
     // MARK: - Generative Model
 
+    /// Creates a generative model with the given configuration.
+    ///
+    /// - Parameters:
+    ///   - modelName: The name of the model to use (e.g., `"gemini-2.0-flash"`).
+    ///   - generationConfig: Configuration for content generation, or `nil` for defaults.
+    ///   - safetySettings: Safety settings to apply, or `nil` for defaults.
+    ///   - tools: Tools the model may use to generate responses, or `nil`.
+    ///   - toolConfig: Configuration for tool usage, or `nil`.
+    ///   - systemInstruction: System instruction content to guide the model, or `nil`.
+    ///   - requestOptions: Options for the underlying network request, or `nil`.
     @objc public func generativeModel(
         modelName: String,
         generationConfig: GenerationConfig?,
@@ -50,6 +67,13 @@ public final class FirebaseAI: NSObject {
 
     // MARK: - Imagen Model
 
+    /// Creates an Imagen model with the given configuration.
+    ///
+    /// - Parameters:
+    ///   - modelName: The name of the Imagen model to use.
+    ///   - generationConfig: Configuration for image generation, or `nil` for defaults.
+    ///   - safetySettings: Imagen-specific safety settings, or `nil` for defaults.
+    ///   - requestOptions: Options for the underlying network request, or `nil`.
     @objc public func imagenModel(
         modelName: String,
         generationConfig: ImagenGenerationConfig?,
@@ -67,11 +91,13 @@ public final class FirebaseAI: NSObject {
 
     // MARK: - Template Models
 
+    /// Creates a template generative model for unit testing.
     @objc public func templateGenerativeModel() -> TemplateGenerativeModel {
         let model = value.templateGenerativeModel()
         return TemplateGenerativeModel(value: model)
     }
 
+    /// Creates a template Imagen model for unit testing.
     @objc public func templateImagenModel() -> TemplateImagenModel {
         let model = value.templateImagenModel()
         return TemplateImagenModel(value: model)
@@ -79,6 +105,15 @@ public final class FirebaseAI: NSObject {
 
     // MARK: - Live Model
 
+    /// Creates a live model for bidirectional streaming.
+    ///
+    /// - Parameters:
+    ///   - modelName: The name of the model to use.
+    ///   - generationConfig: Configuration for live generation, or `nil` for defaults.
+    ///   - tools: Tools the model may use to generate responses, or `nil`.
+    ///   - toolConfig: Configuration for tool usage, or `nil`.
+    ///   - systemInstruction: System instruction content to guide the model, or `nil`.
+    ///   - requestOptions: Options for the underlying network request, or `nil`.
     @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, *)
     @available(watchOS, unavailable)
     @objc public func liveModel(

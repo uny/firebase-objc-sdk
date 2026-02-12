@@ -1,9 +1,10 @@
 import FirebaseAILogic
 import Foundation
 
+/// A template generative model for testing.
 @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBTemplateGenerativeModel)
-public final class TemplateGenerativeModel: NSObject {
+public final class TemplateGenerativeModel: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.TemplateGenerativeModel
 
     init(value: FirebaseAILogic.TemplateGenerativeModel) {
@@ -11,6 +12,7 @@ public final class TemplateGenerativeModel: NSObject {
         super.init()
     }
 
+    /// Generates content from a template with the given inputs.
     @objc public func generateContent(
         templateID: String,
         inputs: [String: Any],

@@ -11,10 +11,11 @@ public enum LiveServerMessagePayloadType: Int {
     case goingAwayNotice
 }
 
+/// A message received from the server during a live session.
 @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, *)
 @available(watchOS, unavailable)
 @objc(KFBLiveServerMessage)
-public final class LiveServerMessage: NSObject {
+public final class LiveServerMessage: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.LiveServerMessage
 
     init(value: FirebaseAILogic.LiveServerMessage) {
@@ -22,6 +23,7 @@ public final class LiveServerMessage: NSObject {
         super.init()
     }
 
+    /// The type of the message payload.
     @objc public var payloadType: LiveServerMessagePayloadType {
         switch value.payload {
         case .content:
@@ -35,6 +37,7 @@ public final class LiveServerMessage: NSObject {
         }
     }
 
+    /// The content payload, if this message contains content.
     @objc public var content: LiveServerContent? {
         if case .content(let content) = value.payload {
             return LiveServerContent(value: content)
@@ -42,6 +45,7 @@ public final class LiveServerMessage: NSObject {
         return nil
     }
 
+    /// The tool call payload, if this message contains a tool call.
     @objc public var toolCall: LiveServerToolCall? {
         if case .toolCall(let toolCall) = value.payload {
             return LiveServerToolCall(value: toolCall)
@@ -49,6 +53,7 @@ public final class LiveServerMessage: NSObject {
         return nil
     }
 
+    /// The tool call cancellation payload, if this message cancels a tool call.
     @objc public var toolCallCancellation: LiveServerToolCallCancellation? {
         if case .toolCallCancellation(let cancellation) = value.payload {
             return LiveServerToolCallCancellation(value: cancellation)
@@ -56,6 +61,7 @@ public final class LiveServerMessage: NSObject {
         return nil
     }
 
+    /// The going-away notice payload, if the server is disconnecting.
     @objc public var goingAwayNotice: LiveServerGoingAwayNotice? {
         if case .goingAwayNotice(let notice) = value.payload {
             return LiveServerGoingAwayNotice(value: notice)
@@ -63,6 +69,7 @@ public final class LiveServerMessage: NSObject {
         return nil
     }
 
+    /// Token usage metadata for this message, if available.
     @objc public var usageMetadata: UsageMetadata? {
         return value.usageMetadata.map { UsageMetadata(value: $0) }
     }

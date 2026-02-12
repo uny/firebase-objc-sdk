@@ -1,10 +1,11 @@
 import FirebaseAILogic
 import Foundation
 
+/// Configuration for live generation sessions.
 @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, *)
 @available(watchOS, unavailable)
 @objc(KFBLiveGenerationConfig)
-public final class LiveGenerationConfig: NSObject {
+public final class LiveGenerationConfig: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.LiveGenerationConfig
 
     init(value: FirebaseAILogic.LiveGenerationConfig) {
