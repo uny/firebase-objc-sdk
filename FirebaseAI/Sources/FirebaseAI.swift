@@ -34,6 +34,7 @@ public final class FirebaseAI: NSObject, @unchecked Sendable {
 
     // MARK: - Generative Model
 
+    // swiftlint:disable:next function_parameter_count
     /// Creates a generative model with the given configuration.
     ///
     /// - Parameters:
@@ -44,7 +45,6 @@ public final class FirebaseAI: NSObject, @unchecked Sendable {
     ///   - toolConfig: Configuration for tool usage, or `nil`.
     ///   - systemInstruction: System instruction content to guide the model, or `nil`.
     ///   - requestOptions: Options for the underlying network request, or `nil`.
-    // swiftlint:disable:next function_parameter_count
     @objc public func generativeModel(
         modelName: String,
         generationConfig: GenerationConfig?,
