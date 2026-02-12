@@ -15,18 +15,18 @@ public final class CodeExecutionOutcome: NSObject, @unchecked Sendable {
     }
 
     /// The code executed successfully.
-    @objc public static let ok = CodeExecutionOutcome(value: .ok)
+    @objc public static let ok = CodeExecutionOutcome(value: .ok) // swiftlint:disable:this identifier_name
     /// The code execution failed.
     @objc public static let failed = CodeExecutionOutcome(value: .failed)
     /// The code execution exceeded the time limit.
     @objc public static let deadlineExceeded = CodeExecutionOutcome(value: .deadlineExceeded)
 
-    public override func isEqual(_ object: Any?) -> Bool {
+    override public func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? CodeExecutionOutcome else { return false }
         return value == other.value
     }
 
-    public override var hash: Int {
+    override public var hash: Int {
         switch value {
         case .ok: return 0
         case .failed: return 1

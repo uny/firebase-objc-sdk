@@ -12,7 +12,7 @@ public final class GoogleSearch: NSObject, @unchecked Sendable {
         super.init()
     }
 
-    @objc public override init() {
+    @objc override public init() {
         self.value = FirebaseAILogic.GoogleSearch()
         super.init()
     }

@@ -161,9 +161,9 @@ final class TypeConversionTests: XCTestCase {
     }
 
     func testSchemaAnyOfFactory() {
-        let s1 = Schema.string(description: nil, title: nil, nullable: false, format: nil)
-        let s2 = Schema.integer(description: nil, title: nil, nullable: false, format: nil, minimum: nil, maximum: nil)
-        let schema = Schema.anyOf(schemas: [s1, s2])
+        let stringSchema = Schema.string(description: nil, title: nil, nullable: false, format: nil)
+        let integerSchema = Schema.integer(description: nil, title: nil, nullable: false, format: nil, minimum: nil, maximum: nil)
+        let schema = Schema.anyOf(schemas: [stringSchema, integerSchema])
         XCTAssertNotNil(schema.anyOf)
         XCTAssertEqual(schema.anyOf?.count, 2)
     }

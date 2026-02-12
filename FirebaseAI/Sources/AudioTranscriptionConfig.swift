@@ -13,7 +13,7 @@ public final class AudioTranscriptionConfig: NSObject, @unchecked Sendable {
         super.init()
     }
 
-    @objc public override init() {
+    @objc override public init() {
         self.value = FirebaseAILogic.AudioTranscriptionConfig()
         super.init()
     }

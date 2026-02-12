@@ -10,7 +10,7 @@ final class FunctionPartTests: XCTestCase {
     func testArgsDictionaryReturnsCorrectValues() {
         let args: JSONObject = [
             "location": .string("Tokyo"),
-            "unit": .string("celsius"),
+            "unit": .string("celsius")
         ]
         let upstream = FirebaseAILogic.FunctionCallPart(name: "getWeather", args: args)
         let part = FunctionCallPart(value: upstream)
@@ -32,7 +32,7 @@ final class FunctionPartTests: XCTestCase {
 
     func testArgsDictionaryWithNestedObjects() {
         let args: JSONObject = [
-            "config": .object(["key": .string("value"), "count": .number(42)]),
+            "config": .object(["key": .string("value"), "count": .number(42)])
         ]
         let upstream = FirebaseAILogic.FunctionCallPart(name: "configure", args: args)
         let part = FunctionCallPart(value: upstream)
@@ -49,7 +49,7 @@ final class FunctionPartTests: XCTestCase {
     func testResponseDictionaryReturnsCorrectValues() {
         let response: JSONObject = [
             "temperature": .number(22.5),
-            "condition": .string("sunny"),
+            "condition": .string("sunny")
         ]
         let upstream = FirebaseAILogic.FunctionResponsePart(
             name: "getWeather",

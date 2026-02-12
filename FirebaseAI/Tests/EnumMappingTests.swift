@@ -50,11 +50,11 @@ final class EnumMappingTests: XCTestCase {
     // MARK: - Distinct Instances
 
     func testEnumStaticPropertiesReturnDistinctInstances() {
-        let a = HarmCategory.harassment
-        let b = HarmCategory.harassment
+        let first = HarmCategory.harassment
+        let second = HarmCategory.harassment
         // Each call returns a new wrapper instance
-        XCTAssertFalse(a === b)
+        XCTAssertFalse(first === second)
         // But they should have the same rawValue
-        XCTAssertEqual(a.rawValue, b.rawValue)
+        XCTAssertEqual(first.rawValue, second.rawValue)
     }
 }

@@ -23,12 +23,12 @@ public final class URLRetrievalStatus: NSObject, @unchecked Sendable {
     /// The URL was flagged as unsafe.
     @objc public static let unsafe = URLRetrievalStatus(value: .unsafe)
 
-    public override func isEqual(_ object: Any?) -> Bool {
+    override public func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? URLRetrievalStatus else { return false }
         return value == other.value
     }
 
-    public override var hash: Int {
+    override public var hash: Int {
         value.hashValue
     }
 }

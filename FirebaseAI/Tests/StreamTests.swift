@@ -40,11 +40,11 @@ final class StreamTests: XCTestCase {
         let contentStream = ContentStream(stream: stream)
 
         // Multiple concurrent calls should all safely return nil
-        async let r1 = contentStream.next()
-        async let r2 = contentStream.next()
-        async let r3 = contentStream.next()
+        async let result1 = contentStream.next()
+        async let result2 = contentStream.next()
+        async let result3 = contentStream.next()
 
-        let results = try await [r1, r2, r3]
+        let results = try await [result1, result2, result3]
         for result in results {
             XCTAssertNil(result)
         }

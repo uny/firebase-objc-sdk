@@ -189,6 +189,7 @@ public final class Schema: NSObject, @unchecked Sendable {
     ///   - format: The integer format (`"int32"`, `"int64"`, or a custom format), or `nil`.
     ///   - minimum: The minimum allowed value, or `nil` for no lower bound.
     ///   - maximum: The maximum allowed value, or `nil` for no upper bound.
+    // swiftlint:disable:next function_parameter_count
     @objc public static func integer(
         description: String?,
         title: String?,
@@ -245,6 +246,7 @@ public final class Schema: NSObject, @unchecked Sendable {
     ///   - nullable: Whether the value can be `null`.
     ///   - minItems: The minimum number of items, or `nil` for no minimum.
     ///   - maxItems: The maximum number of items, or `nil` for no maximum.
+    // swiftlint:disable:next function_parameter_count
     @objc public static func array(
         items: Schema,
         description: String?,
@@ -272,6 +274,7 @@ public final class Schema: NSObject, @unchecked Sendable {
     ///   - description: A human-readable description of the value.
     ///   - title: The title of the schema.
     ///   - nullable: Whether the value can be `null`.
+    // swiftlint:disable:next function_parameter_count
     @objc public static func object(
         properties: [String: Schema],
         optionalProperties: [String],

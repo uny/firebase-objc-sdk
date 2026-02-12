@@ -35,12 +35,12 @@ public final class HarmSeverity: NSObject, @unchecked Sendable {
         HarmSeverity(value: .high)
     }
 
-    public override func isEqual(_ object: Any?) -> Bool {
+    override public func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? HarmSeverity else { return false }
         return value.rawValue == other.value.rawValue
     }
 
-    public override var hash: Int {
+    override public var hash: Int {
         value.rawValue.hashValue
     }
 }

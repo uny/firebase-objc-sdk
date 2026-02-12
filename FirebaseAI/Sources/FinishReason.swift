@@ -60,12 +60,12 @@ public final class FinishReason: NSObject, @unchecked Sendable {
         FinishReason(value: .malformedFunctionCall)
     }
 
-    public override func isEqual(_ object: Any?) -> Bool {
+    override public func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? FinishReason else { return false }
         return value.rawValue == other.value.rawValue
     }
 
-    public override var hash: Int {
+    override public var hash: Int {
         value.rawValue.hashValue
     }
 }

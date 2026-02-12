@@ -40,12 +40,12 @@ public final class ContentModality: NSObject, @unchecked Sendable {
         ContentModality(value: .document)
     }
 
-    public override func isEqual(_ object: Any?) -> Bool {
+    override public func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? ContentModality else { return false }
         return value.rawValue == other.value.rawValue
     }
 
-    public override var hash: Int {
+    override public var hash: Int {
         value.rawValue.hashValue
     }
 }

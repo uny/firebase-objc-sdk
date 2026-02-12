@@ -24,12 +24,12 @@ public final class FirebaseAI: NSObject, @unchecked Sendable {
         backend: Backend,
         useLimitedUseAppCheckTokens: Bool
     ) -> FirebaseAI {
-        let ai = FirebaseAILogic.FirebaseAI.firebaseAI(
+        let firebaseAIInstance = FirebaseAILogic.FirebaseAI.firebaseAI(
             app: app,
             backend: backend.value,
             useLimitedUseAppCheckTokens: useLimitedUseAppCheckTokens
         )
-        return FirebaseAI(value: ai)
+        return FirebaseAI(value: firebaseAIInstance)
     }
 
     // MARK: - Generative Model
@@ -44,6 +44,7 @@ public final class FirebaseAI: NSObject, @unchecked Sendable {
     ///   - toolConfig: Configuration for tool usage, or `nil`.
     ///   - systemInstruction: System instruction content to guide the model, or `nil`.
     ///   - requestOptions: Options for the underlying network request, or `nil`.
+    // swiftlint:disable:next function_parameter_count
     @objc public func generativeModel(
         modelName: String,
         generationConfig: GenerationConfig?,
@@ -116,6 +117,7 @@ public final class FirebaseAI: NSObject, @unchecked Sendable {
     ///   - requestOptions: Options for the underlying network request, or `nil`.
     @available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
     @available(watchOS, unavailable)
+    // swiftlint:disable:next function_parameter_count
     @objc public func liveModel(
         modelName: String,
         generationConfig: LiveGenerationConfig?,
