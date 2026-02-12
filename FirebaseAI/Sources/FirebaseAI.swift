@@ -34,7 +34,6 @@ public final class FirebaseAI: NSObject, @unchecked Sendable {
 
     // MARK: - Generative Model
 
-    // swiftlint:disable:next function_parameter_count
     /// Creates a generative model with the given configuration.
     ///
     /// - Parameters:
@@ -117,7 +116,6 @@ public final class FirebaseAI: NSObject, @unchecked Sendable {
     ///   - requestOptions: Options for the underlying network request, or `nil`.
     @available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
     @available(watchOS, unavailable)
-    // swiftlint:disable:next function_parameter_count
     @objc public func liveModel(
         modelName: String,
         generationConfig: LiveGenerationConfig?,

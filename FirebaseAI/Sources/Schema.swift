@@ -180,7 +180,6 @@ public final class Schema: NSObject, @unchecked Sendable {
         ))
     }
 
-    // swiftlint:disable:next function_parameter_count
     /// Creates a schema for an integer value.
     ///
     /// - Parameters:
@@ -237,7 +236,6 @@ public final class Schema: NSObject, @unchecked Sendable {
         ))
     }
 
-    // swiftlint:disable:next function_parameter_count
     /// Creates a schema for an array of values.
     ///
     /// - Parameters:
@@ -265,7 +263,6 @@ public final class Schema: NSObject, @unchecked Sendable {
         ))
     }
 
-    // swiftlint:disable:next function_parameter_count
     /// Creates a schema for an object with named properties.
     ///
     /// - Parameters:
