@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// The response from an Imagen image generation request.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBImagenGenerationResponse)
 public final class ImagenGenerationResponse: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.ImagenGenerationResponse<FirebaseAILogic.ImagenInlineImage>

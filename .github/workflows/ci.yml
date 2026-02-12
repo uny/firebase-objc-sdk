@@ -49,11 +49,12 @@ jobs:
 
       - name: Test on iOS Simulator
         run: |
+          set -o pipefail
           xcodebuild test \
             -scheme FirebaseAILogicObjC \
             -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
             -skipPackagePluginValidation \
-            | xcpretty || true
+            | xcpretty
 
   build-platforms:
     name: Build (${{ matrix.platform }})
@@ -75,8 +76,9 @@ jobs:
 
       - name: Build for ${{ matrix.platform }}
         run: |
+          set -o pipefail
           xcodebuild build \
             -scheme FirebaseAILogicObjC \
             -destination '${{ matrix.destination }}' \
             -skipPackagePluginValidation \
-            | xcpretty || true
+            | xcpretty

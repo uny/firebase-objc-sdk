@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// Content received from the server during a live session.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
 @available(watchOS, unavailable)
 @objc(KFBLiveServerContent)
 public final class LiveServerContent: NSObject, @unchecked Sendable {
@@ -35,11 +35,11 @@ public final class LiveServerContent: NSObject, @unchecked Sendable {
 
     /// The transcription of the input audio, if available.
     @objc public var inputAudioTranscription: LiveAudioTranscription? {
-        return value.inputAudioTranscription.map { LiveAudioTranscription(wrapped: $0) }
+        return value.inputAudioTranscription.map { LiveAudioTranscription(value: $0) }
     }
 
     /// The transcription of the output audio, if available.
     @objc public var outputAudioTranscription: LiveAudioTranscription? {
-        return value.outputAudioTranscription.map { LiveAudioTranscription(wrapped: $0) }
+        return value.outputAudioTranscription.map { LiveAudioTranscription(value: $0) }
     }
 }

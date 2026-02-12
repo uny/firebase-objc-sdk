@@ -1,6 +1,6 @@
 import Foundation
 
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 actor LockedAsyncIterator<Element: Sendable> {
     private let box: Box
     private var pendingContinuations: [CheckedContinuation<Element?, Error>] = []

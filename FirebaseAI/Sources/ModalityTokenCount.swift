@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// Token count for a specific content modality.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBModalityTokenCount)
 public final class ModalityTokenCount: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.ModalityTokenCount

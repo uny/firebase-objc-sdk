@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// A part containing inline binary data (e.g., images).
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBInlineDataPart)
 public final class InlineDataPart: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.InlineDataPart

@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// A model for live bidirectional streaming sessions.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
 @available(watchOS, unavailable)
 @objc(KFBLiveGenerativeModel)
 public final class LiveGenerativeModel: NSObject, @unchecked Sendable {

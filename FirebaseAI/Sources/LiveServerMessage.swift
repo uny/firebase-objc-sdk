@@ -1,7 +1,7 @@
 import FirebaseAILogic
 import Foundation
 
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
 @available(watchOS, unavailable)
 @objc(KFBLiveServerMessagePayloadType)
 public enum LiveServerMessagePayloadType: Int {
@@ -12,7 +12,7 @@ public enum LiveServerMessagePayloadType: Int {
 }
 
 /// A message received from the server during a live session.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
 @available(watchOS, unavailable)
 @objc(KFBLiveServerMessage)
 public final class LiveServerMessage: NSObject, @unchecked Sendable {

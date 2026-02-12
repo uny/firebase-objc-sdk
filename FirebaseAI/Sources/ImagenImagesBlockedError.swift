@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// An error indicating that Imagen image generation was blocked.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBImagenImagesBlockedError)
 public final class ImagenImagesBlockedError: NSObject, @unchecked Sendable {
     /// The error message describing why images were blocked.

@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// Types of content generation errors.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBGenerateContentErrorType)
 public enum GenerateContentErrorType: Int {
     case internalError
@@ -12,7 +12,7 @@ public enum GenerateContentErrorType: Int {
 }
 
 /// An error from a content generation request.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBGenerateContentError)
 public final class GenerateContentError: NSObject, @unchecked Sendable {
     /// The type of error that occurred.

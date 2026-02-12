@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// Represents content to be sent to or received from a model.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBModelContent)
 public final class ModelContent: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.ModelContent

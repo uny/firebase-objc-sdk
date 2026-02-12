@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// Configuration for Imagen image generation.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBImagenGenerationConfig)
 public final class ImagenGenerationConfig: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.ImagenGenerationConfig

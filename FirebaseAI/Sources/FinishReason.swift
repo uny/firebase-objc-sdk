@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// Reasons why model generation finished.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBFinishReason)
 public final class FinishReason: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.FinishReason

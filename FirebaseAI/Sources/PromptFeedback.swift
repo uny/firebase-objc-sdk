@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// Feedback about whether a prompt was blocked.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBPromptFeedback)
 public final class PromptFeedback: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.PromptFeedback

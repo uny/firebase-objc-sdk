@@ -4,7 +4,7 @@ import Foundation
 // MARK: - LiveSessionUnsupportedMessageError
 
 /// An error thrown when an unsupported message type is received in a live session.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
 @available(watchOS, unavailable)
 @objc(KFBLiveSessionUnsupportedMessageError)
 public final class LiveSessionUnsupportedMessageError: NSObject, @unchecked Sendable {
@@ -34,7 +34,7 @@ public final class LiveSessionUnsupportedMessageError: NSObject, @unchecked Send
 // MARK: - LiveSessionLostConnectionError
 
 /// An error thrown when a live session loses its connection.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
 @available(watchOS, unavailable)
 @objc(KFBLiveSessionLostConnectionError)
 public final class LiveSessionLostConnectionError: NSObject, @unchecked Sendable {
@@ -64,7 +64,7 @@ public final class LiveSessionLostConnectionError: NSObject, @unchecked Sendable
 // MARK: - LiveSessionUnexpectedClosureError
 
 /// An error thrown when a live session is unexpectedly closed.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
 @available(watchOS, unavailable)
 @objc(KFBLiveSessionUnexpectedClosureError)
 public final class LiveSessionUnexpectedClosureError: NSObject, @unchecked Sendable {
@@ -94,7 +94,7 @@ public final class LiveSessionUnexpectedClosureError: NSObject, @unchecked Senda
 // MARK: - LiveSessionSetupError
 
 /// An error thrown during live session setup.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
 @available(watchOS, unavailable)
 @objc(KFBLiveSessionSetupError)
 public final class LiveSessionSetupError: NSObject, @unchecked Sendable {

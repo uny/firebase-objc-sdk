@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// A single response candidate from the model.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBCandidate)
 public final class Candidate: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.Candidate

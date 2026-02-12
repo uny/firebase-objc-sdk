@@ -4,7 +4,7 @@ import Foundation
 // MARK: - ExecutableCodeLanguage
 
 /// Programming language for executable code.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBExecutableCodeLanguage)
 public final class ExecutableCodeLanguage: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.ExecutableCodePart.Language
@@ -22,7 +22,7 @@ public final class ExecutableCodeLanguage: NSObject, @unchecked Sendable {
 // MARK: - ExecutableCodePart
 
 /// A part containing executable code.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBExecutableCodePart)
 public final class ExecutableCodePart: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.ExecutableCodePart

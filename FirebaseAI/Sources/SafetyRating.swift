@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// A safety rating for generated content.
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBSafetyRating)
 public final class SafetyRating: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.SafetyRating
