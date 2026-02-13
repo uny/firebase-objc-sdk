@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// A stream of messages from the server during a live session.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @available(watchOS, unavailable)
 @objc(KFBLiveServerMessageStream)
 public final class LiveServerMessageStream: NSObject, @unchecked Sendable {

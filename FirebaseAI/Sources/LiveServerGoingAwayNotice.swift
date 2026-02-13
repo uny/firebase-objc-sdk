@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// A notice that the live session server is going away.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @available(watchOS, unavailable)
 @objc(KFBLiveServerGoingAwayNotice)
 public final class LiveServerGoingAwayNotice: NSObject, @unchecked Sendable {

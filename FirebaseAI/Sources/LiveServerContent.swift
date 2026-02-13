@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// Content received from the server during a live session.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @available(watchOS, unavailable)
 @objc(KFBLiveServerContent)
 public final class LiveServerContent: NSObject, @unchecked Sendable {

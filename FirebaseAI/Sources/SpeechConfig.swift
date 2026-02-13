@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// Configuration for speech synthesis in live sessions.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
+@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
 @available(watchOS, unavailable)
 @objc(KFBSpeechConfig)
 public final class SpeechConfig: NSObject, @unchecked Sendable {
