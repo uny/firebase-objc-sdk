@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// Methods for applying harm blocking.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBHarmBlockMethod)
 public final class HarmBlockMethod: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.SafetySetting.HarmBlockMethod

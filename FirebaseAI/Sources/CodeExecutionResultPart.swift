@@ -4,7 +4,7 @@ import Foundation
 // MARK: - CodeExecutionOutcome
 
 /// Outcome of code execution.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBCodeExecutionOutcome)
 public final class CodeExecutionOutcome: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.CodeExecutionResultPart.Outcome
@@ -39,7 +39,7 @@ public final class CodeExecutionOutcome: NSObject, @unchecked Sendable {
 // MARK: - CodeExecutionResultPart
 
 /// A part containing the result of code execution.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBCodeExecutionResultPart)
 public final class CodeExecutionResultPart: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.CodeExecutionResultPart

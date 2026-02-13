@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// Filter levels for person detection in Imagen.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBImagenPersonFilterLevel)
 public final class ImagenPersonFilterLevel: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.ImagenPersonFilterLevel

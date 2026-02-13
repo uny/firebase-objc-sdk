@@ -4,7 +4,7 @@ import Foundation
 // MARK: - URLRetrievalStatus
 
 /// Status of a URL retrieval operation.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBURLRetrievalStatus)
 public final class URLRetrievalStatus: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.URLMetadata.URLRetrievalStatus
@@ -36,7 +36,7 @@ public final class URLRetrievalStatus: NSObject, @unchecked Sendable {
 // MARK: - URLMetadata
 
 /// Metadata about a retrieved URL.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBURLMetadata)
 public final class URLMetadata: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.URLMetadata

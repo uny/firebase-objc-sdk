@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// A tool call request from the server during a live session.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @available(watchOS, unavailable)
 @objc(KFBLiveServerToolCall)
 public final class LiveServerToolCall: NSObject, @unchecked Sendable {

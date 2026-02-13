@@ -2,7 +2,7 @@ import FirebaseAILogic
 import Foundation
 
 /// Categories of potentially harmful content.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBHarmCategory)
 public final class HarmCategory: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.HarmCategory

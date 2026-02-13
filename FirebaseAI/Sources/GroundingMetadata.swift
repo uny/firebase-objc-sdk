@@ -4,7 +4,7 @@ import Foundation
 // MARK: - GroundingMetadata
 
 /// Metadata about grounding sources used in generation.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBGroundingMetadata)
 public final class GroundingMetadata: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.GroundingMetadata
@@ -38,7 +38,7 @@ public final class GroundingMetadata: NSObject, @unchecked Sendable {
 // MARK: - SearchEntryPoint
 
 /// An entry point for a web search result.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBSearchEntryPoint)
 public final class SearchEntryPoint: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.GroundingMetadata.SearchEntryPoint
@@ -57,7 +57,7 @@ public final class SearchEntryPoint: NSObject, @unchecked Sendable {
 // MARK: - GroundingChunk
 
 /// A chunk of grounding data.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBGroundingChunk)
 public final class GroundingChunk: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.GroundingMetadata.GroundingChunk
@@ -76,7 +76,7 @@ public final class GroundingChunk: NSObject, @unchecked Sendable {
 // MARK: - WebGroundingChunk
 
 /// A web-based grounding chunk with URL and title.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBWebGroundingChunk)
 public final class WebGroundingChunk: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.GroundingMetadata.WebGroundingChunk
@@ -105,7 +105,7 @@ public final class WebGroundingChunk: NSObject, @unchecked Sendable {
 // MARK: - GroundingSupport
 
 /// Support information linking generated text to grounding sources.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBGroundingSupport)
 public final class GroundingSupport: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.GroundingMetadata.GroundingSupport
@@ -129,7 +129,7 @@ public final class GroundingSupport: NSObject, @unchecked Sendable {
 // MARK: - Segment
 
 /// A segment of generated text with position information.
-@available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBSegment)
 public final class Segment: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.Segment
