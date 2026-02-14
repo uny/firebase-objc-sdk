@@ -51,4 +51,14 @@ public final class UsageMetadata: NSObject, @unchecked Sendable {
     @objc public var toolUsePromptTokensDetails: [ModalityTokenCount] {
         value.toolUsePromptTokensDetails.map { ModalityTokenCount(value: $0) }
     }
+
+    /// The number of tokens in the cached content.
+    @objc public var cachedContentTokenCount: Int {
+        value.cachedContentTokenCount
+    }
+
+    /// Token count details for cached content, broken down by modality.
+    @objc public var cacheTokensDetails: [ModalityTokenCount] {
+        value.cacheTokensDetails.map { ModalityTokenCount(value: $0) }
+    }
 }

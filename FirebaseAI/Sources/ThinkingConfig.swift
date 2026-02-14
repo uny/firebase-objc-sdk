@@ -4,6 +4,7 @@ import Foundation
 // MARK: - ThinkingLevel
 
 /// Thinking budget levels for the model.
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBThinkingLevel)
 public final class ThinkingLevel: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.ThinkingConfig.ThinkingLevel
@@ -28,11 +29,21 @@ public final class ThinkingLevel: NSObject, @unchecked Sendable {
     @objc public static var high: ThinkingLevel {
         ThinkingLevel(value: .high)
     }
+
+    override public func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? ThinkingLevel else { return false }
+        return value == other.value
+    }
+
+    override public var hash: Int {
+        String(describing: value).hashValue
+    }
 }
 
 // MARK: - ThinkingConfig
 
 /// Configuration for the model's thinking process.
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBThinkingConfig)
 public final class ThinkingConfig: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.ThinkingConfig
