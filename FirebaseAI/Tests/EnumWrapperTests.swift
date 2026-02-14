@@ -59,6 +59,15 @@ final class EnumWrapperTests: XCTestCase {
         XCTAssertEqual(first.hash, second.hash)
     }
 
+    func testThinkingLevelEquality() {
+        let first = ThinkingLevel.high
+        let second = ThinkingLevel.high
+        let other = ThinkingLevel.low
+        XCTAssertTrue(first.isEqual(second))
+        XCTAssertFalse(first.isEqual(other))
+        XCTAssertEqual(first.hash, second.hash)
+    }
+
     // MARK: - String(describing:)-based types
 
     func testHarmBlockThresholdEquality() {

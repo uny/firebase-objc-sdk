@@ -40,7 +40,6 @@ public final class ModelContent: NSObject, @unchecked Sendable {
             } else if let codeExecutionResultPart = part as? CodeExecutionResultPart {
                 return codeExecutionResultPart.value
             }
-            assertionFailure("Unsupported part type: \(type(of: part))")
             return nil
         }
         self.init(value: FirebaseAILogic.ModelContent(role: role, parts: swiftParts))
@@ -64,7 +63,6 @@ public final class ModelContent: NSObject, @unchecked Sendable {
             } else if let codeExecutionResultPart = part as? CodeExecutionResultPart {
                 return codeExecutionResultPart.value
             }
-            assertionFailure("Unsupported part type: \(type(of: part))")
             return nil
         }
         self.init(value: FirebaseAILogic.ModelContent(parts: swiftParts))
@@ -92,7 +90,6 @@ public final class ModelContent: NSObject, @unchecked Sendable {
             } else if let codeExecutionResultPart = part as? FirebaseAILogic.CodeExecutionResultPart {
                 return CodeExecutionResultPart(value: codeExecutionResultPart)
             }
-            assertionFailure("Unsupported part type: \(type(of: part))")
             return nil
         }
     }
