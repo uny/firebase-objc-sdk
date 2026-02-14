@@ -1,9 +1,10 @@
 import FirebaseAILogic
 import Foundation
 
+/// A template Imagen model for testing.
 @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBTemplateImagenModel)
-public final class TemplateImagenModel: NSObject {
+public final class TemplateImagenModel: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.TemplateImagenModel
 
     init(value: FirebaseAILogic.TemplateImagenModel) {
@@ -11,6 +12,7 @@ public final class TemplateImagenModel: NSObject {
         super.init()
     }
 
+    /// Generates images from a template with the given inputs.
     @objc public func generateImages(
         templateID: String,
         inputs: [String: Any],

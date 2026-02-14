@@ -1,6 +1,7 @@
 import FirebaseAILogic
 import Foundation
 
+/// Types of content generation errors.
 @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBGenerateContentErrorType)
 public enum GenerateContentErrorType: Int {
@@ -10,12 +11,17 @@ public enum GenerateContentErrorType: Int {
     case responseStoppedEarly
 }
 
+/// An error from a content generation request.
 @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBGenerateContentError)
-public final class GenerateContentError: NSObject {
+public final class GenerateContentError: NSObject, @unchecked Sendable {
+    /// The type of error that occurred.
     @objc public let errorType: GenerateContentErrorType
+    /// The underlying error, if available.
     @objc public let underlyingError: NSError?
+    /// The partial response, if available.
     @objc public let response: GenerateContentResponse?
+    /// The reason generation was stopped, if applicable.
     @objc public let finishReason: FinishReason?
 
     private init(

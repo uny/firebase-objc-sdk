@@ -1,9 +1,10 @@
 import FirebaseAILogic
 import Foundation
 
+/// Safety settings for Imagen image generation.
 @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBImagenSafetySettings)
-public final class ImagenSafetySettings: NSObject {
+public final class ImagenSafetySettings: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.ImagenSafetySettings
 
     init(value: FirebaseAILogic.ImagenSafetySettings) {

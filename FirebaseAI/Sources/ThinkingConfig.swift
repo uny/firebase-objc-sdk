@@ -3,9 +3,9 @@ import Foundation
 
 // MARK: - ThinkingLevel
 
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+/// Thinking budget levels for the model.
 @objc(KFBThinkingLevel)
-public final class ThinkingLevel: NSObject {
+public final class ThinkingLevel: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.ThinkingConfig.ThinkingLevel
 
     init(value: FirebaseAILogic.ThinkingConfig.ThinkingLevel) {
@@ -32,9 +32,9 @@ public final class ThinkingLevel: NSObject {
 
 // MARK: - ThinkingConfig
 
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+/// Configuration for the model's thinking process.
 @objc(KFBThinkingConfig)
-public final class ThinkingConfig: NSObject {
+public final class ThinkingConfig: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.ThinkingConfig
 
     init(value: FirebaseAILogic.ThinkingConfig) {
@@ -42,6 +42,10 @@ public final class ThinkingConfig: NSObject {
         super.init()
     }
 
+    /// Creates a thinking configuration with an explicit token budget.
+    /// - Parameters:
+    ///   - thinkingBudget: The maximum number of thinking tokens, or `nil` for the default.
+    ///   - includeThoughts: Whether to include thought parts in the response, or `nil` for the default.
     @objc public convenience init(thinkingBudget: NSNumber?, includeThoughts: NSNumber?) {
         let config = FirebaseAILogic.ThinkingConfig(
             thinkingBudget: thinkingBudget?.intValue,
@@ -50,6 +54,10 @@ public final class ThinkingConfig: NSObject {
         self.init(value: config)
     }
 
+    /// Creates a thinking configuration with a predefined thinking level.
+    /// - Parameters:
+    ///   - thinkingLevel: The thinking budget level.
+    ///   - includeThoughts: Whether to include thought parts in the response, or `nil` for the default.
     @objc public convenience init(thinkingLevel: ThinkingLevel, includeThoughts: NSNumber?) {
         let config = FirebaseAILogic.ThinkingConfig(
             thinkingLevel: thinkingLevel.value,

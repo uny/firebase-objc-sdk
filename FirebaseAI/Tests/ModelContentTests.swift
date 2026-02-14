@@ -82,7 +82,7 @@ final class ModelContentTests: XCTestCase {
     // MARK: - ExecutableCodePart (response-only, test getter via JSON decode)
 
     func testExecutableCodePartGetter() throws {
-        let json = """
+        let jsonString = """
         {
             "role": "model",
             "parts": [
@@ -94,7 +94,8 @@ final class ModelContentTests: XCTestCase {
                 }
             ]
         }
-        """.data(using: .utf8)!
+        """
+        let json = Data(jsonString.utf8)
         let swiftContent = try JSONDecoder().decode(FirebaseAILogic.ModelContent.self, from: json)
         let content = FirebaseAILogicObjC.ModelContent(value: swiftContent)
 
@@ -108,7 +109,7 @@ final class ModelContentTests: XCTestCase {
     // MARK: - CodeExecutionResultPart (response-only, test getter via JSON decode)
 
     func testCodeExecutionResultPartGetter() throws {
-        let json = """
+        let jsonString = """
         {
             "role": "model",
             "parts": [
@@ -120,7 +121,8 @@ final class ModelContentTests: XCTestCase {
                 }
             ]
         }
-        """.data(using: .utf8)!
+        """
+        let json = Data(jsonString.utf8)
         let swiftContent = try JSONDecoder().decode(FirebaseAILogic.ModelContent.self, from: json)
         let content = FirebaseAILogicObjC.ModelContent(value: swiftContent)
 

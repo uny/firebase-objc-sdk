@@ -1,9 +1,10 @@
 import FirebaseAILogic
 import Foundation
 
+/// A model that generates content from a prompt.
 @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBGenerativeModel)
-public final class GenerativeModel: NSObject {
+public final class GenerativeModel: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.GenerativeModel
 
     init(value: FirebaseAILogic.GenerativeModel) {

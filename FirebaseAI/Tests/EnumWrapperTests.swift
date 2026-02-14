@@ -6,113 +6,113 @@ final class EnumWrapperTests: XCTestCase {
     // MARK: - rawValue-based types
 
     func testHarmCategoryEquality() {
-        let a = HarmCategory.harassment
-        let b = HarmCategory.harassment
-        let c = HarmCategory.hateSpeech
-        XCTAssertTrue(a.isEqual(b))
-        XCTAssertFalse(a.isEqual(c))
-        XCTAssertEqual(a.hash, b.hash)
+        let first = HarmCategory.harassment
+        let second = HarmCategory.harassment
+        let other = HarmCategory.hateSpeech
+        XCTAssertTrue(first.isEqual(second))
+        XCTAssertFalse(first.isEqual(other))
+        XCTAssertEqual(first.hash, second.hash)
     }
 
     func testFinishReasonEquality() {
-        let a = FinishReason.stop
-        let b = FinishReason.stop
-        let c = FinishReason.safety
-        XCTAssertTrue(a.isEqual(b))
-        XCTAssertFalse(a.isEqual(c))
-        XCTAssertEqual(a.hash, b.hash)
+        let first = FinishReason.stop
+        let second = FinishReason.stop
+        let other = FinishReason.safety
+        XCTAssertTrue(first.isEqual(second))
+        XCTAssertFalse(first.isEqual(other))
+        XCTAssertEqual(first.hash, second.hash)
     }
 
     func testBlockReasonEquality() {
-        let a = BlockReason.safety
-        let b = BlockReason.safety
-        let c = BlockReason.other
-        XCTAssertTrue(a.isEqual(b))
-        XCTAssertFalse(a.isEqual(c))
-        XCTAssertEqual(a.hash, b.hash)
+        let first = BlockReason.safety
+        let second = BlockReason.safety
+        let other = BlockReason.other
+        XCTAssertTrue(first.isEqual(second))
+        XCTAssertFalse(first.isEqual(other))
+        XCTAssertEqual(first.hash, second.hash)
     }
 
     func testHarmProbabilityEquality() {
-        let a = HarmProbability.high
-        let b = HarmProbability.high
-        let c = HarmProbability.low
-        XCTAssertTrue(a.isEqual(b))
-        XCTAssertFalse(a.isEqual(c))
-        XCTAssertEqual(a.hash, b.hash)
+        let first = HarmProbability.high
+        let second = HarmProbability.high
+        let other = HarmProbability.low
+        XCTAssertTrue(first.isEqual(second))
+        XCTAssertFalse(first.isEqual(other))
+        XCTAssertEqual(first.hash, second.hash)
     }
 
     func testHarmSeverityEquality() {
-        let a = HarmSeverity.high
-        let b = HarmSeverity.high
-        let c = HarmSeverity.negligible
-        XCTAssertTrue(a.isEqual(b))
-        XCTAssertFalse(a.isEqual(c))
-        XCTAssertEqual(a.hash, b.hash)
+        let first = HarmSeverity.high
+        let second = HarmSeverity.high
+        let other = HarmSeverity.negligible
+        XCTAssertTrue(first.isEqual(second))
+        XCTAssertFalse(first.isEqual(other))
+        XCTAssertEqual(first.hash, second.hash)
     }
 
     func testContentModalityEquality() {
-        let a = ContentModality.text
-        let b = ContentModality.text
-        let c = ContentModality.image
-        XCTAssertTrue(a.isEqual(b))
-        XCTAssertFalse(a.isEqual(c))
-        XCTAssertEqual(a.hash, b.hash)
+        let first = ContentModality.text
+        let second = ContentModality.text
+        let other = ContentModality.image
+        XCTAssertTrue(first.isEqual(second))
+        XCTAssertFalse(first.isEqual(other))
+        XCTAssertEqual(first.hash, second.hash)
     }
 
     // MARK: - String(describing:)-based types
 
     func testHarmBlockThresholdEquality() {
-        let a = HarmBlockThreshold.blockNone
-        let b = HarmBlockThreshold.blockNone
-        let c = HarmBlockThreshold.blockOnlyHigh
-        XCTAssertTrue(a.isEqual(b))
-        XCTAssertFalse(a.isEqual(c))
-        XCTAssertEqual(a.hash, b.hash)
+        let first = HarmBlockThreshold.blockNone
+        let second = HarmBlockThreshold.blockNone
+        let other = HarmBlockThreshold.blockOnlyHigh
+        XCTAssertTrue(first.isEqual(second))
+        XCTAssertFalse(first.isEqual(other))
+        XCTAssertEqual(first.hash, second.hash)
     }
 
     func testHarmBlockMethodEquality() {
-        let a = HarmBlockMethod.severity
-        let b = HarmBlockMethod.severity
-        let c = HarmBlockMethod.probability
-        XCTAssertTrue(a.isEqual(b))
-        XCTAssertFalse(a.isEqual(c))
-        XCTAssertEqual(a.hash, b.hash)
+        let first = HarmBlockMethod.severity
+        let second = HarmBlockMethod.severity
+        let other = HarmBlockMethod.probability
+        XCTAssertTrue(first.isEqual(second))
+        XCTAssertFalse(first.isEqual(other))
+        XCTAssertEqual(first.hash, second.hash)
     }
 
     func testResponseModalityEquality() {
-        let a = ResponseModality.text
-        let b = ResponseModality.text
-        let c = ResponseModality.image
-        XCTAssertTrue(a.isEqual(b))
-        XCTAssertFalse(a.isEqual(c))
-        XCTAssertEqual(a.hash, b.hash)
+        let first = ResponseModality.text
+        let second = ResponseModality.text
+        let other = ResponseModality.image
+        XCTAssertTrue(first.isEqual(second))
+        XCTAssertFalse(first.isEqual(other))
+        XCTAssertEqual(first.hash, second.hash)
     }
 
     func testImagenSafetyFilterLevelEquality() {
-        let a = ImagenSafetyFilterLevel.blockNone
-        let b = ImagenSafetyFilterLevel.blockNone
-        let c = ImagenSafetyFilterLevel.blockOnlyHigh
-        XCTAssertTrue(a.isEqual(b))
-        XCTAssertFalse(a.isEqual(c))
-        XCTAssertEqual(a.hash, b.hash)
+        let first = ImagenSafetyFilterLevel.blockNone
+        let second = ImagenSafetyFilterLevel.blockNone
+        let other = ImagenSafetyFilterLevel.blockOnlyHigh
+        XCTAssertTrue(first.isEqual(second))
+        XCTAssertFalse(first.isEqual(other))
+        XCTAssertEqual(first.hash, second.hash)
     }
 
     func testImagenPersonFilterLevelEquality() {
-        let a = ImagenPersonFilterLevel.blockAll
-        let b = ImagenPersonFilterLevel.blockAll
-        let c = ImagenPersonFilterLevel.allowAll
-        XCTAssertTrue(a.isEqual(b))
-        XCTAssertFalse(a.isEqual(c))
-        XCTAssertEqual(a.hash, b.hash)
+        let first = ImagenPersonFilterLevel.blockAll
+        let second = ImagenPersonFilterLevel.blockAll
+        let other = ImagenPersonFilterLevel.allowAll
+        XCTAssertTrue(first.isEqual(second))
+        XCTAssertFalse(first.isEqual(other))
+        XCTAssertEqual(first.hash, second.hash)
     }
 
     func testImagenAspectRatioEquality() {
-        let a = ImagenAspectRatio.square1x1
-        let b = ImagenAspectRatio.square1x1
-        let c = ImagenAspectRatio.landscape16x9
-        XCTAssertTrue(a.isEqual(b))
-        XCTAssertFalse(a.isEqual(c))
-        XCTAssertEqual(a.hash, b.hash)
+        let first = ImagenAspectRatio.square1x1
+        let second = ImagenAspectRatio.square1x1
+        let other = ImagenAspectRatio.landscape16x9
+        XCTAssertTrue(first.isEqual(second))
+        XCTAssertFalse(first.isEqual(other))
+        XCTAssertEqual(first.hash, second.hash)
     }
 
     // MARK: - Cross-type comparison returns false

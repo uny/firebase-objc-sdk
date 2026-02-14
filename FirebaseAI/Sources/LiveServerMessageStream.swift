@@ -1,10 +1,11 @@
 import FirebaseAILogic
 import Foundation
 
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, *)
+/// A stream of messages from the server during a live session.
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @available(watchOS, unavailable)
 @objc(KFBLiveServerMessageStream)
-public final class LiveServerMessageStream: NSObject {
+public final class LiveServerMessageStream: NSObject, @unchecked Sendable {
     private let iterator: LockedAsyncIterator<FirebaseAILogic.LiveServerMessage>
 
     init(stream: AsyncThrowingStream<FirebaseAILogic.LiveServerMessage, Error>) {
