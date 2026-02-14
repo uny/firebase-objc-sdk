@@ -14,18 +14,21 @@ Below is the list of remaining gaps and their status.
 ### Addressed
 
 - ~~**`CountTokensResponse.promptTokensDetails`**~~ — Added.
+- ~~**`CodeExecution`**~~ — Already wrapped via `Tool.codeExecution()`. The upstream `CodeExecution` struct is an empty marker type with no properties; a dedicated wrapper is unnecessary.
+- ~~**`ExecutableCodePart.Language`**~~ — `.python` is the only public case in the upstream SDK and is already exposed via `ExecutableCodeLanguage.python`.
+- ~~**`Schema.StringFormat`**~~ — The upstream SDK has no predefined cases (only `.custom(_:)`). The current raw `String` approach in `Schema.string(format:)` is the correct design.
+- ~~**`Schema.IntegerFormat`**~~ — `.int32` and `.int64` are the only predefined cases. The current `Schema.integer(format:)` already handles these via string matching (`"int32"` / `"int64"` / custom).
+- ~~**`GenerationConfig` read properties**~~ — Added stored copies so all init parameters are readable via ObjC properties.
 
 ### Pending (design work needed)
 
 - **`JSONValue` / `JSONObject`** — Used in `FunctionCallPart.args` and `FunctionResponsePart.response`. Requires ObjC-friendly design (e.g. `NSDictionary` bridge).
-- **`CodeExecution`** — `Tool.codeExecution()` wrapper not yet exposed.
-- **`ExecutableCodePart.Language`** — Currently represented as a raw `String`; could provide ObjC constants.
-- **`Schema.StringFormat` / `Schema.IntegerFormat`** — Currently represented as raw `String`; could provide ObjC constants.
 
 ### Deferred (SDK-side limitations)
 
 - **`ImagenGCSImage`** — Not public in the SDK; blocked upstream.
 - **`ImagenModel.generateImages(gcsURI:)`** — Not public in the SDK; blocked upstream.
+- **`GenerationConfig` upstream property access** — All stored properties of `FirebaseAILogic.GenerationConfig` are `internal` (not `public`), so the ObjC wrapper stores its own copies passed at init time. If the upstream SDK makes these properties public in a future version, the wrapper can be simplified to delegate directly.
 
 ### Not Applicable
 
