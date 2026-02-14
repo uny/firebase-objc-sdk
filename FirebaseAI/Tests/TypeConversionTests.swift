@@ -188,6 +188,68 @@ final class TypeConversionTests: XCTestCase {
         XCTAssertNotNil(config)
     }
 
+    func testGenerationConfigReadProperties() {
+        let schema = Schema.string(description: nil, title: nil, nullable: false, format: nil)
+        let thinkingConfig = ThinkingConfig(thinkingBudget: NSNumber(value: 1024), includeThoughts: NSNumber(value: true))
+        let config = GenerationConfig(
+            temperature: NSNumber(value: 0.7),
+            topP: NSNumber(value: 0.9),
+            topK: NSNumber(value: 40),
+            candidateCount: NSNumber(value: 2),
+            maxOutputTokens: NSNumber(value: 1024),
+            presencePenalty: NSNumber(value: 0.5),
+            frequencyPenalty: NSNumber(value: 0.3),
+            stopSequences: ["END", "STOP"],
+            responseMIMEType: "application/json",
+            responseSchema: schema,
+            responseModalities: [ResponseModality.text],
+            thinkingConfig: thinkingConfig
+        )
+
+        XCTAssertEqual(config.temperature, NSNumber(value: 0.7))
+        XCTAssertEqual(config.topP, NSNumber(value: 0.9))
+        XCTAssertEqual(config.topK, NSNumber(value: 40))
+        XCTAssertEqual(config.candidateCount, NSNumber(value: 2))
+        XCTAssertEqual(config.maxOutputTokens, NSNumber(value: 1024))
+        XCTAssertEqual(config.presencePenalty, NSNumber(value: 0.5))
+        XCTAssertEqual(config.frequencyPenalty, NSNumber(value: 0.3))
+        XCTAssertEqual(config.stopSequences, ["END", "STOP"])
+        XCTAssertEqual(config.responseMIMEType, "application/json")
+        XCTAssertNotNil(config.responseSchema)
+        XCTAssertEqual(config.responseModalities?.count, 1)
+        XCTAssertNotNil(config.thinkingConfig)
+    }
+
+    func testGenerationConfigNilProperties() {
+        let config = GenerationConfig(
+            temperature: nil,
+            topP: nil,
+            topK: nil,
+            candidateCount: nil,
+            maxOutputTokens: nil,
+            presencePenalty: nil,
+            frequencyPenalty: nil,
+            stopSequences: nil,
+            responseMIMEType: nil,
+            responseSchema: nil,
+            responseModalities: nil,
+            thinkingConfig: nil
+        )
+
+        XCTAssertNil(config.temperature)
+        XCTAssertNil(config.topP)
+        XCTAssertNil(config.topK)
+        XCTAssertNil(config.candidateCount)
+        XCTAssertNil(config.maxOutputTokens)
+        XCTAssertNil(config.presencePenalty)
+        XCTAssertNil(config.frequencyPenalty)
+        XCTAssertNil(config.stopSequences)
+        XCTAssertNil(config.responseMIMEType)
+        XCTAssertNil(config.responseSchema)
+        XCTAssertNil(config.responseModalities)
+        XCTAssertNil(config.thinkingConfig)
+    }
+
     // MARK: - SafetySetting
 
     func testSafetySettingCreation() {
