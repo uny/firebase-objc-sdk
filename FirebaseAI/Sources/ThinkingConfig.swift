@@ -48,8 +48,16 @@ public final class ThinkingLevel: NSObject, @unchecked Sendable {
 public final class ThinkingConfig: NSObject, @unchecked Sendable {
     let value: FirebaseAILogic.ThinkingConfig
 
+    // Stored copies of init parameters (upstream properties are internal).
+    private let _thinkingBudget: NSNumber?
+    private let _thinkingLevel: ThinkingLevel?
+    private let _includeThoughts: NSNumber?
+
     init(value: FirebaseAILogic.ThinkingConfig) {
         self.value = value
+        _thinkingBudget = nil
+        _thinkingLevel = nil
+        _includeThoughts = nil
         super.init()
     }
 
@@ -62,7 +70,10 @@ public final class ThinkingConfig: NSObject, @unchecked Sendable {
             thinkingBudget: thinkingBudget?.intValue,
             includeThoughts: includeThoughts?.boolValue
         )
-        self.init(value: config)
+        self.init(value: config,
+                  thinkingBudget: thinkingBudget,
+                  thinkingLevel: nil,
+                  includeThoughts: includeThoughts)
     }
 
     /// Creates a thinking configuration with a predefined thinking level.
@@ -74,6 +85,33 @@ public final class ThinkingConfig: NSObject, @unchecked Sendable {
             thinkingLevel: thinkingLevel.value,
             includeThoughts: includeThoughts?.boolValue
         )
-        self.init(value: config)
+        self.init(value: config,
+                  thinkingBudget: nil,
+                  thinkingLevel: thinkingLevel,
+                  includeThoughts: includeThoughts)
     }
+
+    private init(
+        value: FirebaseAILogic.ThinkingConfig,
+        thinkingBudget: NSNumber?,
+        thinkingLevel: ThinkingLevel?,
+        includeThoughts: NSNumber?
+    ) {
+        self.value = value
+        _thinkingBudget = thinkingBudget
+        _thinkingLevel = thinkingLevel
+        _includeThoughts = includeThoughts
+        super.init()
+    }
+
+    // MARK: - Read Properties
+
+    /// The maximum number of thinking tokens, or `nil` if not set.
+    @objc public var thinkingBudget: NSNumber? { _thinkingBudget }
+
+    /// The thinking budget level, or `nil` if not set.
+    @objc public var thinkingLevel: ThinkingLevel? { _thinkingLevel }
+
+    /// Whether to include thought parts in the response, or `nil` if not set.
+    @objc public var includeThoughts: NSNumber? { _includeThoughts }
 }

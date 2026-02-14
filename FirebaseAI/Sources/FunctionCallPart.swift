@@ -39,4 +39,23 @@ public final class FunctionCallPart: NSObject, @unchecked Sendable {
         guard let data = argsData else { return nil }
         return try? JSONSerialization.jsonObject(with: data) as? [String: Any]
     }
+
+    /// Creates a function call part with a name and arguments dictionary.
+    /// - Parameters:
+    ///   - name: The name of the function to call.
+    ///   - args: The function arguments as a dictionary.
+    @objc public convenience init(name: String, args: [String: Any]) {
+        let jsonObject = convertToJSONObject(args)
+        self.init(value: FirebaseAILogic.FunctionCallPart(name: name, args: jsonObject))
+    }
+
+    /// Creates a function call part with a name, arguments dictionary, and optional ID.
+    /// - Parameters:
+    ///   - name: The name of the function to call.
+    ///   - args: The function arguments as a dictionary.
+    ///   - id: An optional identifier for this function call.
+    @objc public convenience init(name: String, args: [String: Any], id: String?) {
+        let jsonObject = convertToJSONObject(args)
+        self.init(value: FirebaseAILogic.FunctionCallPart(name: name, args: jsonObject, id: id))
+    }
 }
