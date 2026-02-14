@@ -190,9 +190,9 @@ final class FunctionPartTests: XCTestCase {
         let response: [String: Any] = [
             "results": [
                 ["name": "item1", "score": 0.95] as [String: Any],
-                ["name": "item2", "score": 0.87] as [String: Any],
+                ["name": "item2", "score": 0.87] as [String: Any]
             ] as [Any],
-            "total": 2,
+            "total": 2
         ]
         let part = FunctionResponsePart(name: "search", response: response)
 
@@ -224,7 +224,7 @@ final class FunctionPartTests: XCTestCase {
         // Ensure Bool is preserved as Bool (not number).
         let args: [String: Any] = [
             "enabled": true,
-            "count": NSNumber(value: 42),
+            "count": NSNumber(value: 42)
         ]
         let part = FunctionCallPart(name: "test", args: args)
 
