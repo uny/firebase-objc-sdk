@@ -16,4 +16,9 @@ public final class CountTokensResponse: NSObject, @unchecked Sendable {
     @objc public var totalTokens: Int {
         value.totalTokens
     }
+
+    /// The breakdown, by modality, of how many tokens are consumed by the prompt.
+    @objc public var promptTokensDetails: [ModalityTokenCount] {
+        value.promptTokensDetails.map { ModalityTokenCount(value: $0) }
+    }
 }
