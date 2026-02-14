@@ -19,10 +19,10 @@ Below is the list of remaining gaps and their status.
 - ~~**`Schema.StringFormat`**~~ — The upstream SDK has no predefined cases (only `.custom(_:)`). The current raw `String` approach in `Schema.string(format:)` is the correct design.
 - ~~**`Schema.IntegerFormat`**~~ — `.int32` and `.int64` are the only predefined cases. The current `Schema.integer(format:)` already handles these via string matching (`"int32"` / `"int64"` / custom).
 - ~~**`GenerationConfig` read properties**~~ — Added stored copies so all init parameters are readable via ObjC properties.
-
-### Pending (design work needed)
-
-- **`JSONValue` / `JSONObject`** — Used in `FunctionCallPart.args` and `FunctionResponsePart.response`. Requires ObjC-friendly design (e.g. `NSDictionary` bridge).
+- ~~**`LiveServerContent.groundingMetadata`**~~ — Added.
+- ~~**`LiveGenerationConfig` read properties**~~ — Added stored copies so all init parameters are readable via ObjC properties.
+- ~~**`ThinkingConfig` read properties**~~ — Added stored copies so all init parameters are readable via ObjC properties.
+- ~~**`JSONValue` / `JSONObject` → `[String: Any]` conversion & public init**~~ — Added `convertToJSONObject` / `convertToJSONValue` helpers and public convenience inits on `FunctionResponsePart` and `FunctionCallPart`.
 
 ### Deferred (SDK-side limitations)
 

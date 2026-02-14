@@ -39,4 +39,25 @@ public final class FunctionResponsePart: NSObject, @unchecked Sendable {
         guard let data = responseData else { return nil }
         return try? JSONSerialization.jsonObject(with: data) as? [String: Any]
     }
+
+    /// Creates a function response part with a name and response dictionary.
+    /// - Parameters:
+    ///   - name: The name of the function that was called.
+    ///   - response: The function's response as a dictionary.
+    @objc public convenience init(name: String, response: [String: Any]) {
+        let jsonObject = convertToJSONObject(response)
+        self.init(value: FirebaseAILogic.FunctionResponsePart(name: name, response: jsonObject))
+    }
+
+    /// Creates a function response part with a name, response dictionary, and optional function ID.
+    /// - Parameters:
+    ///   - name: The name of the function that was called.
+    ///   - response: The function's response as a dictionary.
+    ///   - functionId: An optional identifier matching the function call.
+    @objc public convenience init(name: String, response: [String: Any], functionId: String?) {
+        let jsonObject = convertToJSONObject(response)
+        self.init(value: FirebaseAILogic.FunctionResponsePart(
+            name: name, response: jsonObject, functionId: functionId
+        ))
+    }
 }

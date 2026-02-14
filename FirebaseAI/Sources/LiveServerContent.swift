@@ -33,6 +33,11 @@ public final class LiveServerContent: NSObject, @unchecked Sendable {
         return value.isGenerationComplete
     }
 
+    /// Grounding metadata for the generated content, if available.
+    @objc public var groundingMetadata: GroundingMetadata? {
+        return value.groundingMetadata.map { GroundingMetadata(value: $0) }
+    }
+
     /// The transcription of the input audio, if available.
     @objc public var inputAudioTranscription: LiveAudioTranscription? {
         return value.inputAudioTranscription.map { LiveAudioTranscription(value: $0) }
