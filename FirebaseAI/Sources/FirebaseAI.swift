@@ -65,6 +65,23 @@ public final class FirebaseAI: NSObject, @unchecked Sendable {
         return GenerativeModel(value: model)
     }
 
+    // MARK: - Generative Model Session
+
+    #if compiler(>=6.2)
+    /// Creates a new ``GenerativeModelSession`` for multi-turn interactions with structured output.
+    ///
+    /// - Parameters:
+    ///   - model: The name of the model to use (e.g., `"gemini-2.0-flash"`).
+    ///   - instructions: Optional system instructions that direct the model's behavior.
+    @objc public func generativeModelSession(
+        model: String,
+        instructions: String?
+    ) -> GenerativeModelSession {
+        let session = value.generativeModelSession(model: model, instructions: instructions)
+        return GenerativeModelSession(value: session)
+    }
+    #endif // compiler(>=6.2)
+
     // MARK: - Imagen Model
 
     /// Creates an Imagen model with the given configuration.

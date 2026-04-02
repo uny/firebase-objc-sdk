@@ -6,7 +6,7 @@ The following FirebaseAILogic types are not yet wrapped and are deferred for fut
 
 - **`GenerationConfig.responseJSONSchema`** - Internal API for raw JSON schema; prefer `responseSchema` (wrapped via `Schema`).
 
-## Gap Analysis (vs SDK v12.9.0)
+## Gap Analysis (vs SDK v12.11.0)
 
 Most public types in `FirebaseAILogic` are fully covered by the ObjC wrapper.
 Below is the list of remaining gaps and their status.
@@ -34,3 +34,4 @@ Below is the list of remaining gaps and their status.
 
 - **`PartsRepresentable`** — Swift-only protocol; ObjC wrappers provide dedicated convenience methods instead.
 - **`TemplateChatSession`** — Marked `internal` in the SDK; not exposed.
+- ~~**`GenerativeModelSession`**~~ — Wrapped. Text-based `respond` and `streamResponse` are exposed. Structured output (`Generable`/`FoundationModels`) methods are Swift-only and not applicable for ObjC wrapping.
