@@ -1,69 +1,69 @@
-import XCTest
+import Foundation
+import Testing
 @testable import FirebaseAILogicObjC
 import FirebaseAILogic
 
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
-final class ModelContentTests: XCTestCase {
+@Suite struct ModelContentTests {
     // MARK: - TextPart round-trip
 
-    func testTextPartRoundTrip() {
+    @Test func textPartRoundTrip() {
         let textPart = FirebaseAILogicObjC.TextPart(text: "Hello, world!")
         let content = FirebaseAILogicObjC.ModelContent(parts: [textPart])
 
         let parts = content.parts
-        XCTAssertEqual(parts.count, 1)
+        #expect(parts.count == 1)
         let result = parts[0] as? FirebaseAILogicObjC.TextPart
-        XCTAssertNotNil(result)
-        XCTAssertEqual(result?.text, "Hello, world!")
+        #expect(result != nil)
+        #expect(result?.text == "Hello, world!")
     }
 
     // MARK: - InlineDataPart round-trip
 
-    func testInlineDataPartRoundTrip() {
+    @Test func inlineDataPartRoundTrip() {
         let data = Data([0x01, 0x02, 0x03])
         let inlineDataPart = FirebaseAILogicObjC.InlineDataPart(data: data, mimeType: "application/octet-stream")
         let content = FirebaseAILogicObjC.ModelContent(parts: [inlineDataPart])
 
         let parts = content.parts
-        XCTAssertEqual(parts.count, 1)
+        #expect(parts.count == 1)
         let result = parts[0] as? FirebaseAILogicObjC.InlineDataPart
-        XCTAssertNotNil(result)
-        XCTAssertEqual(result?.data, data)
-        XCTAssertEqual(result?.mimeType, "application/octet-stream")
+        #expect(result != nil)
+        #expect(result?.data == data)
+        #expect(result?.mimeType == "application/octet-stream")
     }
 
     // MARK: - FileDataPart round-trip
 
-    func testFileDataPartRoundTrip() {
+    @Test func fileDataPartRoundTrip() {
         let fileDataPart = FirebaseAILogicObjC.FileDataPart(uri: "gs://bucket/file.txt", mimeType: "text/plain")
         let content = FirebaseAILogicObjC.ModelContent(parts: [fileDataPart])
 
         let parts = content.parts
-        XCTAssertEqual(parts.count, 1)
+        #expect(parts.count == 1)
         let result = parts[0] as? FirebaseAILogicObjC.FileDataPart
-        XCTAssertNotNil(result)
-        XCTAssertEqual(result?.uri, "gs://bucket/file.txt")
-        XCTAssertEqual(result?.mimeType, "text/plain")
+        #expect(result != nil)
+        #expect(result?.uri == "gs://bucket/file.txt")
+        #expect(result?.mimeType == "text/plain")
     }
 
     // MARK: - FunctionCallPart round-trip
 
-    func testFunctionCallPartRoundTrip() {
+    @Test func functionCallPartRoundTrip() {
         let functionCallPart = FirebaseAILogicObjC.FunctionCallPart(
             value: FirebaseAILogic.FunctionCallPart(name: "myFunc", args: ["key": .string("value")])
         )
         let content = FirebaseAILogicObjC.ModelContent(parts: [functionCallPart])
 
         let parts = content.parts
-        XCTAssertEqual(parts.count, 1)
+        #expect(parts.count == 1)
         let result = parts[0] as? FirebaseAILogicObjC.FunctionCallPart
-        XCTAssertNotNil(result)
-        XCTAssertEqual(result?.name, "myFunc")
+        #expect(result != nil)
+        #expect(result?.name == "myFunc")
     }
 
     // MARK: - FunctionResponsePart round-trip
 
-    func testFunctionResponsePartRoundTrip() {
+    @Test func functionResponsePartRoundTrip() {
         let functionResponsePart = FirebaseAILogicObjC.FunctionResponsePart(
             value: FirebaseAILogic.FunctionResponsePart(
                 name: "myFunc",
@@ -73,15 +73,15 @@ final class ModelContentTests: XCTestCase {
         let content = FirebaseAILogicObjC.ModelContent(parts: [functionResponsePart])
 
         let parts = content.parts
-        XCTAssertEqual(parts.count, 1)
+        #expect(parts.count == 1)
         let result = parts[0] as? FirebaseAILogicObjC.FunctionResponsePart
-        XCTAssertNotNil(result)
-        XCTAssertEqual(result?.name, "myFunc")
+        #expect(result != nil)
+        #expect(result?.name == "myFunc")
     }
 
     // MARK: - ExecutableCodePart (response-only, test getter via JSON decode)
 
-    func testExecutableCodePartGetter() throws {
+    @Test func executableCodePartGetter() throws {
         let jsonString = """
         {
             "role": "model",
@@ -100,15 +100,15 @@ final class ModelContentTests: XCTestCase {
         let content = FirebaseAILogicObjC.ModelContent(value: swiftContent)
 
         let parts = content.parts
-        XCTAssertEqual(parts.count, 1)
+        #expect(parts.count == 1)
         let result = parts[0] as? FirebaseAILogicObjC.ExecutableCodePart
-        XCTAssertNotNil(result)
-        XCTAssertEqual(result?.code, "print('hello')")
+        #expect(result != nil)
+        #expect(result?.code == "print('hello')")
     }
 
     // MARK: - CodeExecutionResultPart (response-only, test getter via JSON decode)
 
-    func testCodeExecutionResultPartGetter() throws {
+    @Test func codeExecutionResultPartGetter() throws {
         let jsonString = """
         {
             "role": "model",
@@ -127,40 +127,40 @@ final class ModelContentTests: XCTestCase {
         let content = FirebaseAILogicObjC.ModelContent(value: swiftContent)
 
         let parts = content.parts
-        XCTAssertEqual(parts.count, 1)
+        #expect(parts.count == 1)
         let result = parts[0] as? FirebaseAILogicObjC.CodeExecutionResultPart
-        XCTAssertNotNil(result)
-        XCTAssertEqual(result?.output, "hello")
+        #expect(result != nil)
+        #expect(result?.output == "hello")
     }
 
     // MARK: - Mixed parts
 
-    func testMixedPartsRoundTrip() {
+    @Test func mixedPartsRoundTrip() {
         let textPart = FirebaseAILogicObjC.TextPart(text: "text")
         let inlineDataPart = FirebaseAILogicObjC.InlineDataPart(data: Data([0xFF]), mimeType: "image/png")
         let fileDataPart = FirebaseAILogicObjC.FileDataPart(uri: "gs://b/f", mimeType: "text/plain")
         let content = FirebaseAILogicObjC.ModelContent(parts: [textPart, inlineDataPart, fileDataPart])
 
         let parts = content.parts
-        XCTAssertEqual(parts.count, 3)
-        XCTAssertTrue(parts[0] is FirebaseAILogicObjC.TextPart)
-        XCTAssertTrue(parts[1] is FirebaseAILogicObjC.InlineDataPart)
-        XCTAssertTrue(parts[2] is FirebaseAILogicObjC.FileDataPart)
+        #expect(parts.count == 3)
+        #expect(parts[0] is FirebaseAILogicObjC.TextPart)
+        #expect(parts[1] is FirebaseAILogicObjC.InlineDataPart)
+        #expect(parts[2] is FirebaseAILogicObjC.FileDataPart)
     }
 
     // MARK: - Role
 
-    func testRoleIsPreserved() {
+    @Test func roleIsPreserved() {
         let textPart = FirebaseAILogicObjC.TextPart(text: "hello")
         let content = FirebaseAILogicObjC.ModelContent(role: "model", parts: [textPart])
-        XCTAssertEqual(content.role, "model")
+        #expect(content.role == "model")
     }
 
-    func testTextConvenienceInit() {
+    @Test func textConvenienceInit() {
         let content = FirebaseAILogicObjC.ModelContent(text: "hello")
-        XCTAssertEqual(content.role, "user")
+        #expect(content.role == "user")
         let parts = content.parts
-        XCTAssertEqual(parts.count, 1)
-        XCTAssertEqual((parts[0] as? FirebaseAILogicObjC.TextPart)?.text, "hello")
+        #expect(parts.count == 1)
+        #expect((parts[0] as? FirebaseAILogicObjC.TextPart)?.text == "hello")
     }
 }

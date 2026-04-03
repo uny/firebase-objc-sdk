@@ -1,88 +1,88 @@
-import XCTest
+import Foundation
+import Testing
 @testable import FirebaseAILogicObjC
 
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
-final class TypeConversionTests: XCTestCase {
+@Suite struct TypeConversionTests {
 
     // MARK: - TextPart
 
-    func testTextPartRoundTrip() {
+    @Test func textPartRoundTrip() {
         let part = TextPart(text: "Hello, world!")
-        XCTAssertEqual(part.text, "Hello, world!")
-        XCTAssertFalse(part.isThought)
+        #expect(part.text == "Hello, world!")
+        #expect(!part.isThought)
     }
 
     // MARK: - InlineDataPart
 
-    func testInlineDataPartRoundTrip() {
+    @Test func inlineDataPartRoundTrip() {
         let data = Data([0x01, 0x02, 0x03])
         let part = InlineDataPart(data: data, mimeType: "application/octet-stream")
-        XCTAssertEqual(part.data, data)
-        XCTAssertEqual(part.mimeType, "application/octet-stream")
+        #expect(part.data == data)
+        #expect(part.mimeType == "application/octet-stream")
     }
 
     // MARK: - FileDataPart
 
-    func testFileDataPartRoundTrip() {
+    @Test func fileDataPartRoundTrip() {
         let part = FileDataPart(uri: "gs://bucket/file.png", mimeType: "image/png")
-        XCTAssertEqual(part.uri, "gs://bucket/file.png")
-        XCTAssertEqual(part.mimeType, "image/png")
+        #expect(part.uri == "gs://bucket/file.png")
+        #expect(part.mimeType == "image/png")
     }
 
     // MARK: - ModelContent
 
-    func testModelContentFromText() {
+    @Test func modelContentFromText() {
         let content = ModelContent(text: "Test prompt")
-        XCTAssertEqual(content.role, "user")
-        XCTAssertEqual(content.parts.count, 1)
+        #expect(content.role == "user")
+        #expect(content.parts.count == 1)
         let textPart = content.parts.first as? TextPart
-        XCTAssertNotNil(textPart)
-        XCTAssertEqual(textPart?.text, "Test prompt")
+        #expect(textPart != nil)
+        #expect(textPart?.text == "Test prompt")
     }
 
-    func testModelContentWithRole() {
+    @Test func modelContentWithRole() {
         let content = ModelContent(role: "model", text: "Response")
-        XCTAssertEqual(content.role, "model")
+        #expect(content.role == "model")
     }
 
-    func testModelContentWithParts() {
+    @Test func modelContentWithParts() {
         let text = TextPart(text: "Hello")
         let data = InlineDataPart(data: Data([0xFF]), mimeType: "image/png")
         let content = ModelContent(parts: [text, data])
-        XCTAssertEqual(content.parts.count, 2)
-        XCTAssertTrue(content.parts[0] is TextPart)
-        XCTAssertTrue(content.parts[1] is InlineDataPart)
+        #expect(content.parts.count == 2)
+        #expect(content.parts[0] is TextPart)
+        #expect(content.parts[1] is InlineDataPart)
     }
 
     // MARK: - Backend
 
-    func testBackendFactoryMethods() {
+    @Test func backendFactoryMethods() {
         let googleAI = Backend.googleAI()
-        XCTAssertNotNil(googleAI)
+        #expect(googleAI != nil)
 
         let vertexAI = Backend.vertexAI()
-        XCTAssertNotNil(vertexAI)
+        #expect(vertexAI != nil)
 
         let vertexAIWithLocation = Backend.vertexAI(location: "us-central1")
-        XCTAssertNotNil(vertexAIWithLocation)
+        #expect(vertexAIWithLocation != nil)
     }
 
     // MARK: - Schema
 
-    func testSchemaStringFactory() {
+    @Test func schemaStringFactory() {
         let schema = Schema.string(description: "A name", title: "name", nullable: false, format: nil)
-        XCTAssertEqual(schema.type, "STRING")
-        XCTAssertEqual(schema.schemaDescription, "A name")
-        XCTAssertEqual(schema.title, "name")
+        #expect(schema.type == "STRING")
+        #expect(schema.schemaDescription == "A name")
+        #expect(schema.title == "name")
     }
 
-    func testSchemaBooleanFactory() {
+    @Test func schemaBooleanFactory() {
         let schema = Schema.boolean(description: "Is active", title: "active", nullable: true)
-        XCTAssertEqual(schema.type, "BOOLEAN")
-        XCTAssertEqual(schema.nullable, NSNumber(value: true))
+        #expect(schema.type == "BOOLEAN")
+        #expect(schema.nullable == NSNumber(value: true))
     }
 
-    func testSchemaIntegerFactory() {
+    @Test func schemaIntegerFactory() {
         let schema = Schema.integer(
             description: "Age",
             title: "age",
@@ -91,12 +91,12 @@ final class TypeConversionTests: XCTestCase {
             minimum: NSNumber(value: 0),
             maximum: NSNumber(value: 150)
         )
-        XCTAssertEqual(schema.type, "INTEGER")
-        XCTAssertEqual(schema.minimum, NSNumber(value: 0))
-        XCTAssertEqual(schema.maximum, NSNumber(value: 150))
+        #expect(schema.type == "INTEGER")
+        #expect(schema.minimum == NSNumber(value: 0))
+        #expect(schema.maximum == NSNumber(value: 150))
     }
 
-    func testSchemaFloatFactory() {
+    @Test func schemaFloatFactory() {
         let schema = Schema.float(
             description: "Score",
             title: nil,
@@ -104,10 +104,10 @@ final class TypeConversionTests: XCTestCase {
             minimum: NSNumber(value: 0.0),
             maximum: NSNumber(value: 100.0)
         )
-        XCTAssertEqual(schema.type, "NUMBER")
+        #expect(schema.type == "NUMBER")
     }
 
-    func testSchemaDoubleFactory() {
+    @Test func schemaDoubleFactory() {
         let schema = Schema.double(
             description: "Precise value",
             title: nil,
@@ -115,21 +115,21 @@ final class TypeConversionTests: XCTestCase {
             minimum: nil,
             maximum: nil
         )
-        XCTAssertEqual(schema.type, "NUMBER")
+        #expect(schema.type == "NUMBER")
     }
 
-    func testSchemaEnumerationFactory() {
+    @Test func schemaEnumerationFactory() {
         let schema = Schema.enumeration(
             values: ["red", "green", "blue"],
             description: "Color",
             title: nil,
             nullable: false
         )
-        XCTAssertEqual(schema.type, "STRING")
-        XCTAssertEqual(schema.enumValues, ["red", "green", "blue"])
+        #expect(schema.type == "STRING")
+        #expect(schema.enumValues == ["red", "green", "blue"])
     }
 
-    func testSchemaArrayFactory() {
+    @Test func schemaArrayFactory() {
         let items = Schema.string(description: nil, title: nil, nullable: false, format: nil)
         let schema = Schema.array(
             items: items,
@@ -139,13 +139,13 @@ final class TypeConversionTests: XCTestCase {
             minItems: NSNumber(value: 1),
             maxItems: NSNumber(value: 10)
         )
-        XCTAssertEqual(schema.type, "ARRAY")
-        XCTAssertNotNil(schema.items)
-        XCTAssertEqual(schema.minItems, NSNumber(value: 1))
-        XCTAssertEqual(schema.maxItems, NSNumber(value: 10))
+        #expect(schema.type == "ARRAY")
+        #expect(schema.items != nil)
+        #expect(schema.minItems == NSNumber(value: 1))
+        #expect(schema.maxItems == NSNumber(value: 10))
     }
 
-    func testSchemaObjectFactory() {
+    @Test func schemaObjectFactory() {
         let nameSchema = Schema.string(description: nil, title: nil, nullable: false, format: nil)
         let schema = Schema.object(
             properties: ["name": nameSchema],
@@ -155,22 +155,22 @@ final class TypeConversionTests: XCTestCase {
             title: "Person",
             nullable: false
         )
-        XCTAssertEqual(schema.type, "OBJECT")
-        XCTAssertNotNil(schema.properties?["name"])
-        XCTAssertEqual(schema.propertyOrdering, ["name"])
+        #expect(schema.type == "OBJECT")
+        #expect(schema.properties?["name"] != nil)
+        #expect(schema.propertyOrdering == ["name"])
     }
 
-    func testSchemaAnyOfFactory() {
+    @Test func schemaAnyOfFactory() {
         let stringSchema = Schema.string(description: nil, title: nil, nullable: false, format: nil)
         let integerSchema = Schema.integer(description: nil, title: nil, nullable: false, format: nil, minimum: nil, maximum: nil)
         let schema = Schema.anyOf(schemas: [stringSchema, integerSchema])
-        XCTAssertNotNil(schema.anyOf)
-        XCTAssertEqual(schema.anyOf?.count, 2)
+        #expect(schema.anyOf != nil)
+        #expect(schema.anyOf?.count == 2)
     }
 
     // MARK: - GenerationConfig
 
-    func testGenerationConfigCreation() {
+    @Test func generationConfigCreation() {
         let config = GenerationConfig(
             temperature: NSNumber(value: 0.7),
             topP: NSNumber(value: 0.9),
@@ -185,10 +185,10 @@ final class TypeConversionTests: XCTestCase {
             responseModalities: [ResponseModality.text],
             thinkingConfig: nil
         )
-        XCTAssertNotNil(config)
+        #expect(config != nil)
     }
 
-    func testGenerationConfigReadProperties() {
+    @Test func generationConfigReadProperties() {
         let schema = Schema.string(description: nil, title: nil, nullable: false, format: nil)
         let thinkingConfig = ThinkingConfig(thinkingBudget: NSNumber(value: 1024), includeThoughts: NSNumber(value: true))
         let config = GenerationConfig(
@@ -206,21 +206,21 @@ final class TypeConversionTests: XCTestCase {
             thinkingConfig: thinkingConfig
         )
 
-        XCTAssertEqual(config.temperature, NSNumber(value: 0.7))
-        XCTAssertEqual(config.topP, NSNumber(value: 0.9))
-        XCTAssertEqual(config.topK, NSNumber(value: 40))
-        XCTAssertEqual(config.candidateCount, NSNumber(value: 2))
-        XCTAssertEqual(config.maxOutputTokens, NSNumber(value: 1024))
-        XCTAssertEqual(config.presencePenalty, NSNumber(value: 0.5))
-        XCTAssertEqual(config.frequencyPenalty, NSNumber(value: 0.3))
-        XCTAssertEqual(config.stopSequences, ["END", "STOP"])
-        XCTAssertEqual(config.responseMIMEType, "application/json")
-        XCTAssertNotNil(config.responseSchema)
-        XCTAssertEqual(config.responseModalities?.count, 1)
-        XCTAssertNotNil(config.thinkingConfig)
+        #expect(config.temperature == NSNumber(value: 0.7))
+        #expect(config.topP == NSNumber(value: 0.9))
+        #expect(config.topK == NSNumber(value: 40))
+        #expect(config.candidateCount == NSNumber(value: 2))
+        #expect(config.maxOutputTokens == NSNumber(value: 1024))
+        #expect(config.presencePenalty == NSNumber(value: 0.5))
+        #expect(config.frequencyPenalty == NSNumber(value: 0.3))
+        #expect(config.stopSequences == ["END", "STOP"])
+        #expect(config.responseMIMEType == "application/json")
+        #expect(config.responseSchema != nil)
+        #expect(config.responseModalities?.count == 1)
+        #expect(config.thinkingConfig != nil)
     }
 
-    func testGenerationConfigNilProperties() {
+    @Test func generationConfigNilProperties() {
         let config = GenerationConfig(
             temperature: nil,
             topP: nil,
@@ -236,34 +236,34 @@ final class TypeConversionTests: XCTestCase {
             thinkingConfig: nil
         )
 
-        XCTAssertNil(config.temperature)
-        XCTAssertNil(config.topP)
-        XCTAssertNil(config.topK)
-        XCTAssertNil(config.candidateCount)
-        XCTAssertNil(config.maxOutputTokens)
-        XCTAssertNil(config.presencePenalty)
-        XCTAssertNil(config.frequencyPenalty)
-        XCTAssertNil(config.stopSequences)
-        XCTAssertNil(config.responseMIMEType)
-        XCTAssertNil(config.responseSchema)
-        XCTAssertNil(config.responseModalities)
-        XCTAssertNil(config.thinkingConfig)
+        #expect(config.temperature == nil)
+        #expect(config.topP == nil)
+        #expect(config.topK == nil)
+        #expect(config.candidateCount == nil)
+        #expect(config.maxOutputTokens == nil)
+        #expect(config.presencePenalty == nil)
+        #expect(config.frequencyPenalty == nil)
+        #expect(config.stopSequences == nil)
+        #expect(config.responseMIMEType == nil)
+        #expect(config.responseSchema == nil)
+        #expect(config.responseModalities == nil)
+        #expect(config.thinkingConfig == nil)
     }
 
     // MARK: - SafetySetting
 
-    func testSafetySettingCreation() {
+    @Test func safetySettingCreation() {
         let setting = SafetySetting(
             harmCategory: HarmCategory.harassment,
             threshold: HarmBlockThreshold.blockMediumAndAbove
         )
-        XCTAssertEqual(setting.harmCategory.rawValue, "HARM_CATEGORY_HARASSMENT")
+        #expect(setting.harmCategory.rawValue == "HARM_CATEGORY_HARASSMENT")
     }
 
     // MARK: - RequestOptions
 
-    func testRequestOptionsCreation() {
+    @Test func requestOptionsCreation() {
         let options = RequestOptions(timeout: 30.0)
-        XCTAssertNotNil(options)
+        #expect(options != nil)
     }
 }
