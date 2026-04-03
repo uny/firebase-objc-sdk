@@ -68,6 +68,25 @@ public final class GenerativeModelSession: NSObject, @unchecked Sendable {
         )
     }
 
+    /// Sends content parts and returns the generated response as a string.
+    ///
+    /// All parts from the provided ``ModelContent`` array are combined into a single prompt.
+    ///
+    /// - Parameters:
+    ///   - content: An array of ``ModelContent`` to send to the model as a prompt.
+    ///   - options: An optional ``GenerationConfig`` to override the model's default generation
+    ///     configuration.
+    /// - Returns: A ``SessionResponse`` containing the generated string content.
+    @objc public func respond(content: [ModelContent], options: GenerationConfig?) async throws
+        -> SessionResponse {
+        let parts: [any FirebaseAILogic.PartsRepresentable] = content.flatMap { $0.value.parts }
+        let response = try await value.respond(to: parts, options: options?.value)
+        return SessionResponse(
+            content: response.content,
+            rawResponse: GenerateContentResponse(value: response.rawResponse)
+        )
+    }
+
     /// Streams the model's response to a text prompt.
     ///
     /// - Parameters:
@@ -78,6 +97,22 @@ public final class GenerativeModelSession: NSObject, @unchecked Sendable {
     @objc public func streamResponse(text: String, options: GenerationConfig?)
         -> SessionResponseStream {
         let stream = value.streamResponse(to: text, options: options?.value)
+        return SessionResponseStream(stream: stream)
+    }
+
+    /// Streams the model's response to content parts.
+    ///
+    /// All parts from the provided ``ModelContent`` array are combined into a single prompt.
+    ///
+    /// - Parameters:
+    ///   - content: An array of ``ModelContent`` to send to the model as a prompt.
+    ///   - options: An optional ``GenerationConfig`` to override the model's default generation
+    ///     configuration.
+    /// - Returns: A ``SessionResponseStream`` that can be used to collect the full response.
+    @objc public func streamResponse(content: [ModelContent], options: GenerationConfig?)
+        -> SessionResponseStream {
+        let parts: [any FirebaseAILogic.PartsRepresentable] = content.flatMap { $0.value.parts }
+        let stream = value.streamResponse(to: parts, options: options?.value)
         return SessionResponseStream(stream: stream)
     }
 }
