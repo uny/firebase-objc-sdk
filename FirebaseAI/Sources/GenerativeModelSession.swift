@@ -20,14 +20,47 @@ public final class SessionResponse: NSObject, @unchecked Sendable {
 }
 
 /// A stream of snapshots from a ``GenerativeModelSession`` streaming response.
+///
+/// Use ``next()`` to receive progressive snapshots as they arrive, or ``collect()`` to wait for the
+/// complete response.
 @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBSessionResponseStream)
 public final class SessionResponseStream: NSObject, @unchecked Sendable {
     private let stream: FirebaseAILogic.GenerativeModelSession.ResponseStream<String, String>
+    private let iterator: LockedAsyncIterator<SessionResponse>
 
     init(stream: FirebaseAILogic.GenerativeModelSession.ResponseStream<String, String>) {
         self.stream = stream
+        // Box the stream to satisfy Sendable requirements for the Task closure,
+        // since ResponseStream is not marked Sendable despite having reference-type internals.
+        struct SendableStream: @unchecked Sendable {
+            let value: FirebaseAILogic.GenerativeModelSession.ResponseStream<String, String>
+        }
+        let sendable = SendableStream(value: stream)
+        let bridgedStream = AsyncThrowingStream<SessionResponse, Error> { continuation in
+            Task {
+                do {
+                    for try await snapshot in sendable.value {
+                        continuation.yield(SessionResponse(
+                            content: snapshot.content,
+                            rawResponse: GenerateContentResponse(value: snapshot.rawResponse)
+                        ))
+                    }
+                    continuation.finish()
+                } catch {
+                    continuation.finish(throwing: error)
+                }
+            }
+        }
+        self.iterator = LockedAsyncIterator(bridgedStream.makeAsyncIterator())
         super.init()
+    }
+
+    /// Returns the next snapshot of the streaming response, or `nil` when the stream is finished.
+    ///
+    /// Each snapshot contains the partially accumulated content up to that point in the stream.
+    @objc public func next() async throws -> SessionResponse? {
+        try await iterator.next()
     }
 
     /// Collects the entire streamed response into a single ``SessionResponse``.
@@ -70,10 +103,11 @@ public final class GenerativeModelSession: NSObject, @unchecked Sendable {
 
     /// Sends content parts and returns the generated response as a string.
     ///
-    /// All parts from the provided ``ModelContent`` array are combined into a single prompt.
+    /// Parts from all provided ``ModelContent`` items are extracted and flattened into a single
+    /// prompt. Role information from individual items is not preserved.
     ///
     /// - Parameters:
-    ///   - content: An array of ``ModelContent`` to send to the model as a prompt.
+    ///   - content: An array of ``ModelContent`` whose parts are combined into a single prompt.
     ///   - options: An optional ``GenerationConfig`` to override the model's default generation
     ///     configuration.
     /// - Returns: A ``SessionResponse`` containing the generated string content.
@@ -93,7 +127,9 @@ public final class GenerativeModelSession: NSObject, @unchecked Sendable {
     ///   - text: The text prompt to send to the model.
     ///   - options: An optional ``GenerationConfig`` to override the model's default generation
     ///     configuration.
-    /// - Returns: A ``SessionResponseStream`` that can be used to collect the full response.
+    /// - Returns: A ``SessionResponseStream`` whose ``SessionResponseStream/next()`` method yields
+    ///   progressive snapshots, or whose ``SessionResponseStream/collect()`` method returns the
+    ///   complete response.
     @objc public func streamResponse(text: String, options: GenerationConfig?)
         -> SessionResponseStream {
         let stream = value.streamResponse(to: text, options: options?.value)
@@ -102,13 +138,16 @@ public final class GenerativeModelSession: NSObject, @unchecked Sendable {
 
     /// Streams the model's response to content parts.
     ///
-    /// All parts from the provided ``ModelContent`` array are combined into a single prompt.
+    /// Parts from all provided ``ModelContent`` items are extracted and flattened into a single
+    /// prompt. Role information from individual items is not preserved.
     ///
     /// - Parameters:
-    ///   - content: An array of ``ModelContent`` to send to the model as a prompt.
+    ///   - content: An array of ``ModelContent`` whose parts are combined into a single prompt.
     ///   - options: An optional ``GenerationConfig`` to override the model's default generation
     ///     configuration.
-    /// - Returns: A ``SessionResponseStream`` that can be used to collect the full response.
+    /// - Returns: A ``SessionResponseStream`` whose ``SessionResponseStream/next()`` method yields
+    ///   progressive snapshots, or whose ``SessionResponseStream/collect()`` method returns the
+    ///   complete response.
     @objc public func streamResponse(content: [ModelContent], options: GenerationConfig?)
         -> SessionResponseStream {
         let parts: [any FirebaseAILogic.PartsRepresentable] = content.flatMap { $0.value.parts }
