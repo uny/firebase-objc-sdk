@@ -22,37 +22,21 @@ public final class SessionResponse: NSObject, @unchecked Sendable {
 /// A stream of snapshots from a ``GenerativeModelSession`` streaming response.
 ///
 /// Use ``next()`` to receive progressive snapshots as they arrive, or ``collect()`` to wait for the
-/// complete response.
+/// complete response. The two methods read from independent paths inside the upstream stream and
+/// may be used together: ``collect()`` returns the final accumulated response regardless of how
+/// many snapshots ``next()`` has already consumed.
 @available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
 @objc(KFBSessionResponseStream)
 public final class SessionResponseStream: NSObject, @unchecked Sendable {
     private let stream: FirebaseAILogic.GenerativeModelSession.ResponseStream<String, String>
-    private let iterator: LockedAsyncIterator<SessionResponse>
+    private let iterator: LockedSnapshotIterator
 
     init(stream: FirebaseAILogic.GenerativeModelSession.ResponseStream<String, String>) {
         self.stream = stream
-        // Box the stream to satisfy Sendable requirements for the Task closure,
-        // since ResponseStream is not marked Sendable despite having reference-type internals.
-        struct SendableStream: @unchecked Sendable {
-            let value: FirebaseAILogic.GenerativeModelSession.ResponseStream<String, String>
-        }
-        let sendable = SendableStream(value: stream)
-        let bridgedStream = AsyncThrowingStream<SessionResponse, Error> { continuation in
-            Task {
-                do {
-                    for try await snapshot in sendable.value {
-                        continuation.yield(SessionResponse(
-                            content: snapshot.content,
-                            rawResponse: GenerateContentResponse(value: snapshot.rawResponse)
-                        ))
-                    }
-                    continuation.finish()
-                } catch {
-                    continuation.finish(throwing: error)
-                }
-            }
-        }
-        self.iterator = LockedAsyncIterator(bridgedStream.makeAsyncIterator())
+        // Construct the Box here (outside of the actor's isolation domain) so the upstream's
+        // non-Sendable iterator never crosses an isolation boundary; only the @unchecked Sendable
+        // Box reference is passed into the actor.
+        self.iterator = LockedSnapshotIterator(box: LockedSnapshotIterator.Box(stream))
         super.init()
     }
 
@@ -70,6 +54,78 @@ public final class SessionResponseStream: NSObject, @unchecked Sendable {
             content: response.content,
             rawResponse: GenerateContentResponse(value: response.rawResponse)
         )
+    }
+}
+
+/// A serialized iterator over a ``FirebaseAILogic/GenerativeModelSession/ResponseStream``.
+///
+/// Mirrors the ``LockedAsyncIterator`` pattern: the upstream struct iterator is held inside a
+/// reference-typed `Box`, and access is serialized through the actor. No work is performed until
+/// ``next()`` is called, and the upstream iterator (along with its share of the upstream stream)
+/// is released when this object is deallocated.
+@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
+private actor LockedSnapshotIterator {
+    private let box: Box
+    private var pendingContinuations: [CheckedContinuation<SessionResponse?, Error>] = []
+    private var isReading = false
+    private var finished = false
+
+    fileprivate final class Box: @unchecked Sendable {
+        var iterator: FirebaseAILogic.GenerativeModelSession
+            .ResponseStream<String, String>.AsyncIterator
+
+        init(_ stream: FirebaseAILogic.GenerativeModelSession.ResponseStream<String, String>) {
+            self.iterator = stream.makeAsyncIterator()
+        }
+
+        func next() async throws -> SessionResponse? {
+            guard let snapshot = try await iterator.next() else { return nil }
+            return SessionResponse(
+                content: snapshot.content,
+                rawResponse: GenerateContentResponse(value: snapshot.rawResponse)
+            )
+        }
+    }
+
+    init(box: Box) {
+        self.box = box
+    }
+
+    func next() async throws -> SessionResponse? {
+        try await withCheckedThrowingContinuation { continuation in
+            pendingContinuations.append(continuation)
+            drainQueue()
+        }
+    }
+
+    private func drainQueue() {
+        guard !isReading, !pendingContinuations.isEmpty else { return }
+        isReading = true
+        let continuation = pendingContinuations.removeFirst()
+
+        if finished {
+            continuation.resume(returning: nil)
+            isReading = false
+            drainQueue()
+            return
+        }
+
+        Task {
+            do {
+                let value = try await self.box.next()
+                if value == nil { self.finished = true }
+                continuation.resume(returning: value)
+            } catch {
+                self.finished = true
+                continuation.resume(throwing: error)
+                for pending in self.pendingContinuations {
+                    pending.resume(throwing: error)
+                }
+                self.pendingContinuations.removeAll()
+            }
+            self.isReading = false
+            self.drainQueue()
+        }
     }
 }
 
