@@ -1,4 +1,4 @@
-#if compiler(>=6.2)
+#if compiler(>=6.2.3)
 import Foundation
 import Testing
 import FirebaseAILogic
