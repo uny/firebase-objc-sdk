@@ -1,139 +1,139 @@
-import XCTest
+import Foundation
+import Testing
 @testable import FirebaseAILogicObjC
 
-@available(iOS 15.0, macOS 12.0, macCatalyst 15.0, tvOS 15.0, watchOS 8.0, *)
-final class EnumWrapperTests: XCTestCase {
+@Suite struct EnumWrapperTests {
     // MARK: - rawValue-based types
 
-    func testHarmCategoryEquality() {
+    @Test func harmCategoryEquality() {
         let first = HarmCategory.harassment
         let second = HarmCategory.harassment
         let other = HarmCategory.hateSpeech
-        XCTAssertTrue(first.isEqual(second))
-        XCTAssertFalse(first.isEqual(other))
-        XCTAssertEqual(first.hash, second.hash)
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
     }
 
-    func testFinishReasonEquality() {
+    @Test func finishReasonEquality() {
         let first = FinishReason.stop
         let second = FinishReason.stop
         let other = FinishReason.safety
-        XCTAssertTrue(first.isEqual(second))
-        XCTAssertFalse(first.isEqual(other))
-        XCTAssertEqual(first.hash, second.hash)
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
     }
 
-    func testBlockReasonEquality() {
+    @Test func blockReasonEquality() {
         let first = BlockReason.safety
         let second = BlockReason.safety
         let other = BlockReason.other
-        XCTAssertTrue(first.isEqual(second))
-        XCTAssertFalse(first.isEqual(other))
-        XCTAssertEqual(first.hash, second.hash)
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
     }
 
-    func testHarmProbabilityEquality() {
+    @Test func harmProbabilityEquality() {
         let first = HarmProbability.high
         let second = HarmProbability.high
         let other = HarmProbability.low
-        XCTAssertTrue(first.isEqual(second))
-        XCTAssertFalse(first.isEqual(other))
-        XCTAssertEqual(first.hash, second.hash)
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
     }
 
-    func testHarmSeverityEquality() {
+    @Test func harmSeverityEquality() {
         let first = HarmSeverity.high
         let second = HarmSeverity.high
         let other = HarmSeverity.negligible
-        XCTAssertTrue(first.isEqual(second))
-        XCTAssertFalse(first.isEqual(other))
-        XCTAssertEqual(first.hash, second.hash)
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
     }
 
-    func testContentModalityEquality() {
+    @Test func contentModalityEquality() {
         let first = ContentModality.text
         let second = ContentModality.text
         let other = ContentModality.image
-        XCTAssertTrue(first.isEqual(second))
-        XCTAssertFalse(first.isEqual(other))
-        XCTAssertEqual(first.hash, second.hash)
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
     }
 
-    func testThinkingLevelEquality() {
+    @Test func thinkingLevelEquality() {
         let first = ThinkingLevel.high
         let second = ThinkingLevel.high
         let other = ThinkingLevel.low
-        XCTAssertTrue(first.isEqual(second))
-        XCTAssertFalse(first.isEqual(other))
-        XCTAssertEqual(first.hash, second.hash)
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
     }
 
     // MARK: - String(describing:)-based types
 
-    func testHarmBlockThresholdEquality() {
+    @Test func harmBlockThresholdEquality() {
         let first = HarmBlockThreshold.blockNone
         let second = HarmBlockThreshold.blockNone
         let other = HarmBlockThreshold.blockOnlyHigh
-        XCTAssertTrue(first.isEqual(second))
-        XCTAssertFalse(first.isEqual(other))
-        XCTAssertEqual(first.hash, second.hash)
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
     }
 
-    func testHarmBlockMethodEquality() {
+    @Test func harmBlockMethodEquality() {
         let first = HarmBlockMethod.severity
         let second = HarmBlockMethod.severity
         let other = HarmBlockMethod.probability
-        XCTAssertTrue(first.isEqual(second))
-        XCTAssertFalse(first.isEqual(other))
-        XCTAssertEqual(first.hash, second.hash)
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
     }
 
-    func testResponseModalityEquality() {
+    @Test func responseModalityEquality() {
         let first = ResponseModality.text
         let second = ResponseModality.text
         let other = ResponseModality.image
-        XCTAssertTrue(first.isEqual(second))
-        XCTAssertFalse(first.isEqual(other))
-        XCTAssertEqual(first.hash, second.hash)
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
     }
 
-    func testImagenSafetyFilterLevelEquality() {
+    @Test func imagenSafetyFilterLevelEquality() {
         let first = ImagenSafetyFilterLevel.blockNone
         let second = ImagenSafetyFilterLevel.blockNone
         let other = ImagenSafetyFilterLevel.blockOnlyHigh
-        XCTAssertTrue(first.isEqual(second))
-        XCTAssertFalse(first.isEqual(other))
-        XCTAssertEqual(first.hash, second.hash)
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
     }
 
-    func testImagenPersonFilterLevelEquality() {
+    @Test func imagenPersonFilterLevelEquality() {
         let first = ImagenPersonFilterLevel.blockAll
         let second = ImagenPersonFilterLevel.blockAll
         let other = ImagenPersonFilterLevel.allowAll
-        XCTAssertTrue(first.isEqual(second))
-        XCTAssertFalse(first.isEqual(other))
-        XCTAssertEqual(first.hash, second.hash)
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
     }
 
-    func testImagenAspectRatioEquality() {
+    @Test func imagenAspectRatioEquality() {
         let first = ImagenAspectRatio.square1x1
         let second = ImagenAspectRatio.square1x1
         let other = ImagenAspectRatio.landscape16x9
-        XCTAssertTrue(first.isEqual(second))
-        XCTAssertFalse(first.isEqual(other))
-        XCTAssertEqual(first.hash, second.hash)
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
     }
 
     // MARK: - Cross-type comparison returns false
 
-    func testCrossTypeComparisonReturnsFalse() {
+    @Test func crossTypeComparisonReturnsFalse() {
         let harmCategory = HarmCategory.harassment
         let finishReason = FinishReason.stop
-        XCTAssertFalse(harmCategory.isEqual(finishReason))
+        #expect(!harmCategory.isEqual(finishReason))
     }
 
-    func testNilComparisonReturnsFalse() {
+    @Test func nilComparisonReturnsFalse() {
         let harmCategory = HarmCategory.harassment
-        XCTAssertFalse(harmCategory.isEqual(nil))
+        #expect(!harmCategory.isEqual(nil))
     }
 }

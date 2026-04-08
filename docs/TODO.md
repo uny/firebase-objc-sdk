@@ -6,10 +6,33 @@ The following FirebaseAILogic types are not yet wrapped and are deferred for fut
 
 - **`GenerationConfig.responseJSONSchema`** - Internal API for raw JSON schema; prefer `responseSchema` (wrapped via `Schema`).
 
-## Gap Analysis (vs SDK v12.9.0)
+## Gap Analysis (vs SDK v12.12.0)
 
 Most public types in `FirebaseAILogic` are fully covered by the ObjC wrapper.
 Below is the list of remaining gaps and their status.
+
+### v12.12.0 changes
+
+- **Imagen deprecation** — All Imagen wrapper types and the `imagenModel(...)` /
+  `templateImagenModel()` factories on `FirebaseAI` now carry `@available(*, deprecated, ...)`
+  to mirror the upstream deprecation. Imagen models will shut down as early as June 2026; users
+  should migrate to Gemini Image models ("Nano Banana").
+- **Automatic function calling in `GenerativeModelSession`** — Upstream added support via the
+  `FoundationModels.Tool` protocol. This is Swift-only (Foundation Models macros / Swift
+  protocols) and is not exposed through the ObjC wrapper, consistent with the existing
+  treatment of `Generable` / structured-output APIs. Manual function calling via
+  `KFBFunctionDeclaration` + `KFBTool` remains the supported path for KMP consumers.
+- **`GenerativeModelSession.GenerationError` `@nonexhaustive`** — The wrapper does not expose
+  this Swift error enum directly (errors are bridged via `NSError`), so no wrapper change is
+  required.
+- **Compiler guard** — Updated `#if compiler(>=6.2)` to `#if compiler(>=6.2.3)` in
+  `GenerativeModelSession.swift` and `FirebaseAI.swift` to match the upstream guard.
+- **Lower minimum deployment targets (upstream)** — Upstream FirebaseAILogic lowered its
+  minimum macOS / watchOS deployment targets and removed the per-class
+  `@available(iOS 15.0, macOS 12.0, ..., watchOS 8.0, *)` annotations from many public types.
+  The wrapper still applies these annotations because its other wrapper types (e.g.
+  `RequestOptions`) continue to be annotated as iOS 15+ / macOS 12+. Lowering the wrapper-wide
+  minimums is left as a follow-on cleanup; functionality is unaffected for KMP consumers.
 
 ### Addressed
 
@@ -34,3 +57,4 @@ Below is the list of remaining gaps and their status.
 
 - **`PartsRepresentable`** — Swift-only protocol; ObjC wrappers provide dedicated convenience methods instead.
 - **`TemplateChatSession`** — Marked `internal` in the SDK; not exposed.
+- ~~**`GenerativeModelSession`**~~ — Wrapped. Text-based `respond` and `streamResponse` are exposed. Structured output (`Generable`/`FoundationModels`) methods are Swift-only and not applicable for ObjC wrapping.
