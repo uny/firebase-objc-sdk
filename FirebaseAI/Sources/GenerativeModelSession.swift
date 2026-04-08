@@ -1,4 +1,4 @@
-#if compiler(>=6.2)
+#if compiler(>=6.2.3)
 import FirebaseAILogic
 import Foundation
 
@@ -158,4 +158,4 @@ public final class GenerativeModelSession: NSObject, @unchecked Sendable {
         return SessionResponseStream(stream: stream)
     }
 }
-#endif // compiler(>=6.2)
+#endif // compiler(>=6.2.3)
