@@ -32,7 +32,7 @@ public final class URLRetrievalStatus: NSObject, @unchecked Sendable {
     }
 
     override public var hash: Int {
-        value.hashValue
+        value.rawValue.hashValue
     }
 }
 
