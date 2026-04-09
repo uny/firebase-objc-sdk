@@ -124,6 +124,33 @@ import Testing
         #expect(first.hash == second.hash)
     }
 
+    // MARK: - CodableProtoEnum-based types
+
+    @Test func executableCodeLanguageEquality() {
+        let first = ExecutableCodeLanguage.python
+        let second = ExecutableCodeLanguage.python
+        #expect(first.isEqual(second))
+        #expect(first.hash == second.hash)
+    }
+
+    @Test func codeExecutionOutcomeEquality() {
+        let first = CodeExecutionOutcome.ok
+        let second = CodeExecutionOutcome.ok
+        let other = CodeExecutionOutcome.failed
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
+    }
+
+    @Test func urlRetrievalStatusEquality() {
+        let first = URLRetrievalStatus.success
+        let second = URLRetrievalStatus.success
+        let other = URLRetrievalStatus.error
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
+    }
+
     // MARK: - Cross-type comparison returns false
 
     @Test func crossTypeComparisonReturnsFalse() {

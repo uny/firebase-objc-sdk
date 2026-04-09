@@ -47,6 +47,29 @@ import Testing
         #expect(ContentModality.document.rawValue == "DOCUMENT")
     }
 
+    // MARK: - ExecutableCodeLanguage
+
+    @Test func executableCodeLanguageRawValues() {
+        #expect(ExecutableCodeLanguage.python.rawValue == "PYTHON")
+    }
+
+    // MARK: - CodeExecutionOutcome
+
+    @Test func codeExecutionOutcomeRawValues() {
+        #expect(CodeExecutionOutcome.ok.rawValue == "OUTCOME_OK")
+        #expect(CodeExecutionOutcome.failed.rawValue == "OUTCOME_FAILED")
+        #expect(CodeExecutionOutcome.deadlineExceeded.rawValue == "OUTCOME_DEADLINE_EXCEEDED")
+    }
+
+    // MARK: - URLRetrievalStatus
+
+    @Test func urlRetrievalStatusRawValues() {
+        #expect(URLRetrievalStatus.success.rawValue == "URL_RETRIEVAL_STATUS_SUCCESS")
+        #expect(URLRetrievalStatus.error.rawValue == "URL_RETRIEVAL_STATUS_ERROR")
+        #expect(URLRetrievalStatus.paywall.rawValue == "URL_RETRIEVAL_STATUS_PAYWALL")
+        #expect(URLRetrievalStatus.unsafe.rawValue == "URL_RETRIEVAL_STATUS_UNSAFE")
+    }
+
     // MARK: - Distinct Instances
 
     @Test func enumStaticPropertiesReturnDistinctInstances() {
