@@ -21,18 +21,18 @@ public final class CodeExecutionOutcome: NSObject, @unchecked Sendable {
     /// The code execution exceeded the time limit.
     @objc public static let deadlineExceeded = CodeExecutionOutcome(value: .deadlineExceeded)
 
+    /// The raw string value of the outcome.
+    @objc public var rawValue: String {
+        String(describing: value)
+    }
+
     override public func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? CodeExecutionOutcome else { return false }
         return value == other.value
     }
 
     override public var hash: Int {
-        switch value {
-        case .ok: return 0
-        case .failed: return 1
-        case .deadlineExceeded: return 2
-        default: return 3
-        }
+        String(describing: value).hashValue
     }
 }
 

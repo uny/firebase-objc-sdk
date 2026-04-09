@@ -14,8 +14,22 @@ public final class ExecutableCodeLanguage: NSObject, @unchecked Sendable {
         super.init()
     }
 
+    /// The raw string value of the language.
+    @objc public var rawValue: String {
+        String(describing: value)
+    }
+
     @objc public static var python: ExecutableCodeLanguage {
         ExecutableCodeLanguage(value: .python)
+    }
+
+    override public func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? ExecutableCodeLanguage else { return false }
+        return value == other.value
+    }
+
+    override public var hash: Int {
+        String(describing: value).hashValue
     }
 }
 
