@@ -32,12 +32,7 @@ public final class CodeExecutionOutcome: NSObject, @unchecked Sendable {
     }
 
     override public var hash: Int {
-        switch value {
-        case .ok: return 0
-        case .failed: return 1
-        case .deadlineExceeded: return 2
-        default: return 3
-        }
+        String(describing: value).hashValue
     }
 }
 
