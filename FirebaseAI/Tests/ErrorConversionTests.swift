@@ -12,14 +12,14 @@ import Testing
             code: 42,
             userInfo: [NSLocalizedDescriptionKey: "boom"]
         )
-        let ns = GenerativeModelError.nsError(from: src)
-        #expect(ns.domain == GenerativeModelError.domain)
-        #expect(ns.code == GenerativeModelErrorCode.unknown.rawValue)
-        #expect(ns.userInfo[GenerativeModelError.errorTypeKey] as? String == "unknown")
-        let underlying = ns.userInfo[NSUnderlyingErrorKey] as? NSError
+        let result = GenerativeModelError.nsError(from: src)
+        #expect(result.domain == GenerativeModelError.domain)
+        #expect(result.code == GenerativeModelErrorCode.unknown.rawValue)
+        #expect(result.userInfo[GenerativeModelError.errorTypeKey] as? String == "unknown")
+        let underlying = result.userInfo[NSUnderlyingErrorKey] as? NSError
         #expect(underlying?.domain == "unrelated")
         #expect(underlying?.code == 42)
-        #expect(ns.localizedDescription == "boom")
+        #expect(result.localizedDescription == "boom")
     }
 
     @Test func nsErrorExtractsHTTPStatusFromBackendErrorDomain() {
@@ -28,8 +28,8 @@ import Testing
             code: 503,
             userInfo: [NSLocalizedDescriptionKey: "Service Unavailable"]
         )
-        let ns = GenerativeModelError.nsError(from: src)
-        #expect(ns.userInfo[GenerativeModelError.httpStatusCodeKey] as? Int == 503)
+        let result = GenerativeModelError.nsError(from: src)
+        #expect(result.userInfo[GenerativeModelError.httpStatusCodeKey] as? Int == 503)
     }
 
     @Test func nsErrorReflectsFieldsFromCustomErrorValue() {
@@ -38,18 +38,18 @@ import Testing
             let message = "quota exceeded"
             let status = "RESOURCE_EXHAUSTED"
         }
-        let ns = GenerativeModelError.nsError(from: FakeBackendError())
-        #expect(ns.userInfo[GenerativeModelError.httpStatusCodeKey] as? Int == 429)
-        #expect(ns.userInfo[GenerativeModelError.httpResponseBodyKey] as? String == "quota exceeded")
-        #expect(ns.userInfo[GenerativeModelError.rpcStatusKey] as? String == "RESOURCE_EXHAUSTED")
+        let result = GenerativeModelError.nsError(from: FakeBackendError())
+        #expect(result.userInfo[GenerativeModelError.httpStatusCodeKey] as? Int == 429)
+        #expect(result.userInfo[GenerativeModelError.httpResponseBodyKey] as? String == "quota exceeded")
+        #expect(result.userInfo[GenerativeModelError.rpcStatusKey] as? String == "RESOURCE_EXHAUSTED")
     }
 
     @Test func nsErrorReflectsResponseBodyFromUnrecognizedRPCError() {
         struct FakeUnrecognizedRPCError: Error {
             let responseBody = "{\"error\":\"oops\"}"
         }
-        let ns = GenerativeModelError.nsError(from: FakeUnrecognizedRPCError())
-        #expect(ns.userInfo[GenerativeModelError.httpResponseBodyKey] as? String == "{\"error\":\"oops\"}")
+        let result = GenerativeModelError.nsError(from: FakeUnrecognizedRPCError())
+        #expect(result.userInfo[GenerativeModelError.httpResponseBodyKey] as? String == "{\"error\":\"oops\"}")
     }
 
     @Test func nsErrorFromOwnDomainIsIdempotent() {
@@ -58,8 +58,8 @@ import Testing
             code: GenerativeModelErrorCode.internalError.rawValue,
             userInfo: [GenerativeModelError.errorTypeKey: "internalError"]
         )
-        let ns = GenerativeModelError.nsError(from: src)
-        #expect(ns === src)
+        let result = GenerativeModelError.nsError(from: src)
+        #expect(result === src)
     }
 
     // MARK: - ImagenImagesBlockedError

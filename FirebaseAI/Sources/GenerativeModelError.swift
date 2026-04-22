@@ -52,9 +52,9 @@ public final class GenerativeModelError: NSObject {
         if let gcError = error as? FirebaseAILogic.GenerateContentError {
             return nsError(from: gcError)
         }
-        let ns = error as NSError
-        if ns.domain == domain {
-            return ns
+        let bridged = error as NSError
+        if bridged.domain == domain {
+            return bridged
         }
         var userInfo: [String: Any] = [:]
         enrich(&userInfo, withUnderlying: error)
@@ -99,37 +99,49 @@ public final class GenerativeModelError: NSObject {
     /// `status`, `details`, and `UnrecognizedRPCError.responseBody` are only
     /// reachable via reflection because the underlying types are not public.
     private static func enrich(_ userInfo: inout [String: Any], withUnderlying error: Error) {
-        let ns = error as NSError
-        userInfo[NSUnderlyingErrorKey] = ns
+        let bridged = error as NSError
+        userInfo[NSUnderlyingErrorKey] = bridged
         if userInfo[NSLocalizedDescriptionKey] == nil {
-            userInfo[NSLocalizedDescriptionKey] = ns.localizedDescription
+            userInfo[NSLocalizedDescriptionKey] = bridged.localizedDescription
         }
 
-        if ns.domain == backendErrorDomain {
-            userInfo[httpStatusCodeKey] = ns.code
+        if bridged.domain == backendErrorDomain {
+            userInfo[httpStatusCodeKey] = bridged.code
         }
 
         for (label, value) in Mirror(reflecting: error).children {
             guard let label else { continue }
-            switch label {
-            case "httpResponseCode":
-                if let i = value as? Int { userInfo[httpStatusCodeKey] = i }
-            case "message":
-                if let s = value as? String, !s.isEmpty {
-                    userInfo[httpResponseBodyKey] = s
-                }
-            case "responseBody":
-                if let s = value as? String {
-                    userInfo[httpResponseBodyKey] = s
-                } else if let d = value as? Data, let s = String(data: d, encoding: .utf8) {
-                    userInfo[httpResponseBodyKey] = s
-                }
-            case "status":
-                userInfo[rpcStatusKey] = String(describing: value)
-            default:
-                break
-            }
+            mergeReflectedField(&userInfo, label: label, value: value)
         }
+    }
+
+    private static func mergeReflectedField(
+        _ userInfo: inout [String: Any],
+        label: String,
+        value: Any
+    ) {
+        switch label {
+        case "httpResponseCode":
+            if let code = value as? Int { userInfo[httpStatusCodeKey] = code }
+        case "message":
+            if let text = value as? String, !text.isEmpty {
+                userInfo[httpResponseBodyKey] = text
+            }
+        case "responseBody":
+            if let body = extractResponseBody(from: value) {
+                userInfo[httpResponseBodyKey] = body
+            }
+        case "status":
+            userInfo[rpcStatusKey] = String(describing: value)
+        default:
+            break
+        }
+    }
+
+    private static func extractResponseBody(from value: Any) -> String? {
+        if let text = value as? String { return text }
+        if let data = value as? Data { return String(data: data, encoding: .utf8) }
+        return nil
     }
 
     private static func enrichWithUsage(
