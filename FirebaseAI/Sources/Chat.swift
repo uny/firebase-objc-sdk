@@ -24,25 +24,29 @@ public final class Chat: NSObject, @unchecked Sendable {
 
     /// Sends a message and returns the response.
     @objc public func sendMessage(_ content: [ModelContent]) async throws -> GenerateContentResponse {
-        let response = try await value.sendMessage(content.map { $0.value })
-        return GenerateContentResponse(value: response)
+        try await mapFirebaseAIErrors {
+            GenerateContentResponse(value: try await value.sendMessage(content.map { $0.value }))
+        }
     }
 
     /// Sends a text message and returns the response.
     @objc public func sendMessageText(_ text: String) async throws -> GenerateContentResponse {
-        let response = try await value.sendMessage(text)
-        return GenerateContentResponse(value: response)
+        try await mapFirebaseAIErrors {
+            GenerateContentResponse(value: try await value.sendMessage(text))
+        }
     }
 
     /// Returns a stream that sends a message from an array of ModelContent objects.
     @objc public func sendMessageStream(_ content: [ModelContent]) throws -> ContentStream {
-        let stream = try value.sendMessageStream(content.map { $0.value })
-        return ContentStream(stream: stream)
+        try mapFirebaseAIErrors {
+            ContentStream(stream: try value.sendMessageStream(content.map { $0.value }))
+        }
     }
 
     /// Returns a stream that sends a text message.
     @objc public func sendMessageStreamText(_ text: String) throws -> ContentStream {
-        let stream = try value.sendMessageStream(text)
-        return ContentStream(stream: stream)
+        try mapFirebaseAIErrors {
+            ContentStream(stream: try value.sendMessageStream(text))
+        }
     }
 }

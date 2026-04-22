@@ -18,12 +18,13 @@ public final class TemplateGenerativeModel: NSObject, @unchecked Sendable {
         inputs: [String: Any],
         options: RequestOptions?
     ) async throws -> GenerateContentResponse {
-        let response = try await value.generateContent(
-            templateID: templateID,
-            inputs: inputs,
-            options: options?.value ?? FirebaseAILogic.RequestOptions()
-        )
-        return GenerateContentResponse(value: response)
+        try await mapFirebaseAIErrors {
+            GenerateContentResponse(value: try await value.generateContent(
+                templateID: templateID,
+                inputs: inputs,
+                options: options?.value ?? FirebaseAILogic.RequestOptions()
+            ))
+        }
     }
 
     /// Returns a stream that generates content from a template.
@@ -32,11 +33,12 @@ public final class TemplateGenerativeModel: NSObject, @unchecked Sendable {
         inputs: [String: Any],
         options: RequestOptions?
     ) throws -> ContentStream {
-        let stream = try value.generateContentStream(
-            templateID: templateID,
-            inputs: inputs,
-            options: options?.value ?? FirebaseAILogic.RequestOptions()
-        )
-        return ContentStream(stream: stream)
+        try mapFirebaseAIErrors {
+            ContentStream(stream: try value.generateContentStream(
+                templateID: templateID,
+                inputs: inputs,
+                options: options?.value ?? FirebaseAILogic.RequestOptions()
+            ))
+        }
     }
 }

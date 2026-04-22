@@ -14,38 +14,44 @@ public final class GenerativeModel: NSObject, @unchecked Sendable {
 
     /// Generates content from an array of ModelContent objects.
     @objc public func generateContent(_ content: [ModelContent]) async throws -> GenerateContentResponse {
-        let response = try await value.generateContent(content.map { $0.value })
-        return GenerateContentResponse(value: response)
+        try await mapFirebaseAIErrors {
+            GenerateContentResponse(value: try await value.generateContent(content.map { $0.value }))
+        }
     }
 
     /// Generates content from a single text prompt.
     @objc public func generateContentFromText(_ text: String) async throws -> GenerateContentResponse {
-        let response = try await value.generateContent(text)
-        return GenerateContentResponse(value: response)
+        try await mapFirebaseAIErrors {
+            GenerateContentResponse(value: try await value.generateContent(text))
+        }
     }
 
     /// Counts tokens for the given content.
     @objc public func countTokens(_ content: [ModelContent]) async throws -> CountTokensResponse {
-        let response = try await value.countTokens(content.map { $0.value })
-        return CountTokensResponse(value: response)
+        try await mapFirebaseAIErrors {
+            CountTokensResponse(value: try await value.countTokens(content.map { $0.value }))
+        }
     }
 
     /// Counts tokens for a single text prompt.
     @objc public func countTokensFromText(_ text: String) async throws -> CountTokensResponse {
-        let response = try await value.countTokens(text)
-        return CountTokensResponse(value: response)
+        try await mapFirebaseAIErrors {
+            CountTokensResponse(value: try await value.countTokens(text))
+        }
     }
 
     /// Returns a stream that generates content from an array of ModelContent objects.
     @objc public func generateContentStream(_ content: [ModelContent]) throws -> ContentStream {
-        let stream = try value.generateContentStream(content.map { $0.value })
-        return ContentStream(stream: stream)
+        try mapFirebaseAIErrors {
+            ContentStream(stream: try value.generateContentStream(content.map { $0.value }))
+        }
     }
 
     /// Returns a stream that generates content from a single text prompt.
     @objc public func generateContentStreamFromText(_ text: String) throws -> ContentStream {
-        let stream = try value.generateContentStream(text)
-        return ContentStream(stream: stream)
+        try mapFirebaseAIErrors {
+            ContentStream(stream: try value.generateContentStream(text))
+        }
     }
 
     /// Starts a new chat session with the given history.
