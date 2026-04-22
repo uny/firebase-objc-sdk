@@ -10,6 +10,16 @@ public enum GenerativeModelErrorCode: Int {
     case promptBlocked = 2
     case responseStoppedEarly = 3
     case unknown = 99
+
+    var label: String {
+        switch self {
+        case .internalError: return "internalError"
+        case .promptImageContentError: return "promptImageContentError"
+        case .promptBlocked: return "promptBlocked"
+        case .responseStoppedEarly: return "responseStoppedEarly"
+        case .unknown: return "unknown"
+        }
+    }
 }
 
 /// Converts errors thrown from `FirebaseAILogic` into `NSError`s with a stable
@@ -37,16 +47,13 @@ public final class GenerativeModelError: NSObject {
         if ns.domain == domain {
             return ns
         }
+        let code = GenerativeModelErrorCode.unknown
         let userInfo: [String: Any] = [
-            errorTypeKey: "unknown",
+            errorTypeKey: code.label,
             NSUnderlyingErrorKey: ns,
             NSLocalizedDescriptionKey: ns.localizedDescription,
         ]
-        return NSError(
-            domain: domain,
-            code: GenerativeModelErrorCode.unknown.rawValue,
-            userInfo: userInfo
-        )
+        return NSError(domain: domain, code: code.rawValue, userInfo: userInfo)
     }
 
     private static func nsError(from error: FirebaseAILogic.GenerateContentError) -> NSError {
@@ -55,23 +62,20 @@ public final class GenerativeModelError: NSObject {
         switch error {
         case .internalError(let underlying):
             code = .internalError
-            userInfo[errorTypeKey] = "internalError"
             enrich(&userInfo, withUnderlying: underlying)
         case .promptImageContentError(let underlying):
             code = .promptImageContentError
-            userInfo[errorTypeKey] = "promptImageContentError"
             enrich(&userInfo, withUnderlying: underlying)
         case .promptBlocked(let resp):
             code = .promptBlocked
-            userInfo[errorTypeKey] = "promptBlocked"
             userInfo[NSLocalizedDescriptionKey] =
                 "Prompt blocked: \(String(describing: resp.promptFeedback))"
         case .responseStoppedEarly(let reason, _):
             code = .responseStoppedEarly
-            userInfo[errorTypeKey] = "responseStoppedEarly"
             userInfo[finishReasonKey] = String(describing: reason)
             userInfo[NSLocalizedDescriptionKey] = "Response stopped early: \(reason)"
         }
+        userInfo[errorTypeKey] = code.label
         if userInfo[NSLocalizedDescriptionKey] == nil {
             userInfo[NSLocalizedDescriptionKey] = String(describing: error)
         }
@@ -88,13 +92,11 @@ public final class GenerativeModelError: NSObject {
         // move it to the front of the list.
         let httpStatusCandidates = ["HTTPStatusCode", "statusCode", "com.google.HTTPStatus"]
         userInfo[httpStatusCodeKey] = httpStatusCandidates
-            .lazy
             .compactMap { ns.userInfo[$0] as? Int }
             .first
 
         let bodyCandidates = ["HTTPResponseBody", "responseBody", "com.google.HTTPResponseBody"]
         userInfo[httpResponseBodyKey] = bodyCandidates
-            .lazy
             .compactMap { key -> String? in
                 if let s = ns.userInfo[key] as? String { return s }
                 if let d = ns.userInfo[key] as? Data { return String(data: d, encoding: .utf8) }
