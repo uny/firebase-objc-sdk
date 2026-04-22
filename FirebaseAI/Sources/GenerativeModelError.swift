@@ -9,7 +9,7 @@ public enum GenerativeModelErrorCode: Int {
     case promptImageContentError = 1
     case promptBlocked = 2
     case responseStoppedEarly = 3
-    case unknown = 99
+    case unknown = 4
 
     var label: String {
         switch self {
@@ -37,7 +37,16 @@ public final class GenerativeModelError: NSObject {
     @objc public static let errorTypeKey = "KFBErrorType"
     @objc public static let httpStatusCodeKey = "KFBHTTPStatusCode"
     @objc public static let httpResponseBodyKey = "KFBHTTPResponseBody"
+    @objc public static let rpcStatusKey = "KFBRPCStatus"
     @objc public static let finishReasonKey = "KFBFinishReason"
+    @objc public static let blockReasonKey = "KFBBlockReason"
+    @objc public static let usagePromptTokensKey = "KFBUsagePromptTokens"
+    @objc public static let usageCandidatesTokensKey = "KFBUsageCandidatesTokens"
+    @objc public static let usageTotalTokensKey = "KFBUsageTotalTokens"
+
+    private static let backendErrorDomain = "com.google.firebase.firebaseai.BackendError"
+
+    override private init() { super.init() }
 
     static func nsError(from error: Error) -> NSError {
         if let gcError = error as? FirebaseAILogic.GenerateContentError {
@@ -47,13 +56,10 @@ public final class GenerativeModelError: NSObject {
         if ns.domain == domain {
             return ns
         }
-        let code = GenerativeModelErrorCode.unknown
-        let userInfo: [String: Any] = [
-            errorTypeKey: code.label,
-            NSUnderlyingErrorKey: ns,
-            NSLocalizedDescriptionKey: ns.localizedDescription,
-        ]
-        return NSError(domain: domain, code: code.rawValue, userInfo: userInfo)
+        var userInfo: [String: Any] = [:]
+        enrich(&userInfo, withUnderlying: error)
+        userInfo[errorTypeKey] = GenerativeModelErrorCode.unknown.label
+        return NSError(domain: domain, code: GenerativeModelErrorCode.unknown.rawValue, userInfo: userInfo)
     }
 
     private static func nsError(from error: FirebaseAILogic.GenerateContentError) -> NSError {
@@ -68,41 +74,72 @@ public final class GenerativeModelError: NSObject {
             enrich(&userInfo, withUnderlying: underlying)
         case .promptBlocked(let resp):
             code = .promptBlocked
-            userInfo[NSLocalizedDescriptionKey] =
-                "Prompt blocked: \(String(describing: resp.promptFeedback))"
-        case .responseStoppedEarly(let reason, _):
+            if let reason = resp.promptFeedback?.blockReason {
+                userInfo[blockReasonKey] = String(describing: reason)
+                userInfo[NSLocalizedDescriptionKey] = "Prompt blocked: \(reason)"
+            } else if let message = resp.promptFeedback?.blockReasonMessage {
+                userInfo[NSLocalizedDescriptionKey] = "Prompt blocked: \(message)"
+            } else {
+                userInfo[NSLocalizedDescriptionKey] = "Prompt blocked."
+            }
+            enrichWithUsage(&userInfo, response: resp)
+        case .responseStoppedEarly(let reason, let resp):
             code = .responseStoppedEarly
             userInfo[finishReasonKey] = String(describing: reason)
             userInfo[NSLocalizedDescriptionKey] = "Response stopped early: \(reason)"
+            enrichWithUsage(&userInfo, response: resp)
         }
         userInfo[errorTypeKey] = code.label
-        if userInfo[NSLocalizedDescriptionKey] == nil {
-            userInfo[NSLocalizedDescriptionKey] = String(describing: error)
-        }
         return NSError(domain: domain, code: code.rawValue, userInfo: userInfo)
     }
 
+    /// Extracts HTTP status, response body, RPC status and domain/code metadata from
+    /// `FirebaseAILogic`'s internal error types. `BackendError` conforms to
+    /// `CustomNSError` and encodes the HTTP status as `NSError.code`; `message`,
+    /// `status`, `details`, and `UnrecognizedRPCError.responseBody` are only
+    /// reachable via reflection because the underlying types are not public.
     private static func enrich(_ userInfo: inout [String: Any], withUnderlying error: Error) {
         let ns = error as NSError
         userInfo[NSUnderlyingErrorKey] = ns
-        userInfo[NSLocalizedDescriptionKey] = ns.localizedDescription
+        if userInfo[NSLocalizedDescriptionKey] == nil {
+            userInfo[NSLocalizedDescriptionKey] = ns.localizedDescription
+        }
 
-        // Key names used by FirebaseAILogic for HTTP details are version-dependent;
-        // probe known candidates. When the real key is confirmed from a prod dump,
-        // move it to the front of the list.
-        let httpStatusCandidates = ["HTTPStatusCode", "statusCode", "com.google.HTTPStatus"]
-        userInfo[httpStatusCodeKey] = httpStatusCandidates
-            .compactMap { ns.userInfo[$0] as? Int }
-            .first
+        if ns.domain == backendErrorDomain {
+            userInfo[httpStatusCodeKey] = ns.code
+        }
 
-        let bodyCandidates = ["HTTPResponseBody", "responseBody", "com.google.HTTPResponseBody"]
-        userInfo[httpResponseBodyKey] = bodyCandidates
-            .compactMap { key -> String? in
-                if let s = ns.userInfo[key] as? String { return s }
-                if let d = ns.userInfo[key] as? Data { return String(data: d, encoding: .utf8) }
-                return nil
+        for (label, value) in Mirror(reflecting: error).children {
+            guard let label else { continue }
+            switch label {
+            case "httpResponseCode":
+                if let i = value as? Int { userInfo[httpStatusCodeKey] = i }
+            case "message":
+                if let s = value as? String, !s.isEmpty {
+                    userInfo[httpResponseBodyKey] = s
+                }
+            case "responseBody":
+                if let s = value as? String {
+                    userInfo[httpResponseBodyKey] = s
+                } else if let d = value as? Data, let s = String(data: d, encoding: .utf8) {
+                    userInfo[httpResponseBodyKey] = s
+                }
+            case "status":
+                userInfo[rpcStatusKey] = String(describing: value)
+            default:
+                break
             }
-            .first
+        }
+    }
+
+    private static func enrichWithUsage(
+        _ userInfo: inout [String: Any],
+        response: FirebaseAILogic.GenerateContentResponse
+    ) {
+        guard let usage = response.usageMetadata else { return }
+        userInfo[usagePromptTokensKey] = usage.promptTokenCount
+        userInfo[usageCandidatesTokensKey] = usage.candidatesTokenCount
+        userInfo[usageTotalTokensKey] = usage.totalTokenCount
     }
 }
 

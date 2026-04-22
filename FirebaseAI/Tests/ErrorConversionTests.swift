@@ -22,6 +22,36 @@ import Testing
         #expect(ns.localizedDescription == "boom")
     }
 
+    @Test func nsErrorExtractsHTTPStatusFromBackendErrorDomain() {
+        let src = NSError(
+            domain: "com.google.firebase.firebaseai.BackendError",
+            code: 503,
+            userInfo: [NSLocalizedDescriptionKey: "Service Unavailable"]
+        )
+        let ns = GenerativeModelError.nsError(from: src)
+        #expect(ns.userInfo[GenerativeModelError.httpStatusCodeKey] as? Int == 503)
+    }
+
+    @Test func nsErrorReflectsFieldsFromCustomErrorValue() {
+        struct FakeBackendError: Error {
+            let httpResponseCode = 429
+            let message = "quota exceeded"
+            let status = "RESOURCE_EXHAUSTED"
+        }
+        let ns = GenerativeModelError.nsError(from: FakeBackendError())
+        #expect(ns.userInfo[GenerativeModelError.httpStatusCodeKey] as? Int == 429)
+        #expect(ns.userInfo[GenerativeModelError.httpResponseBodyKey] as? String == "quota exceeded")
+        #expect(ns.userInfo[GenerativeModelError.rpcStatusKey] as? String == "RESOURCE_EXHAUSTED")
+    }
+
+    @Test func nsErrorReflectsResponseBodyFromUnrecognizedRPCError() {
+        struct FakeUnrecognizedRPCError: Error {
+            let responseBody = "{\"error\":\"oops\"}"
+        }
+        let ns = GenerativeModelError.nsError(from: FakeUnrecognizedRPCError())
+        #expect(ns.userInfo[GenerativeModelError.httpResponseBodyKey] as? String == "{\"error\":\"oops\"}")
+    }
+
     @Test func nsErrorFromOwnDomainIsIdempotent() {
         let src = NSError(
             domain: GenerativeModelError.domain,
