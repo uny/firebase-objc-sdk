@@ -4,12 +4,32 @@ import Testing
 
 @Suite struct ErrorConversionTests {
 
-    // MARK: - GenerateContentError
+    // MARK: - GenerativeModelError
 
-    @Test func generateContentErrorFromUnrelatedNSError() {
-        let error = NSError(domain: "com.example.test", code: 42, userInfo: nil)
-        let result = GenerateContentError.from(error)
-        #expect(result == nil, "Unrelated NSError should not produce a GenerateContentError")
+    @Test func nsErrorFromUnknownErrorWrapsWithDomain() {
+        let src = NSError(
+            domain: "unrelated",
+            code: 42,
+            userInfo: [NSLocalizedDescriptionKey: "boom"]
+        )
+        let ns = GenerativeModelError.nsError(from: src)
+        #expect(ns.domain == GenerativeModelError.domain)
+        #expect(ns.code == GenerativeModelErrorCode.unknown.rawValue)
+        #expect(ns.userInfo[GenerativeModelError.errorTypeKey] as? String == "unknown")
+        let underlying = ns.userInfo[NSUnderlyingErrorKey] as? NSError
+        #expect(underlying?.domain == "unrelated")
+        #expect(underlying?.code == 42)
+        #expect(ns.localizedDescription == "boom")
+    }
+
+    @Test func nsErrorFromOwnDomainIsIdempotent() {
+        let src = NSError(
+            domain: GenerativeModelError.domain,
+            code: GenerativeModelErrorCode.internalError.rawValue,
+            userInfo: [GenerativeModelError.errorTypeKey: "internalError"]
+        )
+        let ns = GenerativeModelError.nsError(from: src)
+        #expect(ns === src)
     }
 
     // MARK: - ImagenImagesBlockedError

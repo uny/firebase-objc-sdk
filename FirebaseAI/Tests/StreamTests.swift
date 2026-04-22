@@ -28,8 +28,11 @@ import FirebaseAILogic
             Issue.record("Expected an error to be thrown")
         } catch {
             let nsError = error as NSError
-            #expect(nsError.domain == "test")
-            #expect(nsError.code == 1)
+            #expect(nsError.domain == GenerativeModelError.domain)
+            #expect(nsError.code == GenerativeModelErrorCode.unknown.rawValue)
+            let underlying = nsError.userInfo[NSUnderlyingErrorKey] as? NSError
+            #expect(underlying?.domain == "test")
+            #expect(underlying?.code == 1)
         }
     }
 

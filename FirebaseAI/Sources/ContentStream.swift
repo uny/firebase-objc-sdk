@@ -14,7 +14,9 @@ public final class ContentStream: NSObject, @unchecked Sendable {
 
     /// Returns the next response in the stream, or `nil` when the stream is finished.
     @objc public func next() async throws -> GenerateContentResponse? {
-        guard let response = try await iterator.next() else { return nil }
-        return GenerateContentResponse(value: response)
+        try await mapFirebaseAIErrors {
+            guard let response = try await iterator.next() else { return nil }
+            return GenerateContentResponse(value: response)
+        }
     }
 }
