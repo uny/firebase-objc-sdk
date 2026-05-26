@@ -43,6 +43,17 @@ public final class LiveSession: NSObject, @unchecked Sendable {
         LiveServerMessageStream(stream: value.responses)
     }
 
+    /// Resumes a previously disconnected session.
+    @objc public func resumeSession() async throws {
+        try await value.resumeSession()
+    }
+
+    /// Resumes a previously disconnected session with the given resumption config.
+    /// - Parameter sessionResumption: The session resumption configuration.
+    @objc public func resumeSession(sessionResumption: SessionResumptionConfig) async throws {
+        try await value.resumeSession(sessionResumption: sessionResumption.value)
+    }
+
     /// Closes the live session.
     @objc public func close() async {
         await value.close()

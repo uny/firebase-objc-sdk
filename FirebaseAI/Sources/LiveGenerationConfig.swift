@@ -20,6 +20,7 @@ public final class LiveGenerationConfig: NSObject, @unchecked Sendable {
     private let _speech: SpeechConfig?
     private let _inputAudioTranscription: AudioTranscriptionConfig?
     private let _outputAudioTranscription: AudioTranscriptionConfig?
+    private let _contextWindowCompression: ContextWindowCompressionConfig?
 
     init(value: FirebaseAILogic.LiveGenerationConfig) {
         self.value = value
@@ -34,6 +35,7 @@ public final class LiveGenerationConfig: NSObject, @unchecked Sendable {
         _speech = nil
         _inputAudioTranscription = nil
         _outputAudioTranscription = nil
+        _contextWindowCompression = nil
         super.init()
     }
 
@@ -48,7 +50,8 @@ public final class LiveGenerationConfig: NSObject, @unchecked Sendable {
         responseModalities: [ResponseModality]?,
         speech: SpeechConfig?,
         inputAudioTranscription: AudioTranscriptionConfig?,
-        outputAudioTranscription: AudioTranscriptionConfig?
+        outputAudioTranscription: AudioTranscriptionConfig?,
+        contextWindowCompression: ContextWindowCompressionConfig?
     ) {
         let config = FirebaseAILogic.LiveGenerationConfig(
             temperature: temperature?.floatValue,
@@ -61,7 +64,8 @@ public final class LiveGenerationConfig: NSObject, @unchecked Sendable {
             responseModalities: responseModalities?.map { $0.value },
             speech: speech?.value,
             inputAudioTranscription: inputAudioTranscription?.value,
-            outputAudioTranscription: outputAudioTranscription?.value
+            outputAudioTranscription: outputAudioTranscription?.value,
+            contextWindowCompression: contextWindowCompression?.value
         )
         self.init(value: config,
                   temperature: temperature,
@@ -74,7 +78,8 @@ public final class LiveGenerationConfig: NSObject, @unchecked Sendable {
                   responseModalities: responseModalities,
                   speech: speech,
                   inputAudioTranscription: inputAudioTranscription,
-                  outputAudioTranscription: outputAudioTranscription)
+                  outputAudioTranscription: outputAudioTranscription,
+                  contextWindowCompression: contextWindowCompression)
     }
 
     private init(
@@ -89,7 +94,8 @@ public final class LiveGenerationConfig: NSObject, @unchecked Sendable {
         responseModalities: [ResponseModality]?,
         speech: SpeechConfig?,
         inputAudioTranscription: AudioTranscriptionConfig?,
-        outputAudioTranscription: AudioTranscriptionConfig?
+        outputAudioTranscription: AudioTranscriptionConfig?,
+        contextWindowCompression: ContextWindowCompressionConfig?
     ) {
         self.value = value
         _temperature = temperature
@@ -103,6 +109,7 @@ public final class LiveGenerationConfig: NSObject, @unchecked Sendable {
         _speech = speech
         _inputAudioTranscription = inputAudioTranscription
         _outputAudioTranscription = outputAudioTranscription
+        _contextWindowCompression = contextWindowCompression
         super.init()
     }
 
@@ -140,4 +147,9 @@ public final class LiveGenerationConfig: NSObject, @unchecked Sendable {
 
     /// Output audio transcription configuration, or `nil` if not set.
     @objc public var outputAudioTranscription: AudioTranscriptionConfig? { _outputAudioTranscription }
+
+    /// Context window compression configuration, or `nil` if not set.
+    @objc public var contextWindowCompression: ContextWindowCompressionConfig? {
+        _contextWindowCompression
+    }
 }

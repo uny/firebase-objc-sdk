@@ -27,6 +27,11 @@ public final class Candidate: NSObject, @unchecked Sendable {
         value.finishReason.map { FinishReason(value: $0) }
     }
 
+    /// A human-readable message describing why generation stopped, or `nil` if unavailable.
+    @objc public var finishMessage: String? {
+        value.finishMessage
+    }
+
     /// Metadata about citations in the generated content, or `nil` if none.
     @objc public var citationMetadata: CitationMetadata? {
         value.citationMetadata.map { CitationMetadata(value: $0) }

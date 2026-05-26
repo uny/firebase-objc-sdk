@@ -40,4 +40,9 @@ public final class Tool: NSObject, @unchecked Sendable {
     @objc public static func codeExecution() -> Tool {
         return Tool(value: FirebaseAILogic.Tool.codeExecution())
     }
+
+    /// Creates a tool backed by Google Maps for grounding.
+    @objc public static func googleMaps() -> Tool {
+        return Tool(value: FirebaseAILogic.Tool.googleMaps())
+    }
 }

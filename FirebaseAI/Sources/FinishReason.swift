@@ -60,6 +60,56 @@ public final class FinishReason: NSObject, @unchecked Sendable {
         FinishReason(value: .malformedFunctionCall)
     }
 
+    /// Generation stopped due to image safety concerns.
+    @objc public static var imageSafety: FinishReason {
+        FinishReason(value: .imageSafety)
+    }
+
+    /// Generation stopped due to prohibited image content.
+    @objc public static var imageProhibitedContent: FinishReason {
+        FinishReason(value: .imageProhibitedContent)
+    }
+
+    /// Generation stopped due to other image-related issues.
+    @objc public static var imageOther: FinishReason {
+        FinishReason(value: .imageOther)
+    }
+
+    /// Generation stopped because no image was generated.
+    @objc public static var noImage: FinishReason {
+        FinishReason(value: .noImage)
+    }
+
+    /// Generation stopped due to image recitation detection.
+    @objc public static var imageRecitation: FinishReason {
+        FinishReason(value: .imageRecitation)
+    }
+
+    /// Generation stopped due to unsupported language.
+    @objc public static var language: FinishReason {
+        FinishReason(value: .language)
+    }
+
+    /// Generation stopped due to an unexpected tool call.
+    @objc public static var unexpectedToolCall: FinishReason {
+        FinishReason(value: .unexpectedToolCall)
+    }
+
+    /// Generation stopped due to too many tool calls.
+    @objc public static var tooManyToolCalls: FinishReason {
+        FinishReason(value: .tooManyToolCalls)
+    }
+
+    /// Generation stopped due to a missing thought signature.
+    @objc public static var missingThoughtSignature: FinishReason {
+        FinishReason(value: .missingThoughtSignature)
+    }
+
+    /// Generation stopped due to a malformed response.
+    @objc public static var malformedResponse: FinishReason {
+        FinishReason(value: .malformedResponse)
+    }
+
     override public func isEqual(_ object: Any?) -> Bool {
         guard let other = object as? FinishReason else { return false }
         return value.rawValue == other.value.rawValue

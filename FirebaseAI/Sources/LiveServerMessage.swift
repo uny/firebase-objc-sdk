@@ -8,6 +8,7 @@ public enum LiveServerMessagePayloadType: Int {
     case content
     case toolCall
     case toolCallCancellation
+    case sessionResumptionUpdate
     case goingAwayNotice
 }
 
@@ -32,6 +33,8 @@ public final class LiveServerMessage: NSObject, @unchecked Sendable {
             return .toolCall
         case .toolCallCancellation:
             return .toolCallCancellation
+        case .sessionResumptionUpdate:
+            return .sessionResumptionUpdate
         case .goingAwayNotice:
             return .goingAwayNotice
         }
@@ -57,6 +60,14 @@ public final class LiveServerMessage: NSObject, @unchecked Sendable {
     @objc public var toolCallCancellation: LiveServerToolCallCancellation? {
         if case .toolCallCancellation(let cancellation) = value.payload {
             return LiveServerToolCallCancellation(value: cancellation)
+        }
+        return nil
+    }
+
+    /// The session resumption update payload, if the server sent a resumption state update.
+    @objc public var sessionResumptionUpdate: LiveSessionResumptionUpdate? {
+        if case .sessionResumptionUpdate(let update) = value.payload {
+            return LiveSessionResumptionUpdate(value: update)
         }
         return nil
     }

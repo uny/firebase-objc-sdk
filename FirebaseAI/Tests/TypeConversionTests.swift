@@ -183,7 +183,8 @@ import Testing
             responseMIMEType: "application/json",
             responseSchema: nil,
             responseModalities: [ResponseModality.text],
-            thinkingConfig: nil
+            thinkingConfig: nil,
+            imageConfig: nil
         )
         #expect(config != nil)
     }
@@ -203,7 +204,8 @@ import Testing
             responseMIMEType: "application/json",
             responseSchema: schema,
             responseModalities: [ResponseModality.text],
-            thinkingConfig: thinkingConfig
+            thinkingConfig: thinkingConfig,
+            imageConfig: nil
         )
 
         #expect(config.temperature == NSNumber(value: 0.7))
@@ -233,7 +235,8 @@ import Testing
             responseMIMEType: nil,
             responseSchema: nil,
             responseModalities: nil,
-            thinkingConfig: nil
+            thinkingConfig: nil,
+            imageConfig: nil
         )
 
         #expect(config.temperature == nil)
