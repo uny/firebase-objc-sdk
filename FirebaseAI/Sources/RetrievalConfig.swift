@@ -20,7 +20,7 @@ public final class RetrievalConfig: NSObject, @unchecked Sendable {
     ///   - languageCode: The language code of the user, or `nil` for default.
     ///
     /// Both `latitude` and `longitude` must be provided together, or both must be `nil`.
-    @objc public init(latitude: NSNumber?, longitude: NSNumber?, languageCode: String?) {
+    @objc public convenience init(latitude: NSNumber?, longitude: NSNumber?, languageCode: String?) {
         let location: CLLocationCoordinate2D?
         switch (latitude, longitude) {
         case let (lat?, lon?):
@@ -35,10 +35,9 @@ public final class RetrievalConfig: NSObject, @unchecked Sendable {
                 "Both latitude and longitude must be provided together, or both must be nil."
             )
         }
-        self.value = FirebaseAILogic.RetrievalConfig(
+        self.init(value: FirebaseAILogic.RetrievalConfig(
             location: location,
             languageCode: languageCode
-        )
-        super.init()
+        ))
     }
 }

@@ -16,11 +16,10 @@ public final class SlidingWindow: NSObject, @unchecked Sendable {
     /// Creates a sliding window configuration.
     /// - Parameter targetTokens: The target number of tokens to keep in the context window,
     ///   or `nil` for defaults.
-    @objc public init(targetTokens: NSNumber?) {
-        self.value = FirebaseAILogic.SlidingWindow(
+    @objc public convenience init(targetTokens: NSNumber?) {
+        self.init(value: FirebaseAILogic.SlidingWindow(
             targetTokens: targetTokens?.intValue
-        )
-        super.init()
+        ))
     }
 }
 
@@ -40,11 +39,10 @@ public final class ContextWindowCompressionConfig: NSObject, @unchecked Sendable
     /// - Parameters:
     ///   - triggerTokens: The number of tokens that triggers compression, or `nil` for defaults.
     ///   - slidingWindow: The sliding window configuration, or `nil` to omit.
-    @objc public init(triggerTokens: NSNumber?, slidingWindow: SlidingWindow?) {
-        self.value = FirebaseAILogic.ContextWindowCompressionConfig(
+    @objc public convenience init(triggerTokens: NSNumber?, slidingWindow: SlidingWindow?) {
+        self.init(value: FirebaseAILogic.ContextWindowCompressionConfig(
             triggerTokens: triggerTokens?.intValue,
             slidingWindow: slidingWindow?.value
-        )
-        super.init()
+        ))
     }
 }

@@ -14,15 +14,13 @@ public final class SessionResumptionConfig: NSObject, @unchecked Sendable {
     }
 
     /// Creates a new session resumption configuration.
-    @objc public override init() {
-        self.value = FirebaseAILogic.SessionResumptionConfig()
-        super.init()
+    @objc override public convenience init() {
+        self.init(value: FirebaseAILogic.SessionResumptionConfig())
     }
 
     /// Resumes a previous session with the given handle.
     /// - Parameter handle: The session resumption handle from the previous session.
-    @objc public init(handle: String) {
-        self.value = FirebaseAILogic.SessionResumptionConfig(handle: handle)
-        super.init()
+    @objc public convenience init(handle: String) {
+        self.init(value: FirebaseAILogic.SessionResumptionConfig(handle: handle))
     }
 }

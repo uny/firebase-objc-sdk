@@ -222,6 +222,29 @@ import Testing
         #expect(config.thinkingConfig != nil)
     }
 
+    @Test func generationConfigWithImageConfig() {
+        let imageConfig = ImageConfig(
+            aspectRatio: ImageConfigAspectRatio.landscape16x9,
+            imageSize: ImageConfigImageSize.size1K
+        )
+        let config = GenerationConfig(
+            temperature: nil,
+            topP: nil,
+            topK: nil,
+            candidateCount: nil,
+            maxOutputTokens: nil,
+            presencePenalty: nil,
+            frequencyPenalty: nil,
+            stopSequences: nil,
+            responseMIMEType: nil,
+            responseSchema: nil,
+            responseModalities: nil,
+            thinkingConfig: nil,
+            imageConfig: imageConfig
+        )
+        #expect(config.imageConfig != nil)
+    }
+
     @Test func generationConfigNilProperties() {
         let config = GenerationConfig(
             temperature: nil,
@@ -251,6 +274,7 @@ import Testing
         #expect(config.responseSchema == nil)
         #expect(config.responseModalities == nil)
         #expect(config.thinkingConfig == nil)
+        #expect(config.imageConfig == nil)
     }
 
     // MARK: - SafetySetting

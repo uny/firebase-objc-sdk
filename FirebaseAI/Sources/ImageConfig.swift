@@ -12,12 +12,11 @@ public final class ImageConfig: NSObject, @unchecked Sendable {
         super.init()
     }
 
-    @objc public init(aspectRatio: ImageConfigAspectRatio?, imageSize: ImageConfigImageSize?) {
-        self.value = FirebaseAILogic.ImageConfig(
+    @objc public convenience init(aspectRatio: ImageConfigAspectRatio?, imageSize: ImageConfigImageSize?) {
+        self.init(value: FirebaseAILogic.ImageConfig(
             aspectRatio: aspectRatio?.value,
             imageSize: imageSize?.value
-        )
-        super.init()
+        ))
     }
 }
 
