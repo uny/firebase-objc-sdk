@@ -50,6 +50,35 @@ public final class LiveGenerationConfig: NSObject, @unchecked Sendable {
         responseModalities: [ResponseModality]?,
         speech: SpeechConfig?,
         inputAudioTranscription: AudioTranscriptionConfig?,
+        outputAudioTranscription: AudioTranscriptionConfig?
+    ) {
+        self.init(
+            temperature: temperature,
+            topP: topP,
+            topK: topK,
+            candidateCount: candidateCount,
+            maxOutputTokens: maxOutputTokens,
+            presencePenalty: presencePenalty,
+            frequencyPenalty: frequencyPenalty,
+            responseModalities: responseModalities,
+            speech: speech,
+            inputAudioTranscription: inputAudioTranscription,
+            outputAudioTranscription: outputAudioTranscription,
+            contextWindowCompression: nil
+        )
+    }
+
+    @objc public convenience init(
+        temperature: NSNumber?,
+        topP: NSNumber?,
+        topK: NSNumber?,
+        candidateCount: NSNumber?,
+        maxOutputTokens: NSNumber?,
+        presencePenalty: NSNumber?,
+        frequencyPenalty: NSNumber?,
+        responseModalities: [ResponseModality]?,
+        speech: SpeechConfig?,
+        inputAudioTranscription: AudioTranscriptionConfig?,
         outputAudioTranscription: AudioTranscriptionConfig?,
         contextWindowCompression: ContextWindowCompressionConfig?
     ) {

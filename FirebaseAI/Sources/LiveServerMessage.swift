@@ -5,11 +5,11 @@ import Foundation
 @available(watchOS, unavailable)
 @objc(KFBLiveServerMessagePayloadType)
 public enum LiveServerMessagePayloadType: Int {
-    case content
-    case toolCall
-    case toolCallCancellation
-    case sessionResumptionUpdate
-    case goingAwayNotice
+    case content = 0
+    case toolCall = 1
+    case toolCallCancellation = 2
+    case goingAwayNotice = 3
+    case sessionResumptionUpdate = 4
 }
 
 /// A message received from the server during a live session.
