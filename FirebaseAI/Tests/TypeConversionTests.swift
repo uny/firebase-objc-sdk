@@ -220,6 +220,7 @@ import Testing
         #expect(config.responseSchema != nil)
         #expect(config.responseModalities?.count == 1)
         #expect(config.thinkingConfig != nil)
+        #expect(config.imageConfig == nil)
     }
 
     @Test func generationConfigWithImageConfig() {
@@ -295,20 +296,20 @@ import Testing
     // MARK: - ContextWindowCompressionConfig
 
     @Test func slidingWindowCreation() {
-        let sw = SlidingWindow(targetTokens: NSNumber(value: 4096))
-        #expect(sw != nil)
+        let window = SlidingWindow(targetTokens: NSNumber(value: 4096))
+        #expect(window != nil)
     }
 
     @Test func slidingWindowNilTokens() {
-        let sw = SlidingWindow(targetTokens: nil)
-        #expect(sw != nil)
+        let window = SlidingWindow(targetTokens: nil)
+        #expect(window != nil)
     }
 
     @Test func contextWindowCompressionConfigCreation() {
-        let sw = SlidingWindow(targetTokens: NSNumber(value: 4096))
+        let window = SlidingWindow(targetTokens: NSNumber(value: 4096))
         let config = ContextWindowCompressionConfig(
             triggerTokens: NSNumber(value: 8192),
-            slidingWindow: sw
+            slidingWindow: window
         )
         #expect(config != nil)
     }
