@@ -277,6 +277,86 @@ import Testing
         #expect(config.imageConfig == nil)
     }
 
+    // MARK: - ImageConfig
+
+    @Test func imageConfigCreation() {
+        let config = ImageConfig(
+            aspectRatio: ImageConfigAspectRatio.landscape16x9,
+            imageSize: nil
+        )
+        #expect(config != nil)
+    }
+
+    @Test func imageConfigNilParameters() {
+        let config = ImageConfig(aspectRatio: nil, imageSize: nil)
+        #expect(config != nil)
+    }
+
+    // MARK: - ContextWindowCompressionConfig
+
+    @Test func slidingWindowCreation() {
+        let sw = SlidingWindow(targetTokens: NSNumber(value: 4096))
+        #expect(sw != nil)
+    }
+
+    @Test func slidingWindowNilTokens() {
+        let sw = SlidingWindow(targetTokens: nil)
+        #expect(sw != nil)
+    }
+
+    @Test func contextWindowCompressionConfigCreation() {
+        let sw = SlidingWindow(targetTokens: NSNumber(value: 4096))
+        let config = ContextWindowCompressionConfig(
+            triggerTokens: NSNumber(value: 8192),
+            slidingWindow: sw
+        )
+        #expect(config != nil)
+    }
+
+    @Test func contextWindowCompressionConfigNilParameters() {
+        let config = ContextWindowCompressionConfig(triggerTokens: nil, slidingWindow: nil)
+        #expect(config != nil)
+    }
+
+    // MARK: - SessionResumptionConfig
+
+    @Test func sessionResumptionConfigDefault() {
+        let config = SessionResumptionConfig()
+        #expect(config != nil)
+    }
+
+    @Test func sessionResumptionConfigWithHandle() {
+        let config = SessionResumptionConfig(handle: "test-handle-abc123")
+        #expect(config != nil)
+    }
+
+    // MARK: - RetrievalConfig
+
+    @Test func retrievalConfigWithLocation() {
+        let config = RetrievalConfig(
+            latitude: NSNumber(value: 35.6762),
+            longitude: NSNumber(value: 139.6503),
+            languageCode: "ja"
+        )
+        #expect(config != nil)
+    }
+
+    @Test func retrievalConfigNilLocation() {
+        let config = RetrievalConfig(latitude: nil, longitude: nil, languageCode: nil)
+        #expect(config != nil)
+    }
+
+    // MARK: - ToolConfig with RetrievalConfig
+
+    @Test func toolConfigWithRetrievalConfig() {
+        let retrievalConfig = RetrievalConfig(latitude: nil, longitude: nil, languageCode: "en")
+        let toolConfig = ToolConfig(
+            functionCallingConfig: nil,
+            retrievalConfig: retrievalConfig
+        )
+        #expect(toolConfig != nil)
+    }
+
     // MARK: - SafetySetting
 
     @Test func safetySettingCreation() {

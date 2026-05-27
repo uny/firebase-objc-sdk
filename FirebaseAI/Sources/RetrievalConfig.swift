@@ -31,9 +31,10 @@ public final class RetrievalConfig: NSObject, @unchecked Sendable {
         case (nil, nil):
             location = nil
         default:
-            preconditionFailure(
+            assertionFailure(
                 "Both latitude and longitude must be provided together, or both must be nil."
             )
+            location = nil
         }
         self.init(value: FirebaseAILogic.RetrievalConfig(
             location: location,
