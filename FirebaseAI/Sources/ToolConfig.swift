@@ -14,10 +14,19 @@ public final class ToolConfig: NSObject, @unchecked Sendable {
 
     /// Creates a tool configuration.
     /// - Parameter functionCallingConfig: The function calling configuration, or `nil` for defaults.
-    @objc public init(functionCallingConfig: FunctionCallingConfig?) {
-        self.value = FirebaseAILogic.ToolConfig(
-            functionCallingConfig: functionCallingConfig?.value
-        )
-        super.init()
+    @objc public convenience init(functionCallingConfig: FunctionCallingConfig?) {
+        self.init(functionCallingConfig: functionCallingConfig, retrievalConfig: nil)
+    }
+
+    /// Creates a tool configuration.
+    /// - Parameters:
+    ///   - functionCallingConfig: The function calling configuration, or `nil` for defaults.
+    ///   - retrievalConfig: The retrieval configuration, or `nil` to omit.
+    @objc public convenience init(functionCallingConfig: FunctionCallingConfig?,
+                                  retrievalConfig: RetrievalConfig?) {
+        self.init(value: FirebaseAILogic.ToolConfig(
+            functionCallingConfig: functionCallingConfig?.value,
+            retrievalConfig: retrievalConfig?.value
+        ))
     }
 }

@@ -20,6 +20,7 @@ public final class GenerationConfig: NSObject, @unchecked Sendable {
     private let _responseSchema: Schema?
     private let _responseModalities: [ResponseModality]?
     private let _thinkingConfig: ThinkingConfig?
+    private let _imageConfig: ImageConfig?
 
     init(value: FirebaseAILogic.GenerationConfig) {
         self.value = value
@@ -35,6 +36,7 @@ public final class GenerationConfig: NSObject, @unchecked Sendable {
         _responseSchema = nil
         _responseModalities = nil
         _thinkingConfig = nil
+        _imageConfig = nil
         super.init()
     }
 
@@ -54,6 +56,40 @@ public final class GenerationConfig: NSObject, @unchecked Sendable {
         responseModalities: [ResponseModality]?,
         thinkingConfig: ThinkingConfig?
     ) {
+        self.init(
+            temperature: temperature,
+            topP: topP,
+            topK: topK,
+            candidateCount: candidateCount,
+            maxOutputTokens: maxOutputTokens,
+            presencePenalty: presencePenalty,
+            frequencyPenalty: frequencyPenalty,
+            stopSequences: stopSequences,
+            responseMIMEType: responseMIMEType,
+            responseSchema: responseSchema,
+            responseModalities: responseModalities,
+            thinkingConfig: thinkingConfig,
+            imageConfig: nil
+        )
+    }
+
+    /// Creates a GenerationConfig with the specified parameters.
+    /// All parameters are optional - pass nil to use default values.
+    @objc public convenience init(
+        temperature: NSNumber?,
+        topP: NSNumber?,
+        topK: NSNumber?,
+        candidateCount: NSNumber?,
+        maxOutputTokens: NSNumber?,
+        presencePenalty: NSNumber?,
+        frequencyPenalty: NSNumber?,
+        stopSequences: [String]?,
+        responseMIMEType: String?,
+        responseSchema: Schema?,
+        responseModalities: [ResponseModality]?,
+        thinkingConfig: ThinkingConfig?,
+        imageConfig: ImageConfig?
+    ) {
         let config = FirebaseAILogic.GenerationConfig(
             temperature: temperature?.floatValue,
             topP: topP?.floatValue,
@@ -66,7 +102,8 @@ public final class GenerationConfig: NSObject, @unchecked Sendable {
             responseMIMEType: responseMIMEType,
             responseSchema: responseSchema?.value,
             responseModalities: responseModalities?.map { $0.value },
-            thinkingConfig: thinkingConfig?.value
+            thinkingConfig: thinkingConfig?.value,
+            imageConfig: imageConfig?.value
         )
         self.init(value: config,
                   temperature: temperature,
@@ -80,7 +117,8 @@ public final class GenerationConfig: NSObject, @unchecked Sendable {
                   responseMIMEType: responseMIMEType,
                   responseSchema: responseSchema,
                   responseModalities: responseModalities,
-                  thinkingConfig: thinkingConfig)
+                  thinkingConfig: thinkingConfig,
+                  imageConfig: imageConfig)
     }
 
     private init(
@@ -96,7 +134,8 @@ public final class GenerationConfig: NSObject, @unchecked Sendable {
         responseMIMEType: String?,
         responseSchema: Schema?,
         responseModalities: [ResponseModality]?,
-        thinkingConfig: ThinkingConfig?
+        thinkingConfig: ThinkingConfig?,
+        imageConfig: ImageConfig?
     ) {
         self.value = value
         _temperature = temperature
@@ -111,6 +150,7 @@ public final class GenerationConfig: NSObject, @unchecked Sendable {
         _responseSchema = responseSchema
         _responseModalities = responseModalities
         _thinkingConfig = thinkingConfig
+        _imageConfig = imageConfig
         super.init()
     }
 
@@ -151,4 +191,7 @@ public final class GenerationConfig: NSObject, @unchecked Sendable {
 
     /// Configuration for controlling the "thinking" behavior, or `nil` if not set.
     @objc public var thinkingConfig: ThinkingConfig? { _thinkingConfig }
+
+    /// Configuration for image generation, or `nil` if not set.
+    @objc public var imageConfig: ImageConfig? { _imageConfig }
 }

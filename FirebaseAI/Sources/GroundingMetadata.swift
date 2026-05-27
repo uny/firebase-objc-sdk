@@ -71,6 +71,11 @@ public final class GroundingChunk: NSObject, @unchecked Sendable {
     @objc public var web: WebGroundingChunk? {
         value.web.map { WebGroundingChunk(value: $0) }
     }
+
+    /// The Google Maps grounding chunk, if this is a maps-based source.
+    @objc public var maps: GoogleMapsGroundingChunk? {
+        value.maps.map { GoogleMapsGroundingChunk(value: $0) }
+    }
 }
 
 // MARK: - WebGroundingChunk

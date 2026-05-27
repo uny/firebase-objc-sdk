@@ -18,4 +18,12 @@ public final class LiveGenerativeModel: NSObject, @unchecked Sendable {
         let session = try await value.connect()
         return LiveSession(value: session)
     }
+
+    /// Connects to the server with session resumption support.
+    /// - Parameter sessionResumption: The session resumption configuration.
+    @objc public func connect(sessionResumption: SessionResumptionConfig) async throws
+        -> LiveSession {
+        let session = try await value.connect(sessionResumption: sessionResumption.value)
+        return LiveSession(value: session)
+    }
 }

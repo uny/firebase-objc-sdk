@@ -124,6 +124,26 @@ import Testing
         #expect(first.hash == second.hash)
     }
 
+    // MARK: - ImageConfig enum-like types
+
+    @Test func imageConfigAspectRatioEquality() {
+        let first = ImageConfigAspectRatio.square1x1
+        let second = ImageConfigAspectRatio.square1x1
+        let other = ImageConfigAspectRatio.landscape16x9
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
+    }
+
+    @Test func imageConfigImageSizeEquality() {
+        let first = ImageConfigImageSize.size1K
+        let second = ImageConfigImageSize.size1K
+        let other = ImageConfigImageSize.size4K
+        #expect(first.isEqual(second))
+        #expect(!first.isEqual(other))
+        #expect(first.hash == second.hash)
+    }
+
     // MARK: - CodableProtoEnum-based types
 
     @Test func executableCodeLanguageEquality() {

@@ -183,7 +183,8 @@ import Testing
             responseMIMEType: "application/json",
             responseSchema: nil,
             responseModalities: [ResponseModality.text],
-            thinkingConfig: nil
+            thinkingConfig: nil,
+            imageConfig: nil
         )
         #expect(config != nil)
     }
@@ -203,7 +204,8 @@ import Testing
             responseMIMEType: "application/json",
             responseSchema: schema,
             responseModalities: [ResponseModality.text],
-            thinkingConfig: thinkingConfig
+            thinkingConfig: thinkingConfig,
+            imageConfig: nil
         )
 
         #expect(config.temperature == NSNumber(value: 0.7))
@@ -218,6 +220,30 @@ import Testing
         #expect(config.responseSchema != nil)
         #expect(config.responseModalities?.count == 1)
         #expect(config.thinkingConfig != nil)
+        #expect(config.imageConfig == nil)
+    }
+
+    @Test func generationConfigWithImageConfig() {
+        let imageConfig = ImageConfig(
+            aspectRatio: ImageConfigAspectRatio.landscape16x9,
+            imageSize: ImageConfigImageSize.size1K
+        )
+        let config = GenerationConfig(
+            temperature: nil,
+            topP: nil,
+            topK: nil,
+            candidateCount: nil,
+            maxOutputTokens: nil,
+            presencePenalty: nil,
+            frequencyPenalty: nil,
+            stopSequences: nil,
+            responseMIMEType: nil,
+            responseSchema: nil,
+            responseModalities: nil,
+            thinkingConfig: nil,
+            imageConfig: imageConfig
+        )
+        #expect(config.imageConfig != nil)
     }
 
     @Test func generationConfigNilProperties() {
@@ -233,7 +259,8 @@ import Testing
             responseMIMEType: nil,
             responseSchema: nil,
             responseModalities: nil,
-            thinkingConfig: nil
+            thinkingConfig: nil,
+            imageConfig: nil
         )
 
         #expect(config.temperature == nil)
@@ -248,6 +275,87 @@ import Testing
         #expect(config.responseSchema == nil)
         #expect(config.responseModalities == nil)
         #expect(config.thinkingConfig == nil)
+        #expect(config.imageConfig == nil)
+    }
+
+    // MARK: - ImageConfig
+
+    @Test func imageConfigCreation() {
+        let config = ImageConfig(
+            aspectRatio: ImageConfigAspectRatio.landscape16x9,
+            imageSize: nil
+        )
+        #expect(config != nil)
+    }
+
+    @Test func imageConfigNilParameters() {
+        let config = ImageConfig(aspectRatio: nil, imageSize: nil)
+        #expect(config != nil)
+    }
+
+    // MARK: - ContextWindowCompressionConfig
+
+    @Test func slidingWindowCreation() {
+        let window = SlidingWindow(targetTokens: NSNumber(value: 4096))
+        #expect(window != nil)
+    }
+
+    @Test func slidingWindowNilTokens() {
+        let window = SlidingWindow(targetTokens: nil)
+        #expect(window != nil)
+    }
+
+    @Test func contextWindowCompressionConfigCreation() {
+        let window = SlidingWindow(targetTokens: NSNumber(value: 4096))
+        let config = ContextWindowCompressionConfig(
+            triggerTokens: NSNumber(value: 8192),
+            slidingWindow: window
+        )
+        #expect(config != nil)
+    }
+
+    @Test func contextWindowCompressionConfigNilParameters() {
+        let config = ContextWindowCompressionConfig(triggerTokens: nil, slidingWindow: nil)
+        #expect(config != nil)
+    }
+
+    // MARK: - SessionResumptionConfig
+
+    @Test func sessionResumptionConfigDefault() {
+        let config = SessionResumptionConfig()
+        #expect(config != nil)
+    }
+
+    @Test func sessionResumptionConfigWithHandle() {
+        let config = SessionResumptionConfig(handle: "test-handle-abc123")
+        #expect(config != nil)
+    }
+
+    // MARK: - RetrievalConfig
+
+    @Test func retrievalConfigWithLocation() {
+        let config = RetrievalConfig(
+            latitude: NSNumber(value: 35.6762),
+            longitude: NSNumber(value: 139.6503),
+            languageCode: "ja"
+        )
+        #expect(config != nil)
+    }
+
+    @Test func retrievalConfigNilLocation() {
+        let config = RetrievalConfig(latitude: nil, longitude: nil, languageCode: nil)
+        #expect(config != nil)
+    }
+
+    // MARK: - ToolConfig with RetrievalConfig
+
+    @Test func toolConfigWithRetrievalConfig() {
+        let retrievalConfig = RetrievalConfig(latitude: nil, longitude: nil, languageCode: "en")
+        let toolConfig = ToolConfig(
+            functionCallingConfig: nil,
+            retrievalConfig: retrievalConfig
+        )
+        #expect(toolConfig != nil)
     }
 
     // MARK: - SafetySetting

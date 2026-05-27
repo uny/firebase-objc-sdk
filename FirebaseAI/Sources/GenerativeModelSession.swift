@@ -97,7 +97,12 @@ public final class GenerativeModelSession: NSObject, @unchecked Sendable {
     /// - Returns: A ``SessionResponse`` containing the generated string content.
     @objc public func respond(text: String, options: GenerationConfig?) async throws
         -> SessionResponse {
-        let response = try await value.respond(to: text, options: options?.value)
+        let response: FirebaseAILogic.GenerativeModelSession.Response<String>
+        if let options {
+            response = try await value.respond(to: text, options: options.value)
+        } else {
+            response = try await value.respond(to: text)
+        }
         return SessionResponse(
             content: response.content,
             rawResponse: GenerateContentResponse(value: response.rawResponse)
@@ -117,7 +122,12 @@ public final class GenerativeModelSession: NSObject, @unchecked Sendable {
     @objc public func respond(content: [ModelContent], options: GenerationConfig?) async throws
         -> SessionResponse {
         let parts: [any FirebaseAILogic.PartsRepresentable] = content.flatMap { $0.value.parts }
-        let response = try await value.respond(to: parts, options: options?.value)
+        let response: FirebaseAILogic.GenerativeModelSession.Response<String>
+        if let options {
+            response = try await value.respond(to: parts, options: options.value)
+        } else {
+            response = try await value.respond(to: parts)
+        }
         return SessionResponse(
             content: response.content,
             rawResponse: GenerateContentResponse(value: response.rawResponse)
@@ -135,7 +145,12 @@ public final class GenerativeModelSession: NSObject, @unchecked Sendable {
     ///   complete response.
     @objc public func streamResponse(text: String, options: GenerationConfig?)
         -> SessionResponseStream {
-        let stream = value.streamResponse(to: text, options: options?.value)
+        let stream: FirebaseAILogic.GenerativeModelSession.ResponseStream<String, String>
+        if let options {
+            stream = value.streamResponse(to: text, options: options.value)
+        } else {
+            stream = value.streamResponse(to: text)
+        }
         return SessionResponseStream(stream: stream)
     }
 
@@ -154,7 +169,12 @@ public final class GenerativeModelSession: NSObject, @unchecked Sendable {
     @objc public func streamResponse(content: [ModelContent], options: GenerationConfig?)
         -> SessionResponseStream {
         let parts: [any FirebaseAILogic.PartsRepresentable] = content.flatMap { $0.value.parts }
-        let stream = value.streamResponse(to: parts, options: options?.value)
+        let stream: FirebaseAILogic.GenerativeModelSession.ResponseStream<String, String>
+        if let options {
+            stream = value.streamResponse(to: parts, options: options.value)
+        } else {
+            stream = value.streamResponse(to: parts)
+        }
         return SessionResponseStream(stream: stream)
     }
 }
