@@ -80,6 +80,22 @@ public final class FirebaseAI: NSObject, @unchecked Sendable {
         let session = value.generativeModelSession(model: model, instructions: instructions)
         return GenerativeModelSession(value: session)
     }
+
+    /// Creates a new ``GenerativeModelSession`` backed by a ``HybridModel``.
+    ///
+    /// - Important: **Experimental** - This wraps Firebase's experimental Hybrid Inference
+    ///   feature. See ``HybridModel`` for details and limitations.
+    ///
+    /// - Parameters:
+    ///   - hybridModel: The hybrid (on-device + cloud fallback) model to use.
+    ///   - instructions: Optional system instructions that direct the model's behavior.
+    @objc public func generativeModelSession(
+        hybridModel: HybridModel,
+        instructions: String?
+    ) -> GenerativeModelSession {
+        let session = value.generativeModelSession(model: hybridModel.value, instructions: instructions)
+        return GenerativeModelSession(value: session)
+    }
     #endif // compiler(>=6.2.3)
 
     // MARK: - Imagen Model
