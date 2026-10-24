@@ -11,12 +11,15 @@ The following FirebaseAILogic types are not yet wrapped and are deferred for fut
 Most public types in `FirebaseAILogic` are fully covered by the ObjC wrapper.
 Below is the list of remaining gaps and their status.
 
+### v12.18.0 changes
+
+- **Imagen removed** — FirebaseAILogic 12.18.0 removed the Imagen API, so all `KFBImagen*`
+  wrappers, `KFBTemplateImagenModel`, and the `imagenModel(...)` / `templateImagenModel()`
+  factories were deleted. The package now requires firebase-ios-sdk 12.18.0 or later. New public
+  API added in 12.15–12.19 has not been audited yet.
+
 ### v12.12.0 changes
 
-- **Imagen deprecation** — All Imagen wrapper types and the `imagenModel(...)` /
-  `templateImagenModel()` factories on `FirebaseAI` now carry `@available(*, deprecated, ...)`
-  to mirror the upstream deprecation. Imagen models will shut down as early as June 2026; users
-  should migrate to Gemini Image models ("Nano Banana").
 - **Automatic function calling in `GenerativeModelSession`** — Upstream added support via the
   `FoundationModels.Tool` protocol. This is Swift-only (Foundation Models macros / Swift
   protocols) and is not exposed through the ObjC wrapper, consistent with the existing
@@ -49,8 +52,6 @@ Below is the list of remaining gaps and their status.
 
 ### Deferred (SDK-side limitations)
 
-- **`ImagenGCSImage`** — Not public in the SDK; blocked upstream.
-- **`ImagenModel.generateImages(gcsURI:)`** — Not public in the SDK; blocked upstream.
 - **`GenerationConfig` upstream property access** — All stored properties of `FirebaseAILogic.GenerationConfig` are `internal` (not `public`), so the ObjC wrapper stores its own copies passed at init time. If the upstream SDK makes these properties public in a future version, the wrapper can be simplified to delegate directly.
 
 ### Not Applicable

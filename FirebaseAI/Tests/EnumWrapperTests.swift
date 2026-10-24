@@ -97,33 +97,6 @@ import Testing
         #expect(first.hash == second.hash)
     }
 
-    @Test func imagenSafetyFilterLevelEquality() {
-        let first = ImagenSafetyFilterLevel.blockNone
-        let second = ImagenSafetyFilterLevel.blockNone
-        let other = ImagenSafetyFilterLevel.blockOnlyHigh
-        #expect(first.isEqual(second))
-        #expect(!first.isEqual(other))
-        #expect(first.hash == second.hash)
-    }
-
-    @Test func imagenPersonFilterLevelEquality() {
-        let first = ImagenPersonFilterLevel.blockAll
-        let second = ImagenPersonFilterLevel.blockAll
-        let other = ImagenPersonFilterLevel.allowAll
-        #expect(first.isEqual(second))
-        #expect(!first.isEqual(other))
-        #expect(first.hash == second.hash)
-    }
-
-    @Test func imagenAspectRatioEquality() {
-        let first = ImagenAspectRatio.square1x1
-        let second = ImagenAspectRatio.square1x1
-        let other = ImagenAspectRatio.landscape16x9
-        #expect(first.isEqual(second))
-        #expect(!first.isEqual(other))
-        #expect(first.hash == second.hash)
-    }
-
     // MARK: - ImageConfig enum-like types
 
     @Test func imageConfigAspectRatioEquality() {

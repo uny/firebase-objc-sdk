@@ -62,14 +62,6 @@ import Testing
         #expect(result === src)
     }
 
-    // MARK: - ImagenImagesBlockedError
-
-    @Test func imagenImagesBlockedErrorFromUnrelatedNSError() {
-        let error = NSError(domain: "com.example.test", code: 1, userInfo: nil)
-        let result = ImagenImagesBlockedError.from(error)
-        #expect(result == nil, "Unrelated NSError should not produce an ImagenImagesBlockedError")
-    }
-
     // MARK: - Live Session Errors
 
     #if !os(watchOS)

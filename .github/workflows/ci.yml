@@ -43,7 +43,7 @@ jobs:
           set -o pipefail
           xcodebuild build \
             -scheme firebase-objc-sdk \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -destination 'generic/platform=iOS Simulator' \
             -skipPackagePluginValidation \
             | xcpretty
 
@@ -52,7 +52,7 @@ jobs:
           set -o pipefail
           xcodebuild test \
             -scheme firebase-objc-sdk \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest' \
             -skipPackagePluginValidation \
             | xcpretty
 
@@ -63,9 +63,9 @@ jobs:
       matrix:
         include:
           - platform: watchOS Simulator
-            destination: 'platform=watchOS Simulator,name=Apple Watch Series 10 (46mm),OS=latest'
+            destination: 'generic/platform=watchOS Simulator'
           - platform: tvOS Simulator
-            destination: 'platform=tvOS Simulator,name=Apple TV 4K (3rd generation),OS=latest'
+            destination: 'generic/platform=tvOS Simulator'
 
     steps:
       - name: Checkout
