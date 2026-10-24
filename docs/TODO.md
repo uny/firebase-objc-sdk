@@ -13,10 +13,6 @@ Below is the list of remaining gaps and their status.
 
 ### v12.12.0 changes
 
-- **Imagen deprecation** — All Imagen wrapper types and the `imagenModel(...)` /
-  `templateImagenModel()` factories on `FirebaseAI` now carry `@available(*, deprecated, ...)`
-  to mirror the upstream deprecation. Imagen models will shut down as early as June 2026; users
-  should migrate to Gemini Image models ("Nano Banana").
 - **Automatic function calling in `GenerativeModelSession`** — Upstream added support via the
   `FoundationModels.Tool` protocol. This is Swift-only (Foundation Models macros / Swift
   protocols) and is not exposed through the ObjC wrapper, consistent with the existing
@@ -49,8 +45,6 @@ Below is the list of remaining gaps and their status.
 
 ### Deferred (SDK-side limitations)
 
-- **`ImagenGCSImage`** — Not public in the SDK; blocked upstream.
-- **`ImagenModel.generateImages(gcsURI:)`** — Not public in the SDK; blocked upstream.
 - **`GenerationConfig` upstream property access** — All stored properties of `FirebaseAILogic.GenerationConfig` are `internal` (not `public`), so the ObjC wrapper stores its own copies passed at init time. If the upstream SDK makes these properties public in a future version, the wrapper can be simplified to delegate directly.
 
 ### Not Applicable

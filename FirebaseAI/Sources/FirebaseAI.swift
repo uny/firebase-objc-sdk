@@ -82,58 +82,12 @@ public final class FirebaseAI: NSObject, @unchecked Sendable {
     }
     #endif // compiler(>=6.2.3)
 
-    // MARK: - Imagen Model
-
-    /// Creates an Imagen model with the given configuration.
-    ///
-    /// > Warning: All Imagen models are deprecated and will shut down as early as June 2026.
-    /// > As a replacement, migrate your apps to use Gemini Image models (the "Nano Banana" models).
-    ///
-    /// - Parameters:
-    ///   - modelName: The name of the Imagen model to use.
-    ///   - generationConfig: Configuration for image generation, or `nil` for defaults.
-    ///   - safetySettings: Imagen-specific safety settings, or `nil` for defaults.
-    ///   - requestOptions: Options for the underlying network request, or `nil`.
-    @available(
-        *,
-        deprecated,
-        message: "All Imagen models are deprecated and will shut down as early as June 2026. As a replacement, you can migrate your apps to use Gemini Image models (the \"Nano Banana\" models)."
-    )
-    @objc public func imagenModel(
-        modelName: String,
-        generationConfig: ImagenGenerationConfig?,
-        safetySettings: ImagenSafetySettings?,
-        requestOptions: RequestOptions?
-    ) -> ImagenModel {
-        let model = value.imagenModel(
-            modelName: modelName,
-            generationConfig: generationConfig?.value,
-            safetySettings: safetySettings?.value,
-            requestOptions: requestOptions?.value ?? FirebaseAILogic.RequestOptions()
-        )
-        return ImagenModel(value: model)
-    }
-
     // MARK: - Template Models
 
     /// Creates a template generative model for unit testing.
     @objc public func templateGenerativeModel() -> TemplateGenerativeModel {
         let model = value.templateGenerativeModel()
         return TemplateGenerativeModel(value: model)
-    }
-
-    /// Creates a template Imagen model for unit testing.
-    ///
-    /// > Warning: All Imagen models are deprecated and will shut down as early as June 2026.
-    /// > As a replacement, migrate your apps to use Gemini Image models (the "Nano Banana" models).
-    @available(
-        *,
-        deprecated,
-        message: "All Imagen models are deprecated and will shut down as early as June 2026. As a replacement, you can migrate your apps to use Gemini Image models (the \"Nano Banana\" models)."
-    )
-    @objc public func templateImagenModel() -> TemplateImagenModel {
-        let model = value.templateImagenModel()
-        return TemplateImagenModel(value: model)
     }
 
     // MARK: - Live Model

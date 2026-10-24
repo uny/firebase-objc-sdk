@@ -14,9 +14,4 @@ public final class ModelName: NSObject, @unchecked Sendable {
     @objc public static let gemini25Flash = "gemini-2.5-flash"
     @objc public static let gemini25FlashLite = "gemini-2.5-flash-lite"
     @objc public static let gemini25FlashImage = "gemini-2.5-flash-image"
-
-    // Imagen
-    @objc public static let imagen4Generate = "imagen-4.0-generate-001"
-    @objc public static let imagen4FastGenerate = "imagen-4.0-fast-generate-001"
-    @objc public static let imagen4UltraGenerate = "imagen-4.0-ultra-generate-001"
 }
