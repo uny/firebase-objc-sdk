@@ -11,6 +11,13 @@ The following FirebaseAILogic types are not yet wrapped and are deferred for fut
 Most public types in `FirebaseAILogic` are fully covered by the ObjC wrapper.
 Below is the list of remaining gaps and their status.
 
+### v12.18.0 changes
+
+- **Imagen removed** — FirebaseAILogic 12.18.0 removed the Imagen API, so all `KFBImagen*`
+  wrappers, `KFBTemplateImagenModel`, and the `imagenModel(...)` / `templateImagenModel()`
+  factories were deleted. The package now requires firebase-ios-sdk 12.18.0 or later. New public
+  API added in 12.15–12.19 has not been audited yet.
+
 ### v12.12.0 changes
 
 - **Automatic function calling in `GenerativeModelSession`** — Upstream added support via the

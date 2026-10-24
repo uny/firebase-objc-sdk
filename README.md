@@ -92,6 +92,9 @@ The library provides Objective-C wrappers for the following Firebase AI types:
 | firebase-objc-sdk | firebase-ios-sdk |
 |-------------------|------------------|
 | 0.1.0             | 12.8.0           |
+| 0.6.0             | 12.18.0+         |
+
+0.6.0 removes the Imagen wrappers (`KFBImagen*`, `KFBTemplateImagenModel`, `KFBFirebaseAI.imagenModel` / `templateImagenModel`, `KFBModelName.imagen4*`): FirebaseAILogic 12.18.0 dropped the Imagen API after the Imagen models were shut down. Use Gemini image models (`KFBGenerationConfig.imageConfig`) instead.
 
 This library's version is independent of the underlying `firebase-ios-sdk` version. The table above shows which version of `firebase-ios-sdk` each release wraps.
 
